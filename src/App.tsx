@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {useAuth} from "react-oidc-context";
+import {RouterProvider} from "react-router-dom";
+import {routes} from "./routes";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const auth = useAuth();
+
+    useEffect(() => {
+        if (!auth.isAuthenticated && !auth.activeNavigator && !auth.isLoading) {
+            auth.signinRedirect();
+        }
+    }, [auth]);
+
+    if (auth.isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!auth.isAuthenticated) {
+        auth.signinRedirect();
+    }
+
+    return  <RouterProvider router={routes}/>;
 }
 
 export default App;
