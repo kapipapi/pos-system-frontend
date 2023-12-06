@@ -1,7 +1,7 @@
 import {createContext, Dispatch, ReactElement, SetStateAction, useEffect, useState} from 'react'
 import {Outlet} from "react-router-dom";
 import {User} from "../models/user";
-import {authFetchGet} from "../hooks/authFetchGet";
+import {authFetchGet} from "../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {isNil} from "lodash";
 

@@ -1,12 +1,12 @@
-import {Product} from "../../../../models/product";
 import {Dispatch, SetStateAction, useContext, useState} from "react";
 import {OrderContext} from "../../../../contexts/order-context";
 import {isNil} from "lodash";
 import {AiOutlineClose} from "react-icons/ai";
 import classNames from "classnames";
+import {ProductInOrder} from "../../../../models/product";
 
 const Item = ({product, openAction, onClick}: {
-    product: Product,
+    product: ProductInOrder,
     openAction: boolean,
     onClick: Dispatch<SetStateAction<string | undefined>>
 }) => {

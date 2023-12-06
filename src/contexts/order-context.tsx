@@ -4,7 +4,7 @@ import {UserContext} from "./user-context";
 import {Order} from "../models/order";
 import {Table} from "../models/table";
 import {isNil} from "lodash";
-import {authFetchGet} from "../hooks/authFetchGet";
+import {authFetchGet} from "../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 
 export type OrderContextType = {

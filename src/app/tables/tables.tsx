@@ -2,7 +2,7 @@ import React, {ReactElement, useContext, useEffect, useState} from "react";
 import {Table} from "../../models/table";
 import {OrderContext} from "../../contexts/order-context";
 import {useNavigate} from "react-router";
-import {authFetchGet} from "../../hooks/authFetchGet";
+import {authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 
 function Tables() {

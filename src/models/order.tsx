@@ -1,4 +1,4 @@
-import {Product} from "./product";
+import {ProductInOrder} from "./product";
 
 export interface Order {
     id: string,
@@ -9,5 +9,5 @@ export interface Order {
     closed_at?: string,
     active: boolean,
     sum: number,
-    products: [Product],
+    products: [ProductInOrder],
 }
