@@ -3,6 +3,7 @@ import {Product} from "../../models/product";
 import {authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {FaPlus} from "react-icons/fa";
+import {isNil} from "lodash";
 
 function Settings() {
     const auth = useAuth();
@@ -11,13 +12,14 @@ function Settings() {
 
     const [products, setProducts] = useState<Product[]>([]);
 
-    useEffect(() => {
+    const fetchProducts = () => {
         authFetchGet<Product[]>("products", token)
             .then((res) => {
                 setProducts(res)
             })
             .catch(e => console.error(e));
-    }, [setProducts, token])
+    }
+    useEffect(fetchProducts, [setProducts, token])
 
     const addEmptyRow = () => {
         const newProduct: Product = {
@@ -26,12 +28,13 @@ function Settings() {
             price: 20,
             tax: 8,
             category: "KURCZAK",
-            description: "Super kurczak wariacie"
+            description: "Super kurczak wariacie",
         }
 
         authFetchPost<Product>("products", token, newProduct)
             .then((res) => {
                 console.log(res)
+                fetchProducts()
             })
             .catch(err => console.error(err))
     }
@@ -47,6 +50,7 @@ function Settings() {
                     <th>Price</th>
                     <th>Tax</th>
                     <th>Category</th>
+                    <th>Description</th>
                 </tr>
                 <>
                     {
@@ -57,6 +61,7 @@ function Settings() {
                                 <td>{product.price.toFixed(2)}</td>
                                 <td>{product.tax}</td>
                                 <td>{product.category}</td>
+                                <td>{product.description}</td>
                             </tr>
                         })
                     }

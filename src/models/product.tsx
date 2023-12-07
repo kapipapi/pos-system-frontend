@@ -14,4 +14,5 @@ export interface Product {
     tax: number,
     category: string,
     description: String,
+    image?: Blob,
 }

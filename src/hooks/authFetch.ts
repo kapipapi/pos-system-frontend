@@ -8,7 +8,7 @@ export async function authFetchGet<T>(endpoint: string, token: string | undefine
             'Authorization': 'Bearer ' + token ?? ''
         },
     });
-    return res.json() as T;
+    return await res.json() as T;
 }
 
 export async function authFetchPost<T>(endpoint: string, token: string | undefined, payload: any): Promise<T> {
@@ -22,5 +22,5 @@ export async function authFetchPost<T>(endpoint: string, token: string | undefin
         },
         body: JSON.stringify(payload)
     });
-    return res.json() as T;
+    return await res.json() as T;
 }
