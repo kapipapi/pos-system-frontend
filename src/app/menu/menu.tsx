@@ -1,23 +1,36 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import TileProduct from "./components/tile-product";
 import Order from "./order/order";
 import {OrderContext} from "../../contexts/order-context";
 import {useAuth} from "react-oidc-context";
-import {ProductInOrder} from "../../models/product";
+import {Product} from "../../models/product";
+import {authFetchGet} from "../../hooks/authFetch";
+import {IoSearch} from "react-icons/io5";
 
 function Menu() {
     const auth = useAuth();
+    let token = auth.user?.access_token;
 
-    const [products, setProducts] = useState<ProductInOrder[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+
+    const fetchProducts = () => {
+        authFetchGet<Product[]>("products", token)
+            .then((res) => {
+                setProducts(res)
+            })
+            .catch(e => console.error(e));
+    }
+    useEffect(fetchProducts, [setProducts, token])
 
     const {addProductToOrder} = useContext(OrderContext)
 
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
             <div className={"flex flex-col w-full"}>
-                <div className={"flex w-full"}>
+                <div className={"flex w-full items-center border mt-2 rounded-md"}>
+                    <IoSearch className={"text-2xl ml-3"}/>
                     <input placeholder={"Search item..."}
-                           className={"border-2 border-zinc-800 rounded-md h-12 px-3 mt-2 w-full outline-none"}/>
+                           className={"h-12 px-3 mr-1 w-full outline-none"}/>
                 </div>
                 <div className={"flex flex-col w-full overflow-hidden"}>
                     <div

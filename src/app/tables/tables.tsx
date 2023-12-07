@@ -16,11 +16,12 @@ function Tables() {
     const {setTable} = useContext(OrderContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const fetchTables = () => {
         authFetchGet<Table[]>("tables", auth.user?.access_token)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
-    }, [auth, level, setTables])
+    }
+    useEffect(fetchTables, [auth, setTables])
 
     const LevelButton = ({i}: { i: number }) => {
         return <div onClick={() => setLevel(i)}
@@ -57,7 +58,8 @@ function Tables() {
         for (const table of tables) {
             const {position_x: px, position_y: py, size_w, size_h} = table;
             if ((0 <= px && (px + size_w) <= grid_w) &&
-                (0 <= py && (py + size_h) <= grid_h)) {
+                (0 <= py && (py + size_h) <= grid_h) &&
+                (table.level === level)) {
                 grid[grid_w * py + px] = <GridCell key={`table_${table.name}`} table={table}/>
             }
         }

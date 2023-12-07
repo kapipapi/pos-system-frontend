@@ -7,8 +7,16 @@ export interface ProductInOrder {
     quantity: number,
 }
 
+export interface NewProduct {
+    name: string,
+    price: number,
+    tax: number,
+    category: string,
+    description: String,
+}
+
 export interface Product {
-    id?: string,
+    id: string,
     name: string,
     price: number,
     tax: number,

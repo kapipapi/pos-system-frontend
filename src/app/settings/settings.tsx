@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
-import {Product} from "../../models/product";
+import {NewProduct, Product} from "../../models/product";
 import {authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {FaPlus} from "react-icons/fa";
-import {isNil} from "lodash";
 
 function Settings() {
     const auth = useAuth();
@@ -22,8 +21,7 @@ function Settings() {
     useEffect(fetchProducts, [setProducts, token])
 
     const addEmptyRow = () => {
-        const newProduct: Product = {
-            id: undefined,
+        const newProduct: NewProduct = {
             name: "Kurczak",
             price: 20,
             tax: 8,

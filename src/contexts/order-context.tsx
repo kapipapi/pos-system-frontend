@@ -4,7 +4,7 @@ import {UserContext} from "./user-context";
 import {Order} from "../models/order";
 import {Table} from "../models/table";
 import {isNil} from "lodash";
-import {authFetchGet} from "../hooks/authFetch";
+import {authFetchGet, authFetchPost} from "../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 
 export type OrderContextType = {
@@ -42,34 +42,32 @@ export const OrderContext = createContext<OrderContextType>(defaultOrderContext)
 
 export const OrderContextProvider = (): ReactElement => {
     const auth = useAuth();
+    let token = auth.user?.access_token;
 
     const [table, setTable] = useState<Table | null>(null);
     const [order, setOrder] = useState<Order | null>(null);
 
     const {currentUser} = useContext(UserContext);
 
-    useEffect(() => {
+    let fetchOrderWithTableID = () => {
         if (!isNil(table) && !isNil(currentUser)) {
-            console.log(`invoke get order_id for table (${table.id}) for user (${currentUser.id})`)
-            authFetchGet<Order>("get_order_by_table_id", auth.user?.access_token)
-                .then((result) => {
-                    console.log("order set", result)
-                    setOrder(result)
-                })
-                .catch((err) => {
-                    console.error("error", err)
-                    setOrder(null)
-                })
-        }
-    }, [auth, table, currentUser, setOrder]);
-
-    const createOrder = useMemo(() => () => {
-        if (!isNil(table) && isNil(order) && !isNil(currentUser)) {
-            authFetchGet<Order>("create_order", auth.user?.access_token)
+            authFetchGet<Order>(`tables/order/${table.id}/${currentUser.id}`, token)
                 .then((result) => setOrder(result))
                 .catch(() => setOrder(null))
         }
-    }, [auth, table, order, currentUser, setOrder]);
+    }
+    useEffect(fetchOrderWithTableID, [token, table, currentUser, setOrder]);
+
+    const createOrder = useMemo(() => () => {
+        if (!isNil(table) && isNil(order) && !isNil(currentUser)) {
+            authFetchPost<Order>("orders", token, {
+                table_id: table.id,
+                creator_id: currentUser.id
+            })
+                .then((result) => setOrder(result))
+                .catch(() => setOrder(null))
+        }
+    }, [token, table, order, currentUser, setOrder]);
 
     const addProductToOrder = (productId: string) => {
         if (!isNil(table) && !isNil(order) && !isNil(currentUser)) {

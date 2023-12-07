@@ -1,9 +1,10 @@
 import {Dispatch, SetStateAction, useContext, useState} from "react";
 import {OrderContext} from "../../../../contexts/order-context";
 import {isNil} from "lodash";
-import {AiOutlineClose} from "react-icons/ai";
+import { AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
 import {ProductInOrder} from "../../../../models/product";
+import {BsReceiptCutoff} from "react-icons/bs";
 
 const Item = ({product, openAction, onClick}: {
     product: ProductInOrder,
@@ -23,21 +24,29 @@ const Item = ({product, openAction, onClick}: {
         <button key={product.id}
                 onClick={() => removeProductFromOrder(product.id)}
                 className={"z-0 absolute right-0 flex h-full aspect-square rounded-md bg-red-800 text-white items-center justify-center ml-2"}>
-            <AiOutlineClose className={"text-xl"}/>
+            <AiOutlineCloseCircle className={"text-xl"}/>
         </button>
     </div>
 }
 
 const ProductList = () => {
-    const {table, order} = useContext(OrderContext);
+    const {table, order, createOrder} = useContext(OrderContext);
     const [activeItem, setActiveItem] = useState<string>();
 
-    if (isNil(table) || isNil(order)) {
+    if (isNil(table)) {
         return null;
     }
 
+    if (isNil(order)) {
+        return <div className={"flex flex-col mb-2 w-full h-full justify-center items-center border rounded-md cursor-pointer"}
+                    onClick={() => createOrder()}>
+            <BsReceiptCutoff className={"text-4xl mb-1 mx-auto text-black"}/>
+            <p className={"text-xl"}>CREATE ORDER</p>
+        </div>
+    }
+
     return <div className={"flex flex-col w-full space-y-2 overflow-y-scroll no-scrollbar"}>
-        {order.products.map((product) => {
+        {order.products?.map((product) => {
             return <Item product={product} openAction={activeItem === product.id} onClick={setActiveItem}/>
         })}
     </div>

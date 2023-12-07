@@ -10,7 +10,7 @@ const OrderSummary = () => {
         <div className={"flex flex-row"}>
             <p className={"text-xl"}>Total:</p>
             {(!isNil(table) && !isNil(order)) &&
-                <p className={"ml-auto text-xl font-bold"}>{order.sum.toFixed(2)} zł</p>
+                <p className={"ml-auto text-xl font-bold"}>0 zł</p>
             }
         </div>
         <div className={"border-b-2 border-dashed my-3 border-zinc-400"}></div>
