@@ -69,14 +69,14 @@ export const OrderContextProvider = (): ReactElement => {
         }
     }, [token, table, order, currentUser, setOrder]);
 
-    const addProductToOrder = (productId: string) => {
+    const addProductToOrder = (product_id: string) => {
         if (!isNil(table) && !isNil(order) && !isNil(currentUser)) {
-            void authFetchGet<Order>("add_product_to_order", auth.user?.access_token)
+            authFetchPost<Order>(`orders/${order.id}/add/${product_id}`, auth.user?.access_token, {})
                 .then((order) => {
-                    console.log("added product")
                     setOrder(order)
+                    fetchOrderWithTableID()
                 })
-                .catch(() => console.error("cannot add product"))
+                .catch((err) => console.error("cannot add product:", err))
         }
     }
 
@@ -86,8 +86,9 @@ export const OrderContextProvider = (): ReactElement => {
                 .then((order) => {
                     console.log("removed product")
                     setOrder(order)
+                    fetchOrderWithTableID()
                 })
-                .catch(() => console.log("cannot remove product"))
+                .catch((err) => console.log("cannot remove product", err))
         }
     }
 

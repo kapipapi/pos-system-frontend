@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction, useContext, useState} from "react";
 import {OrderContext} from "../../../../contexts/order-context";
 import {isNil} from "lodash";
-import { AiOutlineCloseCircle} from "react-icons/ai";
+import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
 import {ProductInOrder} from "../../../../models/product";
 import {BsReceiptCutoff} from "react-icons/bs";
@@ -38,10 +38,19 @@ const ProductList = () => {
     }
 
     if (isNil(order)) {
-        return <div className={"flex flex-col mb-2 w-full h-full justify-center items-center border rounded-md cursor-pointer"}
-                    onClick={() => createOrder()}>
+        return <div
+            className={"flex flex-col mb-2 w-full h-full justify-center items-center border rounded-md cursor-pointer"}
+            onClick={() => createOrder()}>
             <BsReceiptCutoff className={"text-4xl mb-1 mx-auto text-black"}/>
             <p className={"text-xl"}>CREATE ORDER</p>
+        </div>
+    }
+
+    if (order.products?.length < 1) {
+        return <div
+            className={"flex flex-col mb-2 w-full h-full justify-center items-center"}>
+            <BsReceiptCutoff className={"text-4xl mb-1 mx-auto text-black"}/>
+            <p className={"text-xl"}>EMPTY ORDER</p>
         </div>
     }
 
