@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useContext, useState} from "react";
+import {Dispatch, SetStateAction, useContext, useMemo, useState} from "react";
 import {OrderContext} from "../../../../contexts/order-context";
 import {isNil} from "lodash";
 import {AiOutlineCloseCircle} from "react-icons/ai";
@@ -56,7 +56,7 @@ const ProductList = () => {
 
     return <div className={"flex flex-col w-full space-y-2 overflow-y-scroll no-scrollbar"}>
         {order.products?.map((product) => {
-            return <Item product={product} openAction={activeItem === product.id} onClick={setActiveItem}/>
+            return <Item key={product.id} product={product} openAction={activeItem === product.id} onClick={setActiveItem}/>
         })}
     </div>
 }
