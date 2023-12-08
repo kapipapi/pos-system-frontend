@@ -15,6 +15,7 @@ import {Table} from "../models/table";
 import {isNil} from "lodash";
 import {authFetchGet, authFetchPost} from "../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
+import {useNavigate} from "react-router";
 
 export type OrderContextType = {
     // table API
@@ -53,23 +54,29 @@ export const OrderContextProvider = (): ReactElement => {
     const auth = useAuth();
     let token = auth.user?.access_token;
 
+    const navigate = useNavigate();
+
     const [table, setTable] = useState<Table | null>(null);
     const [order, setOrder] = useState<Order | null>(null);
 
     const {currentUser} = useContext(UserContext);
 
+    const userIsSet = !isNil(currentUser);
+    const tableIsSet = !isNil(table);
+    const orderIsSet = !isNil(order);
+
     let fetchOrderWithTableID = useCallback(() => {
-        if (!isNil(table) && !isNil(currentUser)) {
+        if (tableIsSet && userIsSet) {
             authFetchGet<Order>(`tables/order/${table.id}/${currentUser.id}`, token)
                 .then((result) => setOrder(result))
                 .catch(() => setOrder(null))
         }
-    }, [currentUser, table, token])
+    }, [tableIsSet, userIsSet, table, currentUser, token])
 
     useEffect(fetchOrderWithTableID, [fetchOrderWithTableID]);
 
     const createOrder = () => {
-        if (!isNil(table) && isNil(order) && !isNil(currentUser)) {
+        if (tableIsSet && !orderIsSet && userIsSet) {
             authFetchPost<Order>("orders", token, {
                 table_id: table.id,
                 creator_id: currentUser.id
@@ -80,21 +87,21 @@ export const OrderContextProvider = (): ReactElement => {
     }
 
     const addProductToOrder = (product_id: string) => {
-        if (!isNil(table) && !isNil(order) && !isNil(currentUser)) {
+        if (!tableIsSet) {
+            navigate("/tables");
+        }
+
+        if (tableIsSet && orderIsSet && userIsSet) {
             authFetchPost<Order>(`orders/${order.id}/add/${product_id}`, token, {})
-                .then((order) => {
-                    setOrder(order)
-                })
+                .then((order) => setOrder(order))
                 .catch((err) => console.error("cannot add product:", err))
         }
     }
 
     const removeProductFromOrder = (product_id: string) => {
-        if (!isNil(table) && !isNil(order) && !isNil(currentUser)) {
+        if (tableIsSet && orderIsSet && userIsSet) {
             authFetchPost<Order>(`orders/${order.id}/remove/${product_id}`, token, {})
-                .then((order) => {
-                    setOrder(order)
-                })
+                .then((order) => setOrder(order))
                 .catch((err) => console.log("cannot remove product", err))
         }
     }

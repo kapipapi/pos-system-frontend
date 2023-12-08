@@ -11,10 +11,6 @@ type Props = {
 const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm<NewProduct>();
 
-    useEffect(() => {
-        console.log(errors)
-    }, [errors]);
-
     return (
         <ReactModal
             isOpen={modalState}
