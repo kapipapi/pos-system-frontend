@@ -4,13 +4,14 @@ import {authFetchDelete, authFetchGet, authFetchPost} from "../../hooks/authFetc
 import {useAuth} from "react-oidc-context";
 import {FaPlus} from "react-icons/fa";
 import {FaTrashCan} from "react-icons/fa6";
+import NewProductForm from "./components/new-product-form";
 
 function Settings() {
     const auth = useAuth();
-
     let token = auth.user?.access_token;
 
     const [products, setProducts] = useState<Product[]>([]);
+    const [modalState, setModalState] = useState(false);
 
     const fetchProducts = () => {
         authFetchGet<Product[]>("products", token)
@@ -21,15 +22,7 @@ function Settings() {
     }
     useEffect(fetchProducts, [setProducts, token])
 
-    const addEmptyRow = () => {
-        const newProduct: NewProduct = {
-            name: "Kurczak",
-            price: 20,
-            tax: 8,
-            category: "KURCZAK",
-            description: "Super kurczak wariacie",
-        }
-
+    const onNewProductFormSubmit = (newProduct: NewProduct) => {
         authFetchPost<Product>("products", token, newProduct)
             .then((res) => {
                 console.log(res)
@@ -50,12 +43,15 @@ function Settings() {
     return <div
         className={"flex flex-col w-full h-full max-h-screen space-y-5 overflow-y-scroll overflow-x-hidden no-scrollbar pr-2"}>
         <div className={"flex flex-col w-full space-y-2"}>
+            <NewProductForm modalState={modalState} closeModal={() => setModalState(false)}
+                            onSubmit={onNewProductFormSubmit}/>
             <div className={"flex flex-row mt-5 mb-2 items-center"}>
                 <h1 className={"text-xl font-bold"}>Menu Settings</h1>
                 <div className={"ml-auto mr-10 space-x-2"}>
-                    <button onClick={() => addEmptyRow()}
-                            className={"inline-flex items-center border rounded-md p-1"}>Add <FaPlus
-                        className={"ml-2"}/></button>
+                    <button onClick={() => setModalState(true)}
+                            className={"inline-flex items-center border rounded-md p-1"}>
+                        Add
+                        <FaPlus className={"ml-2"}/></button>
                 </div>
             </div>
             <table>
