@@ -2,15 +2,17 @@ import TablesFullGrid from "../../../tables/tables-grid";
 import {useAuth} from "react-oidc-context";
 import React, {useEffect, useState} from "react";
 import {Table} from "../../../../models/table";
-import {authFetchGet} from "../../../../hooks/authFetch";
+import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import {TablesLevelButton} from "../../../tables/tables";
 import {FaPlus} from "react-icons/fa";
+import classNames from "classnames";
 
 const TablesSettings = () => {
     const auth = useAuth();
 
     const [tables, setTables] = useState<Table[]>([]);
     const [level, setLevel] = useState<number>(0);
+    const [addTableActive, setAddTableActive] = useState<boolean>(false);
 
     const fetchTables = () => {
         authFetchGet<Table[]>("tables", auth.user?.access_token)
@@ -18,6 +20,12 @@ const TablesSettings = () => {
             .catch(e => console.error(e));
     }
     useEffect(fetchTables, [auth, setTables])
+
+    const postTable = (newTable: Table) => {
+        authFetchPost<Table[]>("tables", auth.user?.access_token, newTable)
+            .then((res) => setTables(res))
+            .catch(e => console.error(e));
+    }
 
     return (
         <div className={"flex flex-col w-full border p-2"}>
@@ -28,16 +36,29 @@ const TablesSettings = () => {
                     <TablesLevelButton i={1} active={level === 1} setLevel={setLevel}/>
                     <TablesLevelButton i={2} active={level === 2} setLevel={setLevel}/>
                     <div className={"border-l h-full mx-2"}></div>
-                    <button className={"flex py-2 px-4 border rounded cursor-pointer items-center"}>
-                        <FaPlus className={"mr-2"}/>
-                        Add table
+                    <button className={classNames("flex py-2 px-4 border rounded cursor-pointer items-center")}
+                            onClick={() => setAddTableActive(prevState => !prevState)}>
+                        <FaPlus className={classNames("transition mr-2", {"rotate-45": addTableActive})}/>
+                        {!addTableActive ? "Add table" : "Cancel edition"}
                     </button>
                 </div>
             </div>
             <TablesFullGrid
                 tables={tables}
                 level={level}
-                onTableClick={(id) => console.log(id)}
+                onTableClick={(newTable) => {
+                    if (newTable.id !== "") {
+                        return;
+                    }
+
+                    setAddTableActive(false);
+
+                    postTable(newTable);
+                }}
+                options={{
+                    isSettingsTable: true,
+                    isSettingsAddActive: addTableActive,
+                }}
             />
         </div>
     );

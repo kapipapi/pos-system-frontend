@@ -1,18 +1,61 @@
 import {Table} from "../../models/table";
 import React, {FC, ReactElement} from "react";
+import classNames from "classnames";
+import {isNil} from "lodash";
 
 type GridCellProps = {
     table?: Table;
     onClick: (table: Table) => void;
+    isSettingsTable?: boolean;
+    isSettingsAddActive?: boolean;
+    position_x?: number;
+    position_y?: number;
+    position_level?: number;
 }
-const GridCell: FC<GridCellProps> = ({table, onClick}) => {
+const GridCell: FC<GridCellProps> = ({
+                                         table,
+                                         onClick,
+                                         isSettingsTable,
+                                         isSettingsAddActive,
+                                         position_x,
+                                         position_y,
+                                         position_level
+                                     }) => {
     if (!table) {
-        return <div className={"w-full col-span-1 aspect-square border"}></div>
+        return <div
+            onMouseEnter={() => {
+                console.log(position_x, position_y)
+            }}
+            onClick={() => {
+                if (isSettingsAddActive) {
+                    let px = position_x ?? 0;
+                    let py = position_y ?? 0;
+                    let pl = position_level ?? 0;
+
+                    let name = prompt("Podaj nazwę stolika:", `Stolik ${px} ${py}`);
+
+                    onClick({
+                        id: "",
+                        name: isNil(name) ? `Stolik ${px} ${py}` : name,
+                        position_x: px,
+                        position_y: py,
+                        size_w: 1,
+                        size_h: 1,
+                        level: pl,
+                    })
+                }
+            }}
+            className={classNames("w-full col-span-1 aspect-square border", {
+                "hover:bg-zinc-100 cursor-pointer": isSettingsAddActive ?? false,
+            })}></div>
     }
 
     return <div
         onClick={() => onClick(table)}
-        className={`flex flex-col w-full bg-zinc-800 text-white rounded-md cursor-pointer col-span-${table.size_w} row-span-${table.size_h} ${table.size_w === table.size_h ? "aspect-square" : ""}`}>
+        className={classNames(`flex flex-col w-full bg-zinc-800 text-white rounded-md col-span-${table.size_w} row-span-${table.size_h}`, {
+            "aspect-square": table.size_w === table.size_h,
+            "cursor-pointer": !isSettingsTable ?? false,
+        })}>
         <p className={"mt-auto text-center"}>{table.name}</p>
     </div>
 }
@@ -21,16 +64,21 @@ type FullGridProps = {
     tables: Table[];
     level: number;
     onTableClick: (table: Table) => void;
+    options?: {
+        isSettingsTable: boolean;
+        isSettingsAddActive: boolean;
+    };
 }
-const TablesFullGrid: FC<FullGridProps> = ({tables, level, onTableClick}) => {
+const TablesFullGrid: FC<FullGridProps> = ({tables, level, onTableClick, options}) => {
     let grid_h = 8
     let grid_w = 12
 
     let grid: ReactElement[] = [];
-    for (let y = 0; y < grid_w; y++) {
+    for (let y = 0; y < grid_h; y++) {
         let row: ReactElement[] = [];
-        for (let x = 0; x < grid_h; x++) {
-            row.push(<GridCell key={`table_${x}_${y}`} onClick={onTableClick}/>)
+        for (let x = 0; x < grid_w; x++) {
+            row.push(<GridCell key={`table_${x}_${y}`} onClick={onTableClick} position_x={x} position_y={y}
+                               position_level={level} {...options}/>)
         }
         grid = grid.concat(row)
     }
@@ -40,7 +88,8 @@ const TablesFullGrid: FC<FullGridProps> = ({tables, level, onTableClick}) => {
         if ((0 <= px && (px + size_w) <= grid_w) &&
             (0 <= py && (py + size_h) <= grid_h) &&
             (table.level === level)) {
-            grid[grid_w * py + px] = <GridCell key={`table_${table.name}`} table={table} onClick={onTableClick}/>
+            grid[grid_w * py + px] =
+                <GridCell key={`table_${table.name}`} table={table} onClick={onTableClick} {...options}/>
         }
     }
 
