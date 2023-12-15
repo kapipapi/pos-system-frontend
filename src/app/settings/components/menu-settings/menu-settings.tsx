@@ -45,8 +45,7 @@ const MenuSettings = () => {
             <div className={"flex flex-row mb-2 items-center"}>
                 <NewProductForm modalState={modalState} closeModal={() => setModalState(false)}
                                 onSubmit={onNewProductFormSubmit}/>
-                <h1 className={"text-xl font-bold"}>Menu Settings</h1>
-                <div className={"ml-auto space-x-2"}>
+                <div className={"space-x-2"}>
                     <button onClick={() => setModalState(true)}
                             className={"inline-flex items-center border rounded-md p-1"}>
                         Add

@@ -16,3 +16,7 @@
         }
     }
 }
+
+.szh-accordion__item-content {
+    transition: height 0.5s cubic-bezier(0.25,.1,.25,1);
+}
