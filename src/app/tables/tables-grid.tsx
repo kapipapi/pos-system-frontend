@@ -1,6 +1,5 @@
 import {Table} from "../../models/table";
 import React, {FC, ReactElement} from "react";
-import {useNavigate} from "react-router";
 
 type GridCellProps = {
     table?: Table;

@@ -1,4 +1,4 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import ReactModal from "react-modal";
 import {NewProduct} from "../../../../models/product";
 import {useForm} from "react-hook-form";

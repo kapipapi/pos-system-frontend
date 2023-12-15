@@ -35,7 +35,7 @@ export default function EmployeeList(p: ListProps) {
             users?.map((value, index) => {
                 return <button className={"w-full"} key={index} onClick={() => selectUser(value.id)}>
                     <Item small={p.small ?? false} symbol={value.name[0]} key={index}
-                          selected={selectedUser == value.id}>{value.name}</Item>
+                          selected={selectedUser === value.id}>{value.name}</Item>
                 </button>;
             })
         }
