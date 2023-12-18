@@ -1,3 +1,5 @@
+import {Order} from "./order";
+
 export interface Table {
     id: string,
     name: string,
@@ -6,4 +8,5 @@ export interface Table {
     position_y: number,
     size_w: number,
     size_h: number,
+    orders?: Order[],
 }

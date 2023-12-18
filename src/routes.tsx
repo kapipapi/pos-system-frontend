@@ -37,17 +37,17 @@ export let routes = createBrowserRouter([
                                         path: "/tables",
                                         element: <Tables/>,
                                     },
+                                    {
+                                        index: true,
+                                        path: "/orders",
+                                        element: <Orders/>,
+                                    },
                                 ]
                             },
                             {
                                 index: true,
                                 path: "/settings",
                                 element: <Settings/>,
-                            },
-                            {
-                                index: true,
-                                path: "/orders",
-                                element: <Orders/>,
                             },
                         ]
                     },

@@ -15,10 +15,11 @@ const ProductRow = ({product}: { product: ProductInOrder }) => {
 
 type Props = {
     order: Order,
-    onRemove: (id: string) => void
+    onRemove: (id: string) => void,
+    selectOrder: (tableId: string) => void
 }
 
-export const OrderTile: FC<Props> = ({order, onRemove}) => {
+export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
     const sumupOrder = () => {
         if (isNil(order)) {
             return 0;
@@ -62,7 +63,9 @@ export const OrderTile: FC<Props> = ({order, onRemove}) => {
                 <IoTrashOutline className={"w-full text-2xl"}/>
             </button>
             <button
-                className={"flex flex-col w-12 h-12 aspect-square border border-zinc-500 rounded-xl items-center justify-center"}>
+                className={"flex flex-col w-12 h-12 aspect-square border border-zinc-500 rounded-xl items-center justify-center"}
+                onClick={() => selectOrder(order.table_id)}
+            >
                 <FaRegPenToSquare className={"w-full text-xl"}/>
             </button>
             <button className={"flex flex-col w-full h-12 rounded-xl bg-zinc-500 items-center justify-center"}>
