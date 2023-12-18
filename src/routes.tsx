@@ -7,6 +7,7 @@ import {OrderContextProvider} from "./contexts/order-context";
 import Tables from "./app/tables/tables";
 import Settings from "./app/settings/settings";
 import {UserContextProvider} from "./contexts/user-context";
+import Orders from "./app/orders/orders";
 
 export let routes = createBrowserRouter([
     {
@@ -42,6 +43,11 @@ export let routes = createBrowserRouter([
                                 index: true,
                                 path: "/settings",
                                 element: <Settings/>,
+                            },
+                            {
+                                index: true,
+                                path: "/orders",
+                                element: <Orders/>,
                             },
                         ]
                     },

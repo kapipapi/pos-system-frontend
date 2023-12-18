@@ -17,6 +17,10 @@ export default function SideMenu() {
                          className={({isActive}) => isActive ? 'font-bold' : 'font-thin'}>
                     <li>Menu</li>
                 </NavLink>
+                <NavLink to={`/orders`}
+                         className={({isActive}) => isActive ? 'font-bold' : 'font-thin'}>
+                    <li>Orders</li>
+                </NavLink>
                 <NavLink to={"/tables"}
                          className={({isActive}) => isActive ? 'font-bold' : 'font-thin'}>
                     <li>Tables</li>
