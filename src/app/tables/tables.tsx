@@ -28,7 +28,7 @@ function Tables() {
     const {setTable} = useContext(OrderContext);
 
     const fetchTables = () => {
-        authFetchGet<Table[]>("tables", auth.user?.access_token)
+        authFetchGet<Table[]>("tables_view/get_all_tables", auth.user?.access_token)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }
