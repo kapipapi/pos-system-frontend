@@ -52,7 +52,7 @@ function Orders() {
         <div className={"mt-4"}>
             <h1 className={"text-2xl"}>Orders</h1>
         </div>
-        <div className={"grid grid-cols-4 w-full gap-4 items-start"}>
+        <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-4 items-start"}>
             {orders?.map((order) => <OrderTile order={order} onRemove={removeOrder} selectOrder={selectOrder}/>)}
         </div>
     </div>
