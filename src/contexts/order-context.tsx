@@ -58,6 +58,7 @@ export const OrderContextProvider = (): ReactElement => {
 
     const [table, setTable] = useState<Table | null>(null);
     const [order, setOrder] = useState<Order | null>(null);
+    const [orders, setOrders] = useState<Order[]>([]);
 
     const {currentUser} = useContext(UserContext);
 
@@ -65,20 +66,26 @@ export const OrderContextProvider = (): ReactElement => {
     const tableIsSet = !isNil(table);
     const orderIsSet = !isNil(order);
 
-    let fetchOrderWithTableID = useCallback(() => {
+    let fetchFullOrder = useCallback(() => {
         if (tableIsSet && userIsSet) {
-            authFetchGet<Order>(`tables/order/${table.id}/${currentUser.id}`, token)
-                .then((result) => setOrder(result))
-                .catch(() => setOrder(null))
+            authFetchGet<Order[]>(`order_context/orders/table/${table.id}`, token)
+                .then((result) => {
+                    setOrders(result)
+                    if (result.length === 1) {
+                        setOrder(result[0])
+                    }
+                })
+                .catch(() => {
+                    setOrder(null)
+                    setOrders([])
+                })
         }
-    }, [tableIsSet, userIsSet, table, currentUser, token])
-
-    useEffect(fetchOrderWithTableID, [fetchOrderWithTableID]);
+    }, [tableIsSet, userIsSet, table, token, setOrders])
+    useEffect(fetchFullOrder, [fetchFullOrder]);
 
     const createOrder = () => {
         if (tableIsSet && !orderIsSet && userIsSet) {
-            authFetchPost<Order>("orders", token, {
-                table_id: table.id,
+            authFetchPost<Order>(`order_context/orders/table/${table.id}`, token, {
                 creator_id: currentUser.id
             })
                 .then((result) => setOrder(result))
@@ -87,12 +94,12 @@ export const OrderContextProvider = (): ReactElement => {
     }
 
     const addProductToOrder = (product_id: string) => {
-        if (!tableIsSet) {
-            navigate("/tables");
-        }
+        if (!tableIsSet) navigate("/tables");
 
         if (tableIsSet && orderIsSet && userIsSet) {
-            authFetchPost<Order>(`orders/${order.id}/add/${product_id}`, token, {})
+            authFetchPost<Order>(`order_context/order/${order.id}/add_product`, token, {
+                product_id: product_id
+            })
                 .then((order) => setOrder(order))
                 .catch((err) => console.error("cannot add product:", err))
         }
@@ -100,7 +107,9 @@ export const OrderContextProvider = (): ReactElement => {
 
     const removeProductFromOrder = (product_id: string) => {
         if (tableIsSet && orderIsSet && userIsSet) {
-            authFetchPost<Order>(`orders/${order.id}/remove/${product_id}`, token, {})
+            authFetchPost<Order>(`order_context/order/${order.id}/remove_product`, token, {
+                product_id: product_id
+            })
                 .then((order) => setOrder(order))
                 .catch((err) => console.log("cannot remove product", err))
         }

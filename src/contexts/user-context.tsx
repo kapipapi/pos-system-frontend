@@ -38,7 +38,7 @@ export const UserContextProvider = (): ReactElement => {
     const [currentUser, setCurrentUser] = useState<User | undefined>();
 
     useEffect(() => {
-        authFetchGet<User[]>("users", auth.user?.access_token)
+        authFetchGet<User[]>("user_context/list_users", auth.user?.access_token)
             .then((res) => {
                 setUsersList(res);
                 setLoadingUsers(false);
