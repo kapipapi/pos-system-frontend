@@ -41,7 +41,7 @@ const MenuSettings = () => {
     }
 
     return (
-        <div className={"flex flex-col w-full border p-2"}>
+        <div className={"flex flex-col w-full p-2"}>
             <div className={"flex flex-row mb-2 items-center"}>
                 <NewProductForm modalState={modalState} closeModal={() => setModalState(false)}
                                 onSubmit={onNewProductFormSubmit}/>

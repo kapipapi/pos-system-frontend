@@ -28,7 +28,7 @@ const TablesSettings = () => {
     }
 
     return (
-        <div className={"flex flex-col w-full border p-2"}>
+        <div className={"flex flex-col w-full p-2"}>
             <div className={"flex flex-col mb-2"}>
                 <div className={"flex flex-row space-x-4 items-center"}>
                     <TablesLevelButton i={0} active={level === 0} setLevel={setLevel}/>
