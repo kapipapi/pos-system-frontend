@@ -29,7 +29,7 @@ function Orders() {
 
     const getAllOrders = useCallback(() => {
         if (!isNil(currentUser)) {
-            authFetchGet<Order[]>("orders", token)
+            authFetchGet<Order[]>(`orders/user/${currentUser.id}`, token)
                 .then((result) => setOrders(result))
                 .catch(() => setOrders(null))
         }
