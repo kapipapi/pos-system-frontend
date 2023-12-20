@@ -8,6 +8,11 @@ export async function authFetchGet<T>(endpoint: string, token: string | undefine
             'Authorization': 'Bearer ' + token ?? ''
         },
     });
+
+    if (!res.ok) {
+        throw new Error(`Status ${res.status} (${res.statusText}): ${await res.text()}`);
+    }
+
     return await res.json() as T;
 }
 
@@ -20,6 +25,11 @@ export async function authFetchPost<T>(endpoint: string, token: string | undefin
         },
         body: JSON.stringify(payload)
     });
+
+    if (!res.ok) {
+        throw new Error(`Status ${res.status} (${res.statusText}): ${await res.text()}`);
+    }
+
     return await res.json() as T;
 }
 
@@ -31,5 +41,10 @@ export async function authFetchDelete<T>(endpoint: string, token: string | undef
             'Authorization': 'Bearer ' + token ?? ''
         },
     });
+
+    if (!res.ok) {
+        throw new Error(`Status ${res.status} (${res.statusText}): ${await res.text()}`);
+    }
+
     return await res.json() as T;
 }

@@ -14,7 +14,7 @@ function Menu() {
     const [products, setProducts] = useState<Product[]>([]);
 
     const fetchProducts = () => {
-        authFetchGet<Product[]>("products", token)
+        authFetchGet<Product[]>("menu_view/get_all_products", token)
             .then((res) => {
                 setProducts(res)
             })

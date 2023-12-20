@@ -20,8 +20,8 @@ function Orders() {
 
     const {setTable} = useContext(OrderContext);
 
-    const selectOrder = (tableId: string) => {
-        authFetchGet<Table>(`tables/${tableId}`, auth.user?.access_token)
+    const openOrderInMenu = (tableId: string) => {
+        authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.user?.access_token)
             .then((res) => setTable(res))
             .catch(e => console.error(e));
         navigate("/menu");
@@ -29,7 +29,7 @@ function Orders() {
 
     const getAllOrders = useCallback(() => {
         if (!isNil(currentUser)) {
-            authFetchGet<Order[]>(`orders/user/${currentUser.id}`, token)
+            authFetchGet<Order[]>(`orders_view/get_user_orders/${currentUser.id}`, token)
                 .then((result) => setOrders(result))
                 .catch(() => setOrders(null))
         }
@@ -40,7 +40,7 @@ function Orders() {
     }, [getAllOrders]);
 
     const removeOrder = (orderId: string) => {
-        authFetchPost<string>(`orders/${orderId}/remove`, token, {})
+        authFetchPost<string>(`orders_view/remove_order/${orderId}`, token, {})
             .then(() => {
                 getAllOrders();
             })
@@ -53,7 +53,7 @@ function Orders() {
             <h1 className={"text-2xl"}>Orders</h1>
         </div>
         <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-4 items-start"}>
-            {orders?.map((order) => <OrderTile order={order} onRemove={removeOrder} selectOrder={selectOrder}/>)}
+            {orders?.map((order) => <OrderTile order={order} onRemove={removeOrder} selectOrder={openOrderInMenu}/>)}
         </div>
     </div>
 }

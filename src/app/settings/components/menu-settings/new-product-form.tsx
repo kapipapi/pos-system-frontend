@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import {NewProduct} from "../../../../models/product";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
-import {IoAdd, IoClose} from "react-icons/io5";
+import {IoClose} from "react-icons/io5";
 
 type Props = {
     modalState: boolean;
