@@ -1,7 +1,7 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import {UserContext} from "../../contexts/user-context";
 import {Order} from "../../models/order";
-import {authFetchGet, authFetchPost} from "../../hooks/authFetch";
+import {authFetchDelete, authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {isNil} from "lodash";
 import {OrderTile} from "./components/order-tile";
@@ -40,7 +40,7 @@ function Orders() {
     }, [getAllOrders]);
 
     const removeOrder = (orderId: string) => {
-        authFetchPost<string>(`orders_view/remove_order/${orderId}`, token, {})
+        authFetchDelete<string>(`orders_view/remove_order/${orderId}`, token)
             .then(() => {
                 getAllOrders();
             })
@@ -53,7 +53,7 @@ function Orders() {
             <h1 className={"text-2xl"}>Orders</h1>
         </div>
         <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-4 items-start"}>
-            {orders?.map((order) => <OrderTile order={order} onRemove={removeOrder} selectOrder={openOrderInMenu}/>)}
+            {orders?.map((order) => <OrderTile key={order.id} order={order} onRemove={removeOrder} selectOrder={openOrderInMenu}/>)}
         </div>
     </div>
 }

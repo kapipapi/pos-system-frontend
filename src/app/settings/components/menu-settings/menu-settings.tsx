@@ -14,7 +14,7 @@ const MenuSettings = () => {
     const [modalState, setModalState] = useState(false);
 
     const fetchProducts = () => {
-        authFetchGet<Product[]>("products", token)
+        authFetchGet<Product[]>("settings_view/products", token)
             .then((res) => {
                 setProducts(res)
             })
@@ -23,7 +23,7 @@ const MenuSettings = () => {
     useEffect(fetchProducts, [setProducts, token])
 
     const onNewProductFormSubmit = (newProduct: NewProduct) => {
-        authFetchPost<Product>("products", token, newProduct)
+        authFetchPost<Product>("settings_view/products", token, newProduct)
             .then((res) => {
                 console.log(res)
                 fetchProducts()
@@ -32,7 +32,7 @@ const MenuSettings = () => {
     }
 
     const removeRow = (id: string) => {
-        authFetchDelete(`products/${id}`, token)
+        authFetchDelete(`settings_view/products/${id}`, token)
             .then((res) => {
                 console.log(res)
                 fetchProducts()
