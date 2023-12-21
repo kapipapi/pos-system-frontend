@@ -25,7 +25,6 @@ const MenuSettings = () => {
     const onNewProductFormSubmit = (newProduct: NewProduct) => {
         authFetchPost<Product>("settings_view/products", token, newProduct)
             .then((res) => {
-                console.log(res)
                 fetchProducts()
             })
             .catch(err => console.error(err))

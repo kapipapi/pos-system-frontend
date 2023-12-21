@@ -1,9 +1,12 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import ReactModal from "react-modal";
-import {NewProduct} from "../../../../models/product";
+import {NewProduct, Product} from "../../../../models/product";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
+import {useAuth} from "react-oidc-context";
+import {authFetchGet} from "../../../../hooks/authFetch";
+import {Category} from "../../../../models/category";
 
 type Props = {
     modalState: boolean;
@@ -12,6 +15,19 @@ type Props = {
 };
 const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm<NewProduct>();
+
+    const auth = useAuth();
+    let token = auth.user?.access_token;
+
+    const [categories, setCategories] = useState<Category[]>([]);
+    const fetchCategories = () => {
+        authFetchGet<Product[]>("settings_view/products/categories", token)
+            .then((res) => {
+                setCategories(res)
+            })
+            .catch(e => console.error(e));
+    }
+    useEffect(fetchCategories, [setCategories, token])
 
     const styles = {
         label: "text-sm font-light",
@@ -80,7 +96,11 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                     <div>
                         <label className={classNames(styles.label)}>Category</label>
                         <br/>
-                        <input {...register("category", {required: "Category is required"})} className={classNames(styles.input)}/>
+                        <select {...register("category", {required: "Category is required"})} className={classNames(styles.input)}>
+                            {categories.map((category) => {
+                                return <option key={category.id} value={category.id}>{category.name}</option>
+                            })}
+                        </select>
                         <p className={"text-sm text-red-600"}>{errors.category?.message}</p>
                     </div>
 
