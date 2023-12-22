@@ -38,27 +38,6 @@ function Menu() {
 
     const {addProductToOrder} = useContext(OrderContext)
 
-    const bgcolors = [
-        "bg-blu",
-        "bg-pale",
-        "bg-tinky",
-        "bg-fleet",
-        "bg-pinky",
-        "bg-sugar-pink",
-        "bg-sick",
-    ]
-
-    const bordercolors = [
-        "border-blu",
-        "border-pale",
-        "border-tinky",
-        "border-fleet",
-        "border-pinky",
-        "border-sugar-pink",
-        "border-sick",
-    ]
-
-
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
             <div className={"flex flex-col w-full"}>
@@ -77,7 +56,6 @@ function Menu() {
                                 name={category.name}
                                 active={category.id === selectedCategory}
                                 onClick={setSelectedCategory}
-                                color={bgcolors[i]}
                             />
                         })}
                     </div>
@@ -85,10 +63,7 @@ function Menu() {
                         className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full mt-2 gap-2 overflow-y-scroll no-scrollbar snap-y"}>
                         {products.map((product) => {
                             return <TileProduct key={product.id}
-                                                id={product.id}
-                                                name={product.name}
-                                                price={product.price}
-                                                color={bordercolors[1]}
+                                                product={product}
                                                 onClick={(id) => {
                                                     addProductToOrder(id)
                                                 }}
