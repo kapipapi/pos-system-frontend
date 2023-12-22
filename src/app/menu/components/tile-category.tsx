@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {categoryBgColor, CategoryIcon} from "../../categories";
+import {categoryBgColor, CategoryIcon} from "../../categories-styles";
 
 type Prop = {
     id: string,

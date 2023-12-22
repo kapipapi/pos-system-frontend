@@ -58,10 +58,12 @@ export default function PinKeyboard() {
     useEffect(() => {
         if (code.length === 4 && !isNil(selectedUser)) {
             setCode("");
-            let isValid = checkPinCode(code);
-            if (!isValid) {
-                setError(true);
-            }
+            checkPinCode(code).then((isValid) => {
+                console.log(isValid)
+                if (!isValid) {
+                    setError(true);
+                }
+            });
         }
     }, [code, selectedUser, setError, checkPinCode])
 
@@ -73,7 +75,7 @@ export default function PinKeyboard() {
     return <div
         className={"flex flex-col col-span-1 bg-zinc-800 m-3 rounded-xl items-center justify-center space-y-12"}>
         <p className={"text-white"}>Enter your PIN</p>
-        <div className={`flex space-x-8 ${error?"[&>*]:bg-red-700":""}`}>
+        <div className={`flex space-x-8 ${error ? "[&>*]:bg-red-700" : ""}`}>
             <div className={`w-3 aspect-square rounded-full ${code.length > 0 ? "bg-white" : "bg-zinc-700"}`}></div>
             <div className={`w-3 aspect-square rounded-full ${code.length > 1 ? "bg-white" : "bg-zinc-700"}`}></div>
             <div className={`w-3 aspect-square rounded-full ${code.length > 2 ? "bg-white" : "bg-zinc-700"}`}></div>

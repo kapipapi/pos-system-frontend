@@ -5,7 +5,7 @@ import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
 import {ProductInOrder} from "../../../../models/product";
 import {BsReceiptCutoff} from "react-icons/bs";
-import {categoryBorderColor} from "../../../categories";
+import {categoryBorderColor} from "../../../categories-styles";
 
 const Item = ({product, openAction, onClick}: {
     product: ProductInOrder,

@@ -41,11 +41,11 @@ function Menu() {
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
             <div className={"flex flex-col w-full"}>
-                <div className={"flex w-full items-center border mt-2 rounded-md"}>
-                    <IoSearch className={"text-2xl ml-3"}/>
-                    <input placeholder={"Search item..."}
-                           className={"h-12 px-3 mr-1 w-full outline-none"}/>
-                </div>
+                <label className={"flex w-full items-center mt-2 rounded-md"}>
+                        <IoSearch className={"text-2xl ml-3"}/>
+                        <input placeholder={"Search item..."}
+                               className={"h-14 px-3 mr-1 w-full outline-none"}/>
+                </label>
                 <div className={"flex flex-col w-full overflow-hidden"}>
                     <div
                         className={"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full mt-2 gap-2 overflow-y-scroll no-scrollbar snap-y"}>

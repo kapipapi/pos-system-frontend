@@ -3,7 +3,7 @@ import {FaGlassWater, FaPizzaSlice} from "react-icons/fa6";
 
 export const CategoryIcon = ({name}: { name: string }) => {
     switch (name?.toUpperCase()) {
-        case "COFFEE":
+        case "KAWA":
             return <FaCoffee className={"text-4xl"}/>;
         case "NAPOJE":
             return <FaGlassWater className={"text-3xl"}/>;
@@ -17,7 +17,7 @@ export const CategoryIcon = ({name}: { name: string }) => {
 const bgColorsDict: { [name: string]: string } = {
     "NAPOJE": "bg-pale",
     "PIZZA": "bg-tinky",
-    "COFFEE": "bg-blu",
+    "KAWA": "bg-blu",
 
     "unused1": "bg-fleet",
     "unused2": "bg-pinky",
@@ -32,7 +32,7 @@ export const categoryBgColor = (name: string) => {
 const borderColorsDict: { [name: string]: string } = {
     "NAPOJE": "border-pale",
     "PIZZA": "border-tinky",
-    "COFFEE": "border-blu",
+    "KAWA": "border-blu",
 
     "unused1": "border-fleet",
     "unused2": "border-pinky",

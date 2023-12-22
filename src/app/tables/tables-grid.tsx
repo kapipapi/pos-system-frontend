@@ -1,7 +1,7 @@
 import {Table} from "../../models/table";
 import React, {FC, ReactElement} from "react";
 import classNames from "classnames";
-import {isNil, repeat} from "lodash";
+import {isNil} from "lodash";
 
 type GridCellProps = {
     table?: Table;
@@ -39,6 +39,7 @@ const GridCell: FC<GridCellProps> = ({
                         size_w: 1,
                         size_h: 1,
                         level: pl,
+                        has_order: false,
                     })
                 }
             }}
@@ -53,7 +54,7 @@ const GridCell: FC<GridCellProps> = ({
             "aspect-square": table.size_w === table.size_h,
             "cursor-pointer": !isSettingsTable ?? false,
         })}>
-        <p className={"ml-3 text-2xl"}>{(table.orders?.length ?? 0) > 0 ? repeat("\u2022", table.orders?.length) : ""}</p>
+        <p className={"ml-3 text-2xl"}>{table.has_order ? "\u2022" : ""}</p>
         <p className={"mt-auto text-center"}>{table.name}</p>
     </div>
 }

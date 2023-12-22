@@ -6,7 +6,7 @@ import {MdOutlineTableBar} from "react-icons/md";
 import {isNil} from "lodash";
 
 const OrderTable = () => {
-    const {table, setTable, setOrder} = useContext(OrderContext);
+    const {table, setTable, order, setOrder} = useContext(OrderContext);
     const navigate = useNavigate();
 
     if (isNil(table)) {
@@ -18,12 +18,21 @@ const OrderTable = () => {
         </div>
     }
 
-    return <div className={"flex w-full h-12 p-3 mb-2 rounded-md items-center cursor-pointer border"} onClick={() => {
+    return <div className={"flex w-full h-14 p-3 mb-2 rounded-md items-center cursor-pointer border"} onClick={() => {
         setTable(null);
         setOrder(null);
     }}>
         <AiOutlineCloseCircle className={"text-2xl mr-3"}/>
-        <p className={"text-xl"}>{table.name}</p>
+        <div className={"flex flex-row"}>
+            <div className={"flex flex-col"}>
+                <span className={"text-xs font-extralight"}>Wybrany stolik:</span>
+                <span className={"text-xl"}>{table.name}</span>
+            </div>
+            <div className={"flex flex-col"}>
+                <span className={"text-xs font-extralight"}>Kelner:</span>
+                <span className={"text-xl"}>{order?.creator}</span>
+            </div>
+        </div>
     </div>
 }
 

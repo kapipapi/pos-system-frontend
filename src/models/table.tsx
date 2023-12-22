@@ -8,5 +8,5 @@ export interface Table {
     position_y: number,
     size_w: number,
     size_h: number,
-    orders?: Order[],
+    has_order: boolean,
 }

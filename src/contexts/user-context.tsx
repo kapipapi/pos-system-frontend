@@ -1,7 +1,7 @@
 import {createContext, Dispatch, ReactElement, SetStateAction, useEffect, useState} from 'react'
 import {Outlet} from "react-router-dom";
 import {User} from "../models/user";
-import {authFetchGet} from "../hooks/authFetch";
+import {authFetchGet, authFetchPost} from "../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {isNil} from "lodash";
 
@@ -11,8 +11,12 @@ export type UserContextType = {
     selectUser: Dispatch<SetStateAction<string | undefined>>;
     isLoadingUsers: boolean,
     currentUser: User | undefined,
-    checkPinCode: (code: string) => boolean,
+    checkPinCode: (code: string) => Promise<boolean>,
     logout: () => void,
+}
+
+type CheckUserPinResult = {
+    authorized: boolean,
 }
 
 const defaultUserContext: UserContextType = {
@@ -22,7 +26,7 @@ const defaultUserContext: UserContextType = {
     },
     isLoadingUsers: true,
     currentUser: undefined,
-    checkPinCode: () => false,
+    checkPinCode: () => Promise.resolve(false),
     logout: () => {
     },
 }
@@ -34,7 +38,7 @@ export const UserContextProvider = (): ReactElement => {
 
     const [usersList, setUsersList] = useState<User[]>([]);
     const [isLoadingUsers, setLoadingUsers] = useState(true);
-    const [selectedUser, selectUser] = useState<string>();
+    const [selectedUser, setSelectedUser] = useState<string>();
     const [currentUser, setCurrentUser] = useState<User | undefined>();
 
     useEffect(() => {
@@ -48,7 +52,7 @@ export const UserContextProvider = (): ReactElement => {
             })
     }, [auth]);
 
-    const checkPinCode = (code: string): boolean => {
+    const checkPinCode = async (code: string): Promise<boolean> => {
         if (code.length !== 4 || isNil(selectedUser)) {
             return false;
         }
@@ -58,13 +62,23 @@ export const UserContextProvider = (): ReactElement => {
             return false;
         }
 
-        if (user.code === code) {
-            setCurrentUser(user);
-            selectUser(undefined);
-            return true;
-        }
-
-        return false;
+        return authFetchPost<CheckUserPinResult>("user_context/check_pin", auth.user?.access_token, {
+            user_id: selectedUser,
+            code: code
+        })
+            .then((res) => {
+                if(res.authorized){
+                    setCurrentUser(user);
+                    setSelectedUser(undefined);
+                    console.log("OK!")
+                    return res.authorized;
+                }
+                return false;
+            })
+            .catch(() => {
+                console.log("error!")
+                return false;
+            });
     }
 
     const logout = () => {
@@ -74,7 +88,7 @@ export const UserContextProvider = (): ReactElement => {
     return <UserContext.Provider value={{
         usersList,
         selectedUser,
-        selectUser,
+        selectUser: setSelectedUser,
         isLoadingUsers,
         currentUser,
         checkPinCode,

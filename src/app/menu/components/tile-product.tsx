@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {categoryBorderColor} from "../../categories";
+import {categoryBorderColor} from "../../categories-styles";
 import {Product} from "../../../models/product";
 
 type Prop = {
