@@ -12,12 +12,18 @@ function App() {
         }
     }, [auth]);
 
+    useEffect(() => {
+        return auth.events.addAccessTokenExpiring(() => {
+            auth.revokeTokens().then(() => {});
+        })
+    }, [auth, auth.events]);
+
     if (auth.isLoading) {
         return <div>Loading...</div>;
     }
 
     if (!auth.isAuthenticated) {
-        auth.signinRedirect();
+        auth.signinRedirect().then(() => {});
     }
 
     return  <RouterProvider router={routes}/>;
