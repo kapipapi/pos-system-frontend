@@ -39,7 +39,7 @@ function Settings() {
                 <CategoriesSettings/>
             </Item>
 
-            <Item name={"Menu Settings"} initialEntered>
+            <Item name={"Menu Settings"}>
                 <ProductsSettings/>
             </Item>
 

@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
-import {Category} from "../../../../models/category";
-import {authFetchGet} from "../../../../hooks/authFetch";
+import {Category, NewCategory} from "../../../../models/category";
+import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
+import NewProductForm from "../products-settings/new-product-form";
+import NewCategoryForm from "./new-category-form";
 
 const CategoriesSettings = () => {
     const auth = useAuth();
@@ -22,19 +24,19 @@ const CategoriesSettings = () => {
     useEffect(fetchCategories, [setCategories, token])
 
 
-    // const onNewProductFormSubmit = (newCategoryName: string) => {
-    //     authFetchPost<Product>("settings_view/categories", token, newCategoryName)
-    //         .then((res) => {
-    //             fetchCategories()
-    //         })
-    //         .catch(err => console.error(err))
-    // }
+    const onNewCategoryFormSubmit = (newCategory: NewCategory) => {
+        authFetchPost<Category[]>("settings_view/categories", token, newCategory)
+            .then((res) => {
+                setCategories(res)
+            })
+            .catch(err => console.error(err))
+    }
 
     return (
         <div className={"flex flex-col w-full p-2"}>
             <div className={"flex flex-row mb-2 items-center"}>
-                {/*<NewProductForm modalState={modalState} closeModal={() => setModalState(false)}*/}
-                {/*                onSubmit={onNewProductFormSubmit}/>*/}
+                <NewCategoryForm modalState={modalState} closeModal={() => setModalState(false)}
+                                 onSubmit={onNewCategoryFormSubmit}/>
                 <div className={"space-x-2"}>
                     <button onClick={() => setModalState(true)}
                             className={"inline-flex items-center border rounded-md p-1"}>
