@@ -21,7 +21,7 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {
-        authFetchGet<Product[]>("settings_view/products/categories", token)
+        authFetchGet<Product[]>("settings_view/categories", token)
             .then((res) => {
                 setCategories(res)
             })

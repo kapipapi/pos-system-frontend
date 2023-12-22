@@ -1,7 +1,7 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import {UserContext} from "../../contexts/user-context";
 import {Order} from "../../models/order";
-import {authFetchDelete, authFetchGet, authFetchPost} from "../../hooks/authFetch";
+import {authFetchDelete, authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "react-oidc-context";
 import {isNil} from "lodash";
 import {OrderTile} from "./components/order-tile";

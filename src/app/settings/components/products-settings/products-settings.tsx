@@ -6,7 +6,7 @@ import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/au
 import NewProductForm from "./new-product-form";
 import {FaPlus} from "react-icons/fa";
 
-const MenuSettings = () => {
+const ProductsSettings = () => {
     const auth = useAuth();
     let token = auth.user?.access_token;
 
@@ -75,7 +75,7 @@ const MenuSettings = () => {
                                 <td>
                                     <button
                                         onClick={() => removeRow(product.id)}
-                                        className={"aspect-square border rounded-full p-1"}
+                                        className={"aspect-square border rounded-lg p-1"}
                                     >
                                         <FaTrashCan/>
                                     </button>
@@ -90,4 +90,4 @@ const MenuSettings = () => {
     );
 }
 
-export default MenuSettings;
+export default ProductsSettings;

@@ -1,9 +1,10 @@
-import MenuSettings from "./components/menu-settings/menu-settings";
+import ProductsSettings from "./components/products-settings/products-settings";
 import TablesSettings from "./components/tables-settings/tables-settings";
 import {Accordion, AccordionItem} from '@szhsin/react-accordion';
 import React, {FC, ReactElement} from "react";
 import {FaChevronDown} from "react-icons/fa6";
 import classNames from "classnames";
+import CategoriesSettings from "./components/categories-settings/categories-settings";
 
 function Settings() {
 
@@ -34,8 +35,12 @@ function Settings() {
     return <div
         className={"flex flex-col w-full h-full max-h-screen overflow-y-scroll overflow-x-hidden no-scrollbar p-2"}>
         <Accordion transition transitionTimeout={250} className={"space-y-3"}>
+            <Item name={"Categories Settings"} initialEntered>
+                <CategoriesSettings/>
+            </Item>
+
             <Item name={"Menu Settings"} initialEntered>
-                <MenuSettings/>
+                <ProductsSettings/>
             </Item>
 
             <Item name={"Tables Settings"}>

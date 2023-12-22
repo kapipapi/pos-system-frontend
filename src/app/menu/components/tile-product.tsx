@@ -1,22 +1,25 @@
+import classNames from "classnames";
+
 type Prop = {
     id: string,
     name: string,
     price: number,
-    active?: boolean,
+    color: string,
     onClick: (id: string) => void,
 }
 
-function TileCategory({id, name, price, active, onClick}: Prop) {
+function TileProduct({id, name, price, onClick, color}: Prop) {
     return <button
-        className={`snap-start flex flex-col h-full aspect-square p-4 border-2 border-zinc-800 ${active ? "bg-white text-zinc-800" : "bg-zinc-800 text-white"} rounded-md`}
+        className={classNames("snap-start flex flex-col h-full aspect-tile p-4 bg-bone rounded-md border-l-8", color)}
         onClick={() => onClick(id)}>
-        <div className={"self-start"}>
-            <p className={"text-md text-left"}>{name}</p>
+        <div className={"self-start text-left"}>
+            <p className={"text-lg font-semibold"}>{name}</p>
+            <p className={"text-sm text-zinc-400 font-light"}>{price.toFixed(2)} zł</p>
         </div>
         <div className={"mt-auto text-left"}>
-            <p className={"text-sm"}>{price.toFixed(2)} zł</p>
+
         </div>
     </button>
 }
 
-export default TileCategory;
+export default TileProduct;

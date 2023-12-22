@@ -1,21 +1,22 @@
 import {FaGlassWater, FaPizzaSlice} from "react-icons/fa6";
 import {FaCoffee} from "react-icons/fa";
+import classNames from "classnames";
 
 type Prop = {
-    product_id?: number,
-    category: string,
-    num_items?: number,
+    id: string,
+    name: string,
     active: boolean,
     onClick: (id: string) => void,
+    color: string,
 }
 
-function TileCategory({category, num_items, active, onClick}: Prop) {
+function TileCategory({id, name, color, active, onClick}: Prop) {
 
     const Icon = () => {
-        switch (category?.toUpperCase()) {
+        switch (name?.toUpperCase()) {
             case "COFFEE":
                 return <FaCoffee className={"text-4xl"}/>;
-            case "DRINK":
+            case "NAPOJE":
                 return <FaGlassWater className={"text-3xl"}/>;
             case "PIZZA":
                 return <FaPizzaSlice className={"text-3xl"}/>;
@@ -25,14 +26,14 @@ function TileCategory({category, num_items, active, onClick}: Prop) {
     }
 
     return <button
-        className={`flex flex-col h-full aspect-square p-4 border-2 border-zinc-800 ${active ? "bg-white text-zinc-800" : "bg-zinc-800 text-white"} rounded-md`}
-        onClick={() => onClick(category)}>
+        className={classNames("flex flex-col aspect-tile p-4 text-zinc-800 rounded-md", color)}
+        onClick={() => onClick(id)}>
         <div className={"self-start"}>
             <Icon/>
         </div>
         <div className={"mt-auto text-left"}>
-            <p className={"text-md"}>{category.toUpperCase()}</p>
-            <p className={"text-sm"}>{num_items} items</p>
+            <p className={classNames("text-xl font-normal", {"font-bold": active})}>{name}</p>
+            {/*<p className={"text-sm"}>test</p>*/}
         </div>
     </button>
 }
