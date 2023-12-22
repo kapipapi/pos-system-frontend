@@ -5,6 +5,7 @@ import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
 import {ProductInOrder} from "../../../../models/product";
 import {BsReceiptCutoff} from "react-icons/bs";
+import {categoryBorderColor} from "../../../categories";
 
 const Item = ({product, openAction, onClick}: {
     product: ProductInOrder,
@@ -13,12 +14,19 @@ const Item = ({product, openAction, onClick}: {
 }) => {
     const {removeProductFromOrder} = useContext(OrderContext);
 
-    return <div className={"relative flex flex-row w-full h-10 group"}
+    return <div className={"relative flex flex-row w-full h-12 group"}
                 onMouseLeave={() => onClick(undefined)}>
         <div
             onClick={() => onClick(product.id)}
-            className={classNames("z-10 flex flex-row w-full px-2 rounded-md cursor-pointer bg-zinc-800 text-white items-center justify-center", openAction ? "mr-11" : "")}>
-            <p>{product.quantity} x {product.name}</p>
+            className={classNames(
+                "z-10 flex flex-row w-full px-2 rounded-md cursor-pointer bg-zinc-800 text-bone items-center justify-center border-l-8",
+                categoryBorderColor(product.category),
+                openAction ? "mr-14" : ""
+            )}>
+            <p className={"flex space-x-2 items-center"}>
+                <span className={"font-bold"}>{product.name}</span>
+                <span className={"text-zinc-400"}>x {product.quantity}</span>
+            </p>
             <p className={"ml-auto"}>{product.price.toFixed(2)} zł</p>
         </div>
         <button key={product.id}
@@ -56,7 +64,8 @@ const ProductList = () => {
 
     return <div className={"flex flex-col w-full space-y-2 overflow-y-scroll no-scrollbar"}>
         {order.products?.map((product) => {
-            return <Item key={product.id} product={product} openAction={activeItem === product.id} onClick={setActiveItem}/>
+            return <Item key={product.id} product={product} openAction={activeItem === product.id}
+                         onClick={setActiveItem}/>
         })}
     </div>
 }
