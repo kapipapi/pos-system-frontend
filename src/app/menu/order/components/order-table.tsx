@@ -30,7 +30,7 @@ const OrderTable = () => {
             </div>
             <div className={"flex flex-col"}>
                 <span className={"text-xs font-extralight"}>Kelner:</span>
-                <span className={"text-xl"}>{order?.creator}</span>
+                <span className={"text-xl"}>{order?.creator.name}</span>
             </div>
         </div>
     </div>

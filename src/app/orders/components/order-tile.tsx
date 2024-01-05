@@ -45,7 +45,7 @@ export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
             </tr>
             </thead>
             <tbody>
-            {order.products?.map((product) => <ProductRow product={product}/>)}
+            {order.products?.map((product) => <ProductRow key={product.id} product={product}/>)}
             </tbody>
         </table>
 

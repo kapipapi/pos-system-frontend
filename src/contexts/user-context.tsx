@@ -70,13 +70,11 @@ export const UserContextProvider = (): ReactElement => {
                 if(res.authorized){
                     setCurrentUser(user);
                     setSelectedUser(undefined);
-                    console.log("OK!")
                     return res.authorized;
                 }
                 return false;
             })
             .catch(() => {
-                console.log("error!")
                 return false;
             });
     }

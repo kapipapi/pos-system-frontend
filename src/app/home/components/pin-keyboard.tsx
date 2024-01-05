@@ -59,7 +59,6 @@ export default function PinKeyboard() {
         if (code.length === 4 && !isNil(selectedUser)) {
             setCode("");
             checkPinCode(code).then((isValid) => {
-                console.log(isValid)
                 if (!isValid) {
                     setError(true);
                 }
