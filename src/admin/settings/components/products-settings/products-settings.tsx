@@ -1,5 +1,5 @@
 import {FaTrashCan} from "react-icons/fa6";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {useEffect, useState} from "react";
 import {NewProduct, Product} from "../../../../models/product";
 import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
@@ -8,7 +8,7 @@ import {FaPlus} from "react-icons/fa";
 
 const ProductsSettings = () => {
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const [products, setProducts] = useState<Product[]>([]);
     const [modalState, setModalState] = useState(false);

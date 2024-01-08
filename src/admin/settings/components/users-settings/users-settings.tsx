@@ -1,33 +1,32 @@
 import {useEffect, useState} from "react";
-import {Category, NewCategory} from "../../../../models/category";
 import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
-import NewProductForm from "../products-settings/new-product-form";
-import NewCategoryForm from "./new-category-form";
+import {NewUser, User} from "../../../../models/user";
+import NewUserForm from "./new-user-form";
 
-const CategoriesSettings = () => {
+const UsersSettings = () => {
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const [modalState, setModalState] = useState(false);
 
-    const [categories, setCategories] = useState<Category[]>([]);
-    const fetchCategories = () => {
-        authFetchGet<Category[]>("settings_view/categories", token)
+    const [users, setUsers] = useState<User[]>([]);
+    const fetchUsers = () => {
+        authFetchGet<User[]>("settings_view/users", token)
             .then((res) => {
-                setCategories(res)
+                setUsers(res)
             })
             .catch(e => console.error(e));
     }
-    useEffect(fetchCategories, [setCategories, token])
+    useEffect(fetchUsers, [setUsers, token])
 
 
-    const onNewCategoryFormSubmit = (newCategory: NewCategory) => {
-        authFetchPost<Category[]>("settings_view/categories", token, newCategory)
+    const onNewUserFormSubmit = (newUser: NewUser) => {
+        authFetchPost<User[]>("settings_view/users", token, newUser)
             .then((res) => {
-                setCategories(res)
+                setUsers(res)
             })
             .catch(err => console.error(err))
     }
@@ -35,8 +34,8 @@ const CategoriesSettings = () => {
     return (
         <div className={"flex flex-col w-full p-2"}>
             <div className={"flex flex-row mb-2 items-center"}>
-                <NewCategoryForm modalState={modalState} closeModal={() => setModalState(false)}
-                                 onSubmit={onNewCategoryFormSubmit}/>
+                <NewUserForm modalState={modalState} closeModal={() => setModalState(false)}
+                                 onSubmit={onNewUserFormSubmit}/>
                 <div className={"space-x-2"}>
                     <button onClick={() => setModalState(true)}
                             className={"inline-flex items-center border rounded-md p-1"}>
@@ -47,18 +46,19 @@ const CategoriesSettings = () => {
             <table>
                 <thead>
                 <tr className={"text-center [&>*]:border"}>
-                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Color</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {categories.map((category) => {
+                {users.map((user) => {
                     return (
-                        <tr className={"text-center [&>*]:border h-10"} key={category.id}>
-                            <td>{category.name}</td>
+                        <tr className={"text-center [&>*]:border h-10"} key={user.id}>
+                            <td>{user.name}</td>
                             <td>
                                 <button
-                                    onClick={() => console.log(category.id)}
+                                    onClick={() => console.log(user.id)}
                                     className={"aspect-square border rounded-lg p-1"}
                                 >
                                     <FaTrashCan/>
@@ -73,4 +73,4 @@ const CategoriesSettings = () => {
     )
 }
 
-export default CategoriesSettings;
+export default UsersSettings;

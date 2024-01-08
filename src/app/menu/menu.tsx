@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import TileProduct from "./components/tile-product";
 import Order from "./order/order";
 import {OrderContext} from "../../contexts/order-context";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {Product} from "../../models/product";
 import {authFetchGet} from "../../hooks/authFetch";
 import {IoSearch} from "react-icons/io5";
@@ -11,7 +11,7 @@ import TileCategory from "./components/tile-category";
 
 function Menu() {
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const [products, setProducts] = useState<Product[]>([]);
 

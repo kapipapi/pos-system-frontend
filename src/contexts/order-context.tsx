@@ -14,7 +14,7 @@ import {Order} from "../models/order";
 import {Table} from "../models/table";
 import {isNil} from "lodash";
 import {authFetchGet, authFetchPost} from "../hooks/authFetch";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {useNavigate} from "react-router";
 
 export type OrderContextType = {
@@ -52,7 +52,7 @@ export const OrderContext = createContext<OrderContextType>(defaultOrderContext)
 
 export const OrderContextProvider = (): ReactElement => {
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const navigate = useNavigate();
 

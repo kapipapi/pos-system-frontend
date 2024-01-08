@@ -2,7 +2,7 @@ import {createContext, Dispatch, ReactElement, SetStateAction, useEffect, useSta
 import {Outlet} from "react-router-dom";
 import {User} from "../models/user";
 import {authFetchGet, authFetchPost} from "../hooks/authFetch";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {isNil} from "lodash";
 
 export type UserContextType = {
@@ -42,7 +42,7 @@ export const UserContextProvider = (): ReactElement => {
     const [currentUser, setCurrentUser] = useState<User | undefined>();
 
     useEffect(() => {
-        authFetchGet<User[]>("user_context/list_users", auth.user?.access_token)
+        authFetchGet<User[]>("user_context/list_users", auth.userData?.access_token)
             .then((res) => {
                 setUsersList(res);
                 setLoadingUsers(false);
@@ -62,7 +62,7 @@ export const UserContextProvider = (): ReactElement => {
             return false;
         }
 
-        return authFetchPost<CheckUserPinResult>("user_context/check_pin", auth.user?.access_token, {
+        return authFetchPost<CheckUserPinResult>("user_context/check_pin", auth.userData?.access_token, {
             user_id: selectedUser,
             code: code
         })

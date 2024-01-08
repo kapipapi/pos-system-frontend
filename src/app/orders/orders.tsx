@@ -2,7 +2,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {UserContext} from "../../contexts/user-context";
 import {Order} from "../../models/order";
 import {authFetchDelete, authFetchGet} from "../../hooks/authFetch";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {isNil} from "lodash";
 import {OrderTile} from "./components/order-tile";
 import {OrderContext} from "../../contexts/order-context";
@@ -11,7 +11,7 @@ import {useNavigate} from "react-router";
 
 function Orders() {
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Orders() {
     const {setTable} = useContext(OrderContext);
 
     const openOrderInMenu = (tableId: string) => {
-        authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.user?.access_token)
+        authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.userData?.access_token)
             .then((res) => setTable(res))
             .catch(e => console.error(e));
         navigate("/menu");

@@ -4,7 +4,7 @@ import {NewProduct, Product} from "../../../../models/product";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {authFetchGet} from "../../../../hooks/authFetch";
 import {Category} from "../../../../models/category";
 
@@ -17,7 +17,7 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm<NewProduct>();
 
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {

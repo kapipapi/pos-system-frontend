@@ -1,9 +1,9 @@
-import TablesFullGrid from "../../../tables/tables-grid";
-import {useAuth} from "react-oidc-context";
+import TablesFullGrid from "../../../../app/tables/tables-grid";
+import {useAuth} from "oidc-react";
 import React, {useEffect, useState} from "react";
 import {Table} from "../../../../models/table";
 import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
-import {TablesLevelButton} from "../../../tables/tables";
+import {TablesLevelButton} from "../../../../app/tables/tables";
 import {FaPlus} from "react-icons/fa";
 import classNames from "classnames";
 
@@ -15,14 +15,14 @@ const TablesSettings = () => {
     const [addTableActive, setAddTableActive] = useState<boolean>(false);
 
     const fetchTables = () => {
-        authFetchGet<Table[]>("settings_view/tables", auth.user?.access_token)
+        authFetchGet<Table[]>("settings_view/tables", auth.userData?.access_token)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }
     useEffect(fetchTables, [auth, setTables])
 
     const postTable = (newTable: Table) => {
-        authFetchPost<Table[]>("settings_view/tables", auth.user?.access_token, newTable)
+        authFetchPost<Table[]>("settings_view/tables", auth.userData?.access_token, newTable)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }

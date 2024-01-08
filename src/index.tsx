@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {AuthProvider} from "react-oidc-context";
+import {AuthProvider} from 'oidc-react';
+import {RouterProvider} from "react-router-dom";
+import {routes} from "./routes";
 
 const oidcConfig = {
     authority: "http://localhost:8888/realms/pos-system",
-    client_id: "pos-system-react",
-    redirect_uri: "http://localhost:3000",
+    clientId: "pos-system-react",
+    redirectUri: "http://localhost:3000/app",
+    autoSignIn: true,
 };
 
 const root = ReactDOM.createRoot(
@@ -18,7 +20,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <AuthProvider {...oidcConfig}>
-            <App/>
+            <RouterProvider router={routes}/>
         </AuthProvider>
     </React.StrictMode>
 );

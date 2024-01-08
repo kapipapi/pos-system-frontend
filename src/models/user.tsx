@@ -1,5 +1,11 @@
 export interface User {
     id: string,
     name: string,
-    created_at?: string,
+    color: string,
+}
+
+export interface NewUser {
+    name: string,
+    color: string,
+    pin: string,
 }

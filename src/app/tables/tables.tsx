@@ -2,7 +2,7 @@ import React, {FC, useContext, useEffect, useState} from "react";
 import {Table} from "../../models/table";
 import {OrderContext} from "../../contexts/order-context";
 import {authFetchGet} from "../../hooks/authFetch";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import TablesFullGrid from "./tables-grid";
 import {useNavigate} from "react-router";
 
@@ -28,7 +28,7 @@ function Tables() {
     const {setTable} = useContext(OrderContext);
 
     const fetchTables = () => {
-        authFetchGet<Table[]>("tables_view/get_all_tables", auth.user?.access_token)
+        authFetchGet<Table[]>("tables_view/get_all_tables", auth.userData?.access_token)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }

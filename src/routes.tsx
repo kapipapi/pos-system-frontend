@@ -1,58 +1,22 @@
-import {createBrowserRouter} from "react-router-dom";
-import RootLayout from "./app/layout";
-import Home from "./app/home/home";
-import Menu from "./app/menu/menu";
-import AuthGuard from "./app/auth";
-import {OrderContextProvider} from "./contexts/order-context";
-import Tables from "./app/tables/tables";
-import Settings from "./app/settings/settings";
-import {UserContextProvider} from "./contexts/user-context";
-import Orders from "./app/orders/orders";
+import {createBrowserRouter, redirect} from "react-router-dom";
+import Logout from "./logout";
+import {app_routes} from "./app/route";
+import {admin_routes} from "./admin/route";
 
 export let routes = createBrowserRouter([
     {
-        element: <UserContextProvider/>,
+        index: true,
         path: "/",
-        children: [
-            {
-                element: <RootLayout/>,
-                children: [
-                    {
-                        index: true,
-                        element: <Home/>,
-                    },
-                    {
-                        element: <AuthGuard/>,
-                        children: [
-                            {
-                                element: <OrderContextProvider/>,
-                                children: [
-                                    {
-                                        index: true,
-                                        path: "/menu",
-                                        element: <Menu/>,
-                                    },
-                                    {
-                                        index: true,
-                                        path: "/tables",
-                                        element: <Tables/>,
-                                    },
-                                    {
-                                        index: true,
-                                        path: "/orders",
-                                        element: <Orders/>,
-                                    },
-                                ]
-                            },
-                            {
-                                index: true,
-                                path: "/settings",
-                                element: <Settings/>,
-                            },
-                        ]
-                    },
-                ],
-            }
-        ]
+        loader: () => redirect("/app")
+    },
+    app_routes,
+    admin_routes,
+    {
+        element: <Logout/>,
+        path: "/logout",
+    },
+    {
+        path: "*",
+        loader: () => redirect("/app"),
     },
 ]);

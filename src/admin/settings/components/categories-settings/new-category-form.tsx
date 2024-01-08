@@ -1,10 +1,9 @@
 import {FC, useEffect, useState} from "react";
 import ReactModal from "react-modal";
-import {NewProduct, Product} from "../../../../models/product";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import {useAuth} from "react-oidc-context";
+import {useAuth} from "oidc-react";
 import {authFetchGet} from "../../../../hooks/authFetch";
 import {Category, NewCategory} from "../../../../models/category";
 
@@ -13,15 +12,15 @@ type Props = {
     closeModal: () => void;
     onSubmit: (newCategory: NewCategory) => void;
 };
-const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
+const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm<NewCategory>();
 
     const auth = useAuth();
-    let token = auth.user?.access_token;
+    let token = auth.userData?.access_token;
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {
-        authFetchGet<Product[]>("settings_view/categories", token)
+        authFetchGet<Category[]>("settings_view/categories", token)
             .then((res) => {
                 setCategories(res)
             })
@@ -51,7 +50,7 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
             }}
         >
             <div className={"mx-auto w-2/3"}>
-                <h1 className={"font-bold text-2xl text-center"}>Create new product</h1>
+                <h1 className={"font-bold text-2xl text-center"}>Create new category</h1>
                 <form
                     onSubmit={handleSubmit((data) => {
                         onSubmit(data);
@@ -63,7 +62,8 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                     <div>
                         <label className={classNames(styles.label)}>Name</label>
                         <br/>
-                        <input {...register("name", {required: "Name is required"})} className={classNames(styles.input)}/>
+                        <input {...register("name", {required: "Name is required"})}
+                               className={classNames(styles.input)}/>
                         <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
                     </div>
 
@@ -75,8 +75,9 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                             <IoClose className={"text-xl"}/>
                             Close Modal
                         </button>
-                        <button type="submit" className={"inline-flex items-center rounded-md p-2 text-white bg-emerald-900"}>
-                            Create New Product
+                        <button type="submit"
+                                className={"inline-flex items-center rounded-md p-2 text-white bg-emerald-900"}>
+                            Create New Category
                         </button>
                     </div>
                 </form>
@@ -84,7 +85,6 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
             </div>
         </ReactModal>
     )
-        ;
 }
 
-export default NewProductForm;
+export default NewCategoryForm;
