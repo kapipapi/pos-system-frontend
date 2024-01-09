@@ -17,6 +17,9 @@ const SideMenu = () => {
             <NavLink to={`/admin/tables`} className={linkFont}>
                 <li>Tables</li>
             </NavLink>
+            <NavLink to={"/app"} className={"font-extralight"}>
+                <li className={"mt-4"}>back to App</li>
+            </NavLink>
         </ul>
     </div>
 }

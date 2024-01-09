@@ -15,14 +15,14 @@ const TablesSettings = () => {
     const [addTableActive, setAddTableActive] = useState<boolean>(false);
 
     const fetchTables = () => {
-        authFetchGet<Table[]>("settings_view/tables", auth.userData?.access_token)
+        authFetchGet<Table[]>("admin/tables", auth.userData?.access_token)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }
     useEffect(fetchTables, [auth, setTables])
 
     const postTable = (newTable: Table) => {
-        authFetchPost<Table[]>("settings_view/tables", auth.userData?.access_token, newTable)
+        authFetchPost<Table[]>("admin/tables", auth.userData?.access_token, newTable)
             .then((res) => setTables(res))
             .catch(e => console.error(e));
     }

@@ -26,17 +26,14 @@ export let app_routes: RouteObject = {
                             element: <OrderContextProvider/>,
                             children: [
                                 {
-                                    index: true,
                                     path: "/app/menu",
                                     element: <Menu/>,
                                 },
                                 {
-                                    index: true,
                                     path: "/app/tables",
                                     element: <Tables/>,
                                 },
                                 {
-                                    index: true,
                                     path: "/app/orders",
                                     element: <Orders/>,
                                 },

@@ -20,7 +20,7 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {
-        authFetchGet<Category[]>("settings_view/categories", token)
+        authFetchGet<Category[]>("admin/categories", token)
             .then((res) => {
                 setCategories(res)
             })

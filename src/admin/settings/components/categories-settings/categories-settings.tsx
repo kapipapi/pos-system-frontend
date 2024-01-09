@@ -14,7 +14,7 @@ const CategoriesSettings = () => {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {
-        authFetchGet<Category[]>("settings_view/categories", token)
+        authFetchGet<Category[]>("admin/categories", token)
             .then((res) => {
                 setCategories(res)
             })
@@ -24,7 +24,7 @@ const CategoriesSettings = () => {
 
 
     const onNewCategoryFormSubmit = (newCategory: NewCategory) => {
-        authFetchPost<Category[]>("settings_view/categories", token, newCategory)
+        authFetchPost<Category[]>("admin/categories", token, newCategory)
             .then((res) => {
                 setCategories(res)
             })

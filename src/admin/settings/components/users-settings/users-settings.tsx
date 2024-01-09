@@ -14,7 +14,7 @@ const UsersSettings = () => {
 
     const [users, setUsers] = useState<User[]>([]);
     const fetchUsers = () => {
-        authFetchGet<User[]>("settings_view/users", token)
+        authFetchGet<User[]>("admin/users", token)
             .then((res) => {
                 setUsers(res)
             })
@@ -24,7 +24,7 @@ const UsersSettings = () => {
 
 
     const onNewUserFormSubmit = (newUser: NewUser) => {
-        authFetchPost<User[]>("settings_view/users", token, newUser)
+        authFetchPost<User[]>("admin/users", token, newUser)
             .then((res) => {
                 setUsers(res)
             })
@@ -56,6 +56,7 @@ const UsersSettings = () => {
                     return (
                         <tr className={"text-center [&>*]:border h-10"} key={user.id}>
                             <td>{user.name}</td>
+                            <td>{user.color}</td>
                             <td>
                                 <button
                                     onClick={() => console.log(user.id)}

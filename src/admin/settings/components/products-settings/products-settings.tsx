@@ -14,7 +14,7 @@ const ProductsSettings = () => {
     const [modalState, setModalState] = useState(false);
 
     const fetchProducts = () => {
-        authFetchGet<Product[]>("settings_view/products", token)
+        authFetchGet<Product[]>("admin/products", token)
             .then((res) => {
                 setProducts(res)
             })
@@ -23,7 +23,7 @@ const ProductsSettings = () => {
     useEffect(fetchProducts, [setProducts, token])
 
     const onNewProductFormSubmit = (newProduct: NewProduct) => {
-        authFetchPost<Product>("settings_view/products", token, newProduct)
+        authFetchPost<Product>("admin/products", token, newProduct)
             .then((res) => {
                 fetchProducts()
             })
@@ -31,7 +31,7 @@ const ProductsSettings = () => {
     }
 
     const removeRow = (id: string) => {
-        authFetchDelete(`settings_view/products/${id}`, token)
+        authFetchDelete(`admin/products/${id}`, token)
             .then((res) => {
                 console.log(res)
                 fetchProducts()

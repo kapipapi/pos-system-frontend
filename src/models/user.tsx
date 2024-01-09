@@ -7,5 +7,5 @@ export interface User {
 export interface NewUser {
     name: string,
     color: string,
-    pin: string,
+    code: string,
 }

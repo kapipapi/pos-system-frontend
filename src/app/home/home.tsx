@@ -3,12 +3,13 @@ import PinKeyboard from "./components/pin-keyboard";
 import {useContext} from "react";
 import {UserContext} from "../../contexts/user-context";
 import {Navigate} from "react-router-dom";
+import {isNil} from "lodash";
 
 function Home() {
     const {currentUser} = useContext(UserContext);
 
-    if (currentUser) {
-        return <Navigate to="/menu"/>
+    if (!isNil(currentUser)) {
+        return <Navigate to="/app/menu"/>
     }
 
     return (

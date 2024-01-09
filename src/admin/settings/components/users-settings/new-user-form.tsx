@@ -1,11 +1,9 @@
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 import ReactModal from "react-modal";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import {useAuth} from "oidc-react";
-import {authFetchGet} from "../../../../hooks/authFetch";
-import {NewUser, User} from "../../../../models/user";
+import {NewUser} from "../../../../models/user";
 
 type Props = {
     modalState: boolean;
@@ -14,19 +12,6 @@ type Props = {
 };
 const NewUserForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm<NewUser>();
-
-    const auth = useAuth();
-    let token = auth.userData?.access_token;
-
-    const [users, setUsers] = useState<User[]>([]);
-    const fetchUsers = () => {
-        authFetchGet<User[]>("settings_view/users", token)
-            .then((res) => {
-                setUsers(res)
-            })
-            .catch(e => console.error(e));
-    }
-    useEffect(fetchUsers, [setUsers, token])
 
     const styles = {
         label: "text-sm font-light",
@@ -70,17 +55,19 @@ const NewUserForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                     <div>
                         <label className={classNames(styles.label)}>Color</label>
                         <br/>
-                        <input pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" {...register("color", {required: "Color is required"})}
-                               className={classNames(styles.input)}/>
+                        <input
+                            pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" {...register("color", {required: "Color is required"})}
+                            className={classNames(styles.input)}/>
                         <p className={"text-sm text-red-600"}>{errors.color?.message}</p>
                     </div>
 
                     <div>
                         <label className={classNames(styles.label)}>PIN</label>
                         <br/>
-                        <input pattern="^[0-9][0-9][0-9][0-9]$" maxLength={4} {...register("pin", {required: "PIN is required (numbers only)"})}
+                        <input pattern="^[0-9][0-9][0-9][0-9]$"
+                               maxLength={4} {...register("code", {required: "PIN is required (numbers only)"})}
                                className={classNames(styles.input)}/>
-                        <p className={"text-sm text-red-600"}>{errors.pin?.message}</p>
+                        <p className={"text-sm text-red-600"}>{errors.code?.message}</p>
                     </div>
 
                     <div className={"flex justify-between w-full col-span-2 mt-5"}>

@@ -29,11 +29,8 @@ export default function SideMenu() {
                     <NavLink to={"/app/tables"} className={linkFont}>
                         <li>Tables</li>
                     </NavLink>
-                    <NavLink to={"/app"} className={linkFont}>
+                    <NavLink to={"/app/reservations"} className={linkFont}>
                         <li>Reservation</li>
-                    </NavLink>
-                    <NavLink to={"/admin"} className={linkFont}>
-                        <li>Settings</li>
                     </NavLink>
                 </>
             }
