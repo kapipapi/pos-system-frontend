@@ -5,6 +5,7 @@ import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
 import NewCategoryForm from "./new-category-form";
+import {DynamicIcon} from "./dynamic-icon";
 
 const CategoriesSettings = () => {
     const auth = useAuth();
@@ -47,6 +48,7 @@ const CategoriesSettings = () => {
                 <thead>
                 <tr className={"text-center [&>*]:border"}>
                     <th>Category</th>
+                    <th>Icon</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -55,6 +57,7 @@ const CategoriesSettings = () => {
                     return (
                         <tr className={"text-center [&>*]:border h-10"} key={category.id}>
                             <td>{category.name}</td>
+                            <td><DynamicIcon name={category.icon} className={"text-2xl m-auto"}/></td>
                             <td>
                                 <button
                                     onClick={() => console.log(category.id)}

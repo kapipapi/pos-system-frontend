@@ -54,7 +54,7 @@ const ProductsSettings = () => {
             <table>
                 <tbody>
                 <tr className={"text-center [&>*]:border"}>
-                    <th>ID</th>
+                    <th className={"w-40"}>ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Tax</th>
@@ -66,10 +66,10 @@ const ProductsSettings = () => {
                     {
                         products.map((product) => {
                             return <tr className={"text-center [&>*]:border h-14"} key={product.id}>
-                                <td>{product.id}</td>
+                                <td className={"text-xs"}>{product.id}</td>
                                 <td>{product.name}</td>
-                                <td>{product.price.toFixed(2)}</td>
-                                <td>{product.tax}</td>
+                                <td>{product.price.toFixed(2)} zł</td>
+                                <td>{product.tax}%</td>
                                 <td>{product.category}</td>
                                 <td>{product.description}</td>
                                 <td>

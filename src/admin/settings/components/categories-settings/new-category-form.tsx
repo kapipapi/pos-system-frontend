@@ -1,11 +1,13 @@
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 import ReactModal from "react-modal";
-import {useForm} from "react-hook-form";
+import {useForm, Controller} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import {useAuth} from "oidc-react";
-import {authFetchGet} from "../../../../hooks/authFetch";
-import {Category, NewCategory} from "../../../../models/category";
+import Select from 'react-select'
+import {NewCategory} from "../../../../models/category";
+import * as FaIcons from "react-icons/fa";
+import {isNil} from "lodash";
+import {DynamicIcon} from "./dynamic-icon";
 
 type Props = {
     modalState: boolean;
@@ -13,25 +15,16 @@ type Props = {
     onSubmit: (newCategory: NewCategory) => void;
 };
 const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<NewCategory>();
-
-    const auth = useAuth();
-    let token = auth.userData?.access_token;
-
-    const [categories, setCategories] = useState<Category[]>([]);
-    const fetchCategories = () => {
-        authFetchGet<Category[]>("admin/categories", token)
-            .then((res) => {
-                setCategories(res)
-            })
-            .catch(e => console.error(e));
-    }
-    useEffect(fetchCategories, [setCategories, token])
+    const {control, register, handleSubmit, reset, formState: {errors}} = useForm<NewCategory>();
 
     const styles = {
         label: "text-sm font-light",
         input: "w-full p-2 text-lg border bg-bone rounded-md",
     }
+
+    const options = Object.keys(FaIcons).map((key) => {
+        return {value: key, label: key}
+    })
 
     return (
         <ReactModal
@@ -64,6 +57,31 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                         <br/>
                         <input {...register("name", {required: "Name is required"})}
                                className={classNames(styles.input)}/>
+                        <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
+                    </div>
+
+                    <div>
+                        <label className={classNames(styles.label)}>Icon</label>
+                        <br/>
+                        <Controller
+                            control={control}
+                            defaultValue={"FaBeer"}
+                            name="icon"
+                            render={({field}) => (
+                                <div className={"relative"}>
+                                    <Select
+                                        ref={field.ref}
+                                        value={options.find(c => c.value === field.value)}
+                                        onChange={val => field.onChange(val?.value ?? "FaBeer")}
+                                        options={options}
+                                        classNames={{
+                                            control: () => "p-1",
+                                            menuList: () => "overflow-x-hidden",
+                                        }}
+                                    />
+                                    <DynamicIcon name={field.value} className={"text-2xl text-black absolute top-1/4 -right-8"}/>
+                                </div>)}
+                        />
                         <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
                     </div>
 
