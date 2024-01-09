@@ -55,6 +55,7 @@ function Menu() {
                                 key={category.id}
                                 id={category.id}
                                 name={category.name}
+                                icon={category.icon}
                                 active={category.id === selectedCategory}
                                 onClick={setSelectedCategory}
                             />

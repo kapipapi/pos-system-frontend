@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import {useForm, Controller} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import Select from 'react-select'
+import Select, {StylesConfig} from 'react-select'
 import {NewCategory} from "../../../../models/category";
 import * as FaIcons from "react-icons/fa";
 import {isNil} from "lodash";
@@ -22,9 +22,19 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
         input: "w-full p-2 text-lg border bg-bone rounded-md",
     }
 
-    const options = Object.keys(FaIcons).map((key) => {
+    const iconOptions = Object.keys(FaIcons).map((key) => {
         return {value: key, label: key}
     })
+
+    const colorOptions = [
+        {value: "#c7dae7", label: "blu"},
+        {value: "#d1dcdb", label: "pale"},
+        {value: "#e0ceeb", label: "tinky"},
+        {value: "#c9caec", label: "fleet"},
+        {value: "#f1c3d8", label: "pinky"},
+        {value: "#e3dade", label: "sugar-pink"},
+        {value: "#cae8dd", label: "sick"},
+    ]
 
     return (
         <ReactModal
@@ -71,15 +81,44 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                                 <div className={"relative"}>
                                     <Select
                                         ref={field.ref}
-                                        value={options.find(c => c.value === field.value)}
+                                        value={iconOptions.find(c => c.value === field.value)}
                                         onChange={val => field.onChange(val?.value ?? "FaBeer")}
-                                        options={options}
+                                        options={iconOptions}
                                         classNames={{
                                             control: () => "p-1",
                                             menuList: () => "overflow-x-hidden",
                                         }}
                                     />
-                                    <DynamicIcon name={field.value} className={"text-2xl text-black absolute top-1/4 -right-8"}/>
+                                    <DynamicIcon name={field.value}
+                                                 className={"text-2xl text-black absolute top-1/4 -right-8"}/>
+                                </div>)}
+                        />
+                        <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
+                    </div>
+
+                    <div>
+                        <label className={classNames(styles.label)}>Icon</label>
+                        <br/>
+                        <Controller
+                            control={control}
+                            defaultValue={"blu"}
+                            name="color"
+                            render={({field}) => (
+                                <div className={"relative"}>
+                                    <Select
+                                        ref={field.ref}
+                                        value={iconOptions.find(c => c.value === field.value)}
+                                        onChange={val => field.onChange(val?.value ?? "blu")}
+                                        options={colorOptions}
+                                        classNames={{
+                                            control: () => "p-1",
+                                            menuList: () => "overflow-x-hidden",
+                                        }}
+                                    />
+                                    <div className={"absolute top-1.5 w-9 -right-12 aspect-square"}
+                                         style={{backgroundColor: field.value}}>
+                                        {" "}
+                                    </div>
                                 </div>)}
                         />
                         <p className={"text-sm text-red-600"}>{errors.name?.message}</p>

@@ -49,6 +49,7 @@ const CategoriesSettings = () => {
                 <tr className={"text-center [&>*]:border"}>
                     <th>Category</th>
                     <th>Icon</th>
+                    <th>Color</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -58,6 +59,7 @@ const CategoriesSettings = () => {
                         <tr className={"text-center [&>*]:border h-10"} key={category.id}>
                             <td>{category.name}</td>
                             <td><DynamicIcon name={category.icon} className={"text-2xl m-auto"}/></td>
+                            <td style={{backgroundColor: category.color}}>{" "}</td>
                             <td>
                                 <button
                                     onClick={() => console.log(category.id)}
