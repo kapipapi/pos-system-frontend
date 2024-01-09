@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {categoryBgColor, CategoryIcon} from "../../categories-styles";
+import {categoryBgColor} from "../../categories-styles";
 import {DynamicIcon} from "../../../admin/settings/components/categories-settings/dynamic-icon";
 
 type Prop = {

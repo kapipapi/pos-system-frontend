@@ -1,3 +1,5 @@
+import {Category} from "./category";
+
 export interface ProductInOrder {
     id: string,
     name: string,
@@ -20,7 +22,7 @@ export interface Product {
     name: string,
     price: number,
     tax: number,
-    category: string,
+    category: Category,
     description: String,
     image?: Blob,
 }
