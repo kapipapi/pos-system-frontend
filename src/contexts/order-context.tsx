@@ -94,7 +94,7 @@ export const OrderContextProvider = (): ReactElement => {
     }
 
     const addProductToOrder = (product_id: string) => {
-        if (!tableIsSet) navigate("/tables");
+        if (!tableIsSet) navigate("/app/tables");
 
         if (tableIsSet && orderIsSet && userIsSet) {
             authFetchPost<Order>(`order_context/order/${order.id}/add_product`, token, {
@@ -111,7 +111,7 @@ export const OrderContextProvider = (): ReactElement => {
                 product_id: product_id
             })
                 .then((order) => setOrder(order))
-                .catch((err) => console.log("cannot remove product", err))
+                .catch((err) => console.error("cannot remove product", err))
         }
     }
 

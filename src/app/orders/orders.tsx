@@ -24,7 +24,7 @@ function Orders() {
         authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.userData?.access_token)
             .then((res) => setTable(res))
             .catch(e => console.error(e));
-        navigate("/menu");
+        navigate("/app/menu");
     }
 
     const getAllOrders = useCallback(() => {

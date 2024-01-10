@@ -8,8 +8,6 @@ import {authFetchGet} from "../../hooks/authFetch";
 import {IoSearch} from "react-icons/io5";
 import {Category} from "../../models/category";
 import TileCategory from "./components/tile-category";
-import {isNil} from "lodash";
-import {inspect} from "node:util";
 
 function Menu() {
     const auth = useAuth();

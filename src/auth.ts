@@ -15,7 +15,6 @@ export const checkRole = (user: User | null | undefined) => {
     }
 
     let roles = userClaims.roles as string[];
-    console.log(roles);
 
     return roles.includes("pos-admin");
 }

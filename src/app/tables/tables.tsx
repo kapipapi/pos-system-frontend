@@ -36,7 +36,7 @@ function Tables() {
 
     const onTableClick = (table: Table) => {
         setTable(table);
-        navigate("/menu");
+        navigate("/app/menu");
     }
 
     return <div className={"flex flex-col w-full max-h-screen"}>
