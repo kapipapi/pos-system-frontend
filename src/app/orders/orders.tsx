@@ -8,6 +8,8 @@ import {OrderTile} from "./components/order-tile";
 import {OrderContext} from "../../contexts/order-context";
 import {Table} from "../../models/table";
 import {useNavigate} from "react-router";
+import EmployeeSelector from "./components/employee-selector";
+import {User} from "../../models/user";
 
 function Orders() {
     const auth = useAuth();
@@ -15,10 +17,12 @@ function Orders() {
 
     const navigate = useNavigate();
 
-    const {currentUser} = useContext(UserContext);
+    const {usersList, currentUser} = useContext(UserContext);
     const [orders, setOrders] = useState<Order[] | null>(null);
 
     const {setTable} = useContext(OrderContext);
+
+    const [selectedUser, setSelectedUser] = useState<User | undefined>(currentUser);
 
     const openOrderInMenu = (tableId: string) => {
         authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.userData?.access_token)
@@ -28,12 +32,16 @@ function Orders() {
     }
 
     const getAllOrders = useCallback(() => {
-        if (!isNil(currentUser)) {
-            authFetchGet<Order[]>(`orders_view/get_user_orders/${currentUser.id}`, token)
+        if (!isNil(selectedUser)) {
+            authFetchGet<Order[]>(`orders_view/get_user_orders/${selectedUser.id}`, token)
+                .then((result) => setOrders(result))
+                .catch(() => setOrders(null))
+        } else {
+            authFetchGet<Order[]>(`orders_view/get_all_orders`, token)
                 .then((result) => setOrders(result))
                 .catch(() => setOrders(null))
         }
-    }, [currentUser, token, setOrders])
+    }, [selectedUser, token, setOrders])
 
     useEffect(() => {
         getAllOrders();
@@ -49,11 +57,13 @@ function Orders() {
 
     return <div
         className={"flex flex-col w-full h-full max-h-screen space-y-5 overflow-y-scroll overflow-x-hidden no-scrollbar pr-2"}>
-        <div className={"mt-4"}>
-            <h1 className={"text-2xl"}>Orders</h1>
+        <div className={"flex flex-row mt-4"}>
+            <h1 className={"text-2xl mr-auto"}>Orders</h1>
+            <EmployeeSelector users={usersList} selectedUser={selectedUser} onSelectUser={setSelectedUser}/>
         </div>
         <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-4 items-start"}>
-            {orders?.map((order) => <OrderTile key={order.id} order={order} onRemove={removeOrder} selectOrder={openOrderInMenu}/>)}
+            {orders?.map((order) => <OrderTile key={order.id} order={order} onRemove={removeOrder}
+                                               selectOrder={openOrderInMenu}/>)}
         </div>
     </div>
 }
