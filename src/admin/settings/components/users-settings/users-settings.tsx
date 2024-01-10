@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
+import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
@@ -27,6 +27,15 @@ const UsersSettings = () => {
         authFetchPost<User[]>("admin/users", token, newUser)
             .then((res) => {
                 setUsers(res)
+            })
+            .catch(err => console.error(err))
+    }
+
+    const removeRow = (id: string) => {
+        authFetchDelete(`admin/users/${id}`, token)
+            .then((res) => {
+                console.log(res)
+                fetchUsers()
             })
             .catch(err => console.error(err))
     }
@@ -59,7 +68,7 @@ const UsersSettings = () => {
                             <td>{user.color}</td>
                             <td>
                                 <button
-                                    onClick={() => console.log(user.id)}
+                                    onClick={() => removeRow(user.id)}
                                     className={"aspect-square border rounded-lg p-1"}
                                 >
                                     <FaTrashCan/>
