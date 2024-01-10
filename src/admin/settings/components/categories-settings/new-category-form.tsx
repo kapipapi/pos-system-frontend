@@ -3,10 +3,9 @@ import ReactModal from "react-modal";
 import {useForm, Controller} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import Select, {StylesConfig} from 'react-select'
+import Select from 'react-select'
 import {NewCategory} from "../../../../models/category";
 import * as FaIcons from "react-icons/fa";
-import {isNil} from "lodash";
 import {DynamicIcon} from "./dynamic-icon";
 
 type Props = {

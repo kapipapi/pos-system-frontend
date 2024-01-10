@@ -5,7 +5,6 @@ import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
 import {ProductInOrder} from "../../../../models/product";
 import {BsReceiptCutoff} from "react-icons/bs";
-import {categoryBorderColor} from "../../../categories-styles";
 
 const Item = ({product, openAction, onClick}: {
     product: ProductInOrder,
@@ -20,9 +19,9 @@ const Item = ({product, openAction, onClick}: {
             onClick={() => onClick(product.id)}
             className={classNames(
                 "z-10 flex flex-row w-full px-2 rounded-md cursor-pointer bg-zinc-800 text-bone items-center justify-center border-l-8",
-                categoryBorderColor(product.category),
                 openAction ? "mr-14" : ""
-            )}>
+            )}
+            style={{borderColor: product.category.color}}>
             <p className={"flex space-x-2 items-center"}>
                 <span className={"font-bold"}>{product.name}</span>
                 <span className={"text-zinc-400"}>x {product.quantity}</span>

@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import ReactModal from "react-modal";
-import {NewProduct, Product} from "../../../../models/product";
+import {NewProduct} from "../../../../models/product";
 import {useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";

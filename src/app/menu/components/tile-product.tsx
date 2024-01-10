@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import {categoryBorderColor} from "../../categories-styles";
 import {Product} from "../../../models/product";
 
 type Prop = {
@@ -9,7 +8,8 @@ type Prop = {
 
 function TileProduct({product, onClick}: Prop) {
     return <button
-        className={classNames("snap-start flex flex-col h-full aspect-tile p-4 bg-bone rounded-md border-l-8", categoryBorderColor(product.category))}
+        className={classNames("snap-start flex flex-col h-full aspect-tile p-4 bg-bone rounded-md border-l-8")}
+        style={{borderColor: product.category.color}}
         onClick={() => onClick(product.id)}>
         <div className={"self-start text-left"}>
             <p className={"text-lg font-semibold"}>{product.name}</p>

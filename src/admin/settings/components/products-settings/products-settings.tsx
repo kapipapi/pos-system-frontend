@@ -70,7 +70,7 @@ const ProductsSettings = () => {
                                 <td>{product.name}</td>
                                 <td>{product.price.toFixed(2)} zł</td>
                                 <td>{product.tax}%</td>
-                                <td>{product.category}</td>
+                                <td>{product.category.name}</td>
                                 <td>{product.description}</td>
                                 <td>
                                     <button

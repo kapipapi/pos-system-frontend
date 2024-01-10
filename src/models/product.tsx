@@ -5,7 +5,7 @@ export interface ProductInOrder {
     name: string,
     price: number,
     tax: number,
-    category: string,
+    category: Category,
     quantity: number,
 }
 

@@ -1,7 +1,6 @@
 import {redirect, RouteObject} from "react-router-dom";
 import AdminPanel from "./admin-panel";
 import AdminLayout from "./layout";
-import Users from "./users";
 import CategoriesSettings from "./settings/components/categories-settings/categories-settings";
 import ProductsSettings from "./settings/components/products-settings/products-settings";
 import TablesSettings from "./settings/components/tables-settings/tables-settings";
