@@ -1,4 +1,3 @@
-import {Order} from "./order";
 
 export interface Table {
     id: string,
@@ -9,4 +8,9 @@ export interface Table {
     size_w: number,
     size_h: number,
     has_order: boolean,
+}
+
+export interface TableInOrder {
+    id: string,
+    name: string,
 }
