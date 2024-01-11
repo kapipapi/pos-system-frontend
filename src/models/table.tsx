@@ -1,3 +1,4 @@
+import {Order} from "./order";
 
 export interface Table {
     id: string,
@@ -7,7 +8,7 @@ export interface Table {
     position_y: number,
     size_w: number,
     size_h: number,
-    has_order: boolean,
+    orders: Order[],
 }
 
 export interface TableInOrder {
