@@ -29,6 +29,7 @@ export type OrderContextType = {
     setOrder: Dispatch<SetStateAction<Order | null>>,
     addProductToOrder: (product_id: string) => void,
     removeProductFromOrder: (product_id: string) => void,
+    fetchFullOrder: () => void,
 }
 
 const defaultOrderContext: OrderContextType = {
@@ -47,6 +48,8 @@ const defaultOrderContext: OrderContextType = {
     addProductToOrder: () => {
     },
     removeProductFromOrder: () => {
+    },
+    fetchFullOrder: () => {
     }
 }
 
@@ -75,6 +78,9 @@ export const OrderContextProvider = (): ReactElement => {
                     setOrders(result)
                     if (result.length === 1) {
                         setOrder(result[0])
+                    }
+                    if (result.length === 0) {
+                        setOrder(null)
                     }
                 })
                 .catch(() => {
@@ -117,6 +123,12 @@ export const OrderContextProvider = (): ReactElement => {
         }
     }
 
+    useEffect(() => {
+        if (isNil(order)) {
+            setOrders([])
+        }
+    }, [order, setOrders])
+
     return <OrderContext.Provider value={{
         // table API
         table,
@@ -128,7 +140,8 @@ export const OrderContextProvider = (): ReactElement => {
         orders,
         setOrder,
         addProductToOrder,
-        removeProductFromOrder
+        removeProductFromOrder,
+        fetchFullOrder
     }}>
         <Outlet/>
     </OrderContext.Provider>

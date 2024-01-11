@@ -37,20 +37,11 @@ const Item = ({product, openAction, onClick}: {
 }
 
 const ProductList = () => {
-    const {table, order, createOrder} = useContext(OrderContext);
+    const {table, order} = useContext(OrderContext);
     const [activeItem, setActiveItem] = useState<string>();
 
-    if (isNil(table)) {
+    if (isNil(table) || isNil(order)) {
         return null;
-    }
-
-    if (isNil(order)) {
-        return <div
-            className={"flex flex-col mb-2 w-full h-full justify-center items-center border rounded-md cursor-pointer"}
-            onClick={() => createOrder()}>
-            <BsReceiptCutoff className={"text-4xl mb-1 mx-auto text-black"}/>
-            <p className={"text-xl"}>CREATE ORDER</p>
-        </div>
     }
 
     if (order.products?.length < 1) {
