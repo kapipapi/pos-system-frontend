@@ -2,25 +2,16 @@ import PaymentMethods from "./payment-methods";
 import {useContext} from "react";
 import {OrderContext} from "../../../../contexts/order-context";
 import {isNil} from "lodash";
+import {sumupOrder} from "../../../../models/product";
 
 const OrderSummary = () => {
     const {table, order} = useContext(OrderContext);
-
-    const sumupOrder = () => {
-        if (isNil(table) || isNil(order)) {
-            return 0;
-        }
-
-        return order.products.reduce((sum, orderItem) => {
-            return sum + (orderItem.price * orderItem.quantity);
-        }, 0);
-    }
 
     return <div className={"flex flex-col p-4 rounded-md bg-zinc-800 text-white"}>
         <div className={"flex flex-row"}>
             <p className={"text-xl"}>Total:</p>
             {(!isNil(table) && !isNil(order)) &&
-                <p className={"ml-auto text-xl font-bold"}>{sumupOrder().toFixed(2)} zł</p>
+                <p className={"ml-auto text-xl font-bold"}>{sumupOrder(order.products).toFixed(2)} zł</p>
             }
         </div>
         <div className={"border-b-2 border-dashed my-3 border-zinc-400"}></div>

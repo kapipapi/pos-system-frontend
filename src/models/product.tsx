@@ -9,6 +9,13 @@ export interface ProductInOrder {
     quantity: number,
 }
 
+export function sumupOrder(products: ProductInOrder[]): number {
+    return products.reduce((sum, orderItem) => {
+        return sum + (orderItem.price * orderItem.quantity);
+    }, 0);
+}
+
+
 export interface NewProduct {
     name: string,
     price: number,

@@ -54,7 +54,7 @@ const GridCell: FC<GridCellProps> = ({
             "aspect-square": table.size_w === table.size_h,
             "cursor-pointer": !isSettingsTable ?? false,
         })}>
-        <div className={"flex flex-row ml-2 mt-2"}>
+        <div className={"flex flex-row flex-wrap gap-1 m-1"}>
             {table.orders.map((order) => {
                 return <div
                     className={"w-5 bg-bone rounded-full aspect-square text-sm text-zinc-800 text-center items-center"}>

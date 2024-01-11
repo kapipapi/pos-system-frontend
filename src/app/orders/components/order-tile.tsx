@@ -1,4 +1,4 @@
-import {ProductInOrder} from "../../../models/product";
+import {ProductInOrder, sumupOrder} from "../../../models/product";
 import {Order} from "../../../models/order";
 import {isNil} from "lodash";
 import {IoTrashOutline} from "react-icons/io5";
@@ -20,15 +20,6 @@ type Props = {
 }
 
 export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
-    const sumupOrder = () => {
-        if (isNil(order)) {
-            return 0;
-        }
-
-        return order.products.reduce((sum, orderItem) => {
-            return sum + (orderItem.price * orderItem.quantity);
-        }, 0);
-    }
 
     return <div className={"bg-nice-gray text-bone px-3 py-4 pt-2 rounded-md"}>
         <div className={"flex flex-row text-xl font-light"}>
@@ -55,7 +46,7 @@ export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
 
         <div className={"flex items-center mb-3"}>
             <span className={"text-sm font-light"}>Total</span>
-            <span className={"text-xl ml-auto"}>{sumupOrder().toFixed(2)} zł</span>
+            <span className={"text-xl ml-auto"}>{sumupOrder(order.products).toFixed(2)} zł</span>
         </div>
 
         <div className={"flex flex-row h-14 space-x-2 text-zinc-300"}>

@@ -25,7 +25,7 @@ function Tables() {
     const [tables, setTables] = useState<Table[]>([]);
     const [level, setLevel] = useState<number>(0);
 
-    const {setTable} = useContext(OrderContext);
+    const {setTable, setOrder} = useContext(OrderContext);
 
     const fetchTables = () => {
         authFetchGet<Table[]>("tables_view/get_all_tables", auth.userData?.access_token)
@@ -36,6 +36,7 @@ function Tables() {
 
     const onTableClick = (table: Table) => {
         setTable(table);
+        setOrder(null);
         navigate("/app/menu");
     }
 

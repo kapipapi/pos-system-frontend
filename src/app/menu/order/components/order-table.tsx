@@ -18,12 +18,22 @@ const OrderTable = () => {
         </div>
     }
 
+    if (isNil(order)) {
+        return <div className={"flex w-full h-12 p-3 mb-2 rounded-md items-center cursor-pointer border"} onClick={() => {
+            setTable(null);
+        }}>
+            <AiOutlineCloseCircle className={"text-2xl mr-3"}/>
+            <div className={"flex flex-row w-full mx-2 text-md space-x-10"}>
+                <span>Table: {table.name}</span>
+            </div>
+        </div>
+    }
+
     return <div className={"flex w-full h-12 p-3 mb-2 rounded-md items-center cursor-pointer border"} onClick={() => {
-        setTable(null);
         setOrder(null);
     }}>
         <AiOutlineCloseCircle className={"text-2xl mr-3"}/>
-        <div className={"flex flex-row w-full mx-2 text-md space-x-10 justify-center"}>
+        <div className={"flex flex-row w-full mx-2 text-md space-x-10"}>
             <span>Table: {table.name}</span>
             <span>User: {order?.creator.name}</span>
         </div>

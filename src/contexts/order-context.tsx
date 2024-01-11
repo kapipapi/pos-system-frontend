@@ -76,9 +76,6 @@ export const OrderContextProvider = (): ReactElement => {
             authFetchGet<Order[]>(`order_context/orders/table/${table.id}`, token)
                 .then((result) => {
                     setOrders(result)
-                    if (result.length === 1) {
-                        setOrder(result[0])
-                    }
                     if (result.length === 0) {
                         setOrder(null)
                     }
@@ -125,9 +122,9 @@ export const OrderContextProvider = (): ReactElement => {
 
     useEffect(() => {
         if (isNil(order)) {
-            setOrders([])
+            fetchFullOrder()
         }
-    }, [order, setOrders])
+    }, [order, fetchFullOrder, setOrders])
 
     return <OrderContext.Provider value={{
         // table API
