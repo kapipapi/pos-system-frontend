@@ -7,4 +7,5 @@ export interface Order {
     table: TableInOrder,
     creator: User,
     products: ProductInOrder[],
+    info?: String,
 }

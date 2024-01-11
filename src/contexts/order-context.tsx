@@ -25,6 +25,7 @@ export type OrderContextType = {
     // order API
     createOrder: () => void,
     order: Order | null,
+    orders: Order[] | null,
     setOrder: Dispatch<SetStateAction<Order | null>>,
     addProductToOrder: (product_id: string) => void,
     removeProductFromOrder: (product_id: string) => void,
@@ -40,6 +41,7 @@ const defaultOrderContext: OrderContextType = {
     createOrder: () => {
     },
     order: null,
+    orders: null,
     setOrder: () => {
     },
     addProductToOrder: () => {
@@ -123,6 +125,7 @@ export const OrderContextProvider = (): ReactElement => {
         // order API
         createOrder,
         order,
+        orders,
         setOrder,
         addProductToOrder,
         removeProductFromOrder

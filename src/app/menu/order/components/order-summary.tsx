@@ -16,7 +16,7 @@ const OrderSummary = () => {
         }, 0);
     }
 
-    return <div className={"flex flex-col mt-auto p-4 rounded-md bg-zinc-800 text-white"}>
+    return <div className={"flex flex-col p-4 rounded-md bg-zinc-800 text-white"}>
         <div className={"flex flex-row"}>
             <p className={"text-xl"}>Total:</p>
             {(!isNil(table) && !isNil(order)) &&
