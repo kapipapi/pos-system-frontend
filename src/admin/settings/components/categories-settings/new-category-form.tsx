@@ -7,6 +7,8 @@ import Select from 'react-select'
 import {NewCategory} from "../../../../models/category";
 import * as FaIcons from "react-icons/fa";
 import {DynamicIcon} from "./dynamic-icon";
+import { CirclePicker } from 'react-color';
+
 
 type Props = {
     modalState: boolean;
@@ -24,16 +26,6 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     const iconOptions = Object.keys(FaIcons).map((key) => {
         return {value: key, label: key}
     })
-
-    const colorOptions = [
-        {value: "#c7dae7", label: "blu"},
-        {value: "#d1dcdb", label: "pale"},
-        {value: "#e0ceeb", label: "tinky"},
-        {value: "#c9caec", label: "fleet"},
-        {value: "#f1c3d8", label: "pinky"},
-        {value: "#e3dade", label: "sugar-pink"},
-        {value: "#cae8dd", label: "sick"},
-    ]
 
     return (
         <ReactModal
@@ -96,7 +88,7 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                     </div>
 
                     <div>
-                        <label className={classNames(styles.label)}>Icon</label>
+                        <label className={classNames(styles.label)}>Color</label>
                         <br/>
                         <Controller
                             control={control}
@@ -104,20 +96,11 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                             name="color"
                             render={({field}) => (
                                 <div className={"relative"}>
-                                    <Select
+                                    <CirclePicker
                                         ref={field.ref}
-                                        value={iconOptions.find(c => c.value === field.value)}
-                                        onChange={val => field.onChange(val?.value ?? "blu")}
-                                        options={colorOptions}
-                                        classNames={{
-                                            control: () => "p-1",
-                                            menuList: () => "overflow-x-hidden",
-                                        }}
+                                        color={field.value}
+                                        onChangeComplete={val => field.onChange(val.hex)}
                                     />
-                                    <div className={"absolute top-1.5 w-9 -right-12 aspect-square"}
-                                         style={{backgroundColor: field.value}}>
-                                        {" "}
-                                    </div>
                                 </div>)}
                         />
                         <p className={"text-sm text-red-600"}>{errors.name?.message}</p>

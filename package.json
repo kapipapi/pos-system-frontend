@@ -17,6 +17,7 @@
     "oidc-client-ts": "^3.0.0-beta.0",
     "oidc-react": "^3.2.2",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
     "react-icons": "^4.12.0",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
+    "@types/react-color": "^3.0.11",
     "@types/react-modal": "^3.16.3",
     "tailwindcss": "^3.3.6"
   }

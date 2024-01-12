@@ -1,9 +1,10 @@
 import {FC} from "react";
 import ReactModal from "react-modal";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
 import {NewUser} from "../../../../models/user";
+import {CirclePicker} from "react-color";
 
 type Props = {
     modalState: boolean;
@@ -11,7 +12,7 @@ type Props = {
     onSubmit: (newUser: NewUser) => void;
 };
 const NewUserForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<NewUser>();
+    const {register, control, handleSubmit, reset, formState: {errors}} = useForm<NewUser>();
 
     const styles = {
         label: "text-sm font-light",
@@ -53,21 +54,31 @@ const NewUserForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                     </div>
 
                     <div>
-                        <label className={classNames(styles.label)}>Color</label>
-                        <br/>
-                        <input
-                            pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" {...register("color", {required: "Color is required"})}
-                            className={classNames(styles.input)}/>
-                        <p className={"text-sm text-red-600"}>{errors.color?.message}</p>
-                    </div>
-
-                    <div>
                         <label className={classNames(styles.label)}>PIN</label>
                         <br/>
                         <input pattern="^[0-9][0-9][0-9][0-9]$"
                                maxLength={4} {...register("code", {required: "PIN is required (numbers only)"})}
                                className={classNames(styles.input)}/>
                         <p className={"text-sm text-red-600"}>{errors.code?.message}</p>
+                    </div>
+
+                    <div>
+                        <label className={classNames(styles.label)}>Color</label>
+                        <br/>
+                        <Controller
+                            control={control}
+                            defaultValue={"blu"}
+                            name="color"
+                            render={({field}) => (
+                                <div className={"relative"}>
+                                    <CirclePicker
+                                        ref={field.ref}
+                                        color={field.value}
+                                        onChangeComplete={val => field.onChange(val.hex)}
+                                    />
+                                </div>)}
+                        />
+                        <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
                     </div>
 
                     <div className={"flex justify-between w-full col-span-2 mt-5"}>

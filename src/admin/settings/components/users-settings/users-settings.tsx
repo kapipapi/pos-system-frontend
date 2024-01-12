@@ -65,7 +65,7 @@ const UsersSettings = () => {
                     return (
                         <tr className={"text-center [&>*]:border h-10"} key={user.id}>
                             <td>{user.name}</td>
-                            <td>{user.color}</td>
+                            <td style={{backgroundColor: user.color}}>{" "}</td>
                             <td>
                                 <button
                                     onClick={() => removeRow(user.id)}
