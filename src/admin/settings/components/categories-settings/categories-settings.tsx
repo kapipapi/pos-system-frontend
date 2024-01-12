@@ -1,17 +1,17 @@
 import {useEffect, useState} from "react";
 import {Category, NewCategory} from "../../../../models/category";
-import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
+import {authFetchGet, authFetchPost, authFetchUpdate} from "../../../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
-import {FaPlus} from "react-icons/fa";
-import NewCategoryForm from "./new-category-form";
+import {FaEdit, FaPlus} from "react-icons/fa";
+import CategoryForm, {ModalState} from "./category-form";
 import {DynamicIcon} from "./dynamic-icon";
 
 const CategoriesSettings = () => {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
-    const [modalState, setModalState] = useState(false);
+    const [modalState, setModalState] = useState<ModalState>(undefined);
 
     const [categories, setCategories] = useState<Category[]>([]);
     const fetchCategories = () => {
@@ -23,6 +23,13 @@ const CategoriesSettings = () => {
     }
     useEffect(fetchCategories, [setCategories, token])
 
+    const onModalSubmit = (category: Category | NewCategory) => {
+        if (modalState === "add") {
+            onNewCategoryFormSubmit(category as NewCategory)
+        } else {
+            onEditCategoryFormSubmit(category as Category)
+        }
+    }
 
     const onNewCategoryFormSubmit = (newCategory: NewCategory) => {
         authFetchPost<Category[]>("admin/categories", token, newCategory)
@@ -32,13 +39,24 @@ const CategoriesSettings = () => {
             .catch(err => console.error(err))
     }
 
+    const onEditCategoryFormSubmit = (category: Category) => {
+        authFetchUpdate<Category[]>("admin/categories", token, category)
+            .then((res) => {
+                setCategories(res)
+            })
+            .catch(err => console.error(err))
+    }
+
     return (
         <div className={"flex flex-col w-full p-2"}>
             <div className={"flex flex-row mb-2 items-center"}>
-                <NewCategoryForm modalState={modalState} closeModal={() => setModalState(false)}
-                                 onSubmit={onNewCategoryFormSubmit}/>
+                <CategoryForm isOpen={modalState !== undefined}
+                              modalState={modalState}
+                              closeModal={() => setModalState(undefined)}
+                              onSubmit={onModalSubmit}
+                />
                 <div className={"space-x-2"}>
-                    <button onClick={() => setModalState(true)}
+                    <button onClick={() => setModalState("add")}
                             className={"inline-flex items-center border rounded-md p-1"}>
                         Add
                         <FaPlus className={"ml-2"}/></button>
@@ -61,6 +79,12 @@ const CategoriesSettings = () => {
                             <td><DynamicIcon name={category.icon} className={"text-2xl m-auto"}/></td>
                             <td style={{backgroundColor: category.color}}>{" "}</td>
                             <td>
+                                <button
+                                    onClick={() => setModalState(category)}
+                                    className={"aspect-square border rounded-lg p-1"}
+                                >
+                                    <FaEdit/>
+                                </button>
                                 <button
                                     onClick={() => console.log(category.id)}
                                     className={"aspect-square border rounded-lg p-1"}

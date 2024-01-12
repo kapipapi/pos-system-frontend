@@ -1,26 +1,45 @@
 import {FC} from "react";
 import ReactModal from "react-modal";
-import {useForm, Controller} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
 import Select from 'react-select'
-import {NewCategory} from "../../../../models/category";
+import {Category, NewCategory} from "../../../../models/category";
 import * as FaIcons from "react-icons/fa";
 import {DynamicIcon} from "./dynamic-icon";
-import { CirclePicker } from 'react-color';
+import {CirclePicker} from 'react-color';
+import {isNil} from "lodash";
 
+export type ModalState = "add" | Category | undefined;
 
 type Props = {
-    modalState: boolean;
+    isOpen: boolean;
+    modalState: ModalState;
     closeModal: () => void;
-    onSubmit: (newCategory: NewCategory) => void;
+    onSubmit: (cat: Category | NewCategory) => void;
 };
-const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
-    const {control, register, handleSubmit, reset, formState: {errors}} = useForm<NewCategory>();
+const CategoryForm: FC<Props> = ({isOpen, modalState, closeModal, onSubmit}) => {
+    let values = {
+        name: "",
+        icon: "",
+        color: "",
+    };
+
+    if (modalState !== "add" && !isNil(modalState) && !isNil(modalState?.name) && !isNil(modalState?.icon) && !isNil(modalState?.color)) {
+        values = {
+            name: modalState.name,
+            icon: modalState.icon,
+            color: modalState.color,
+        }
+    }
+
+    const {control, register, handleSubmit, reset, formState: {errors}} = useForm<Category | NewCategory>({
+        values: values,
+    });
 
     const styles = {
         label: "text-sm font-light",
-        input: "w-full p-2 text-lg border bg-bone rounded-md",
+        input: "w-full p-2 text-lg border bg-white rounded-md",
     }
 
     const iconOptions = Object.keys(FaIcons).map((key) => {
@@ -29,7 +48,7 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
 
     return (
         <ReactModal
-            isOpen={modalState}
+            isOpen={isOpen}
             ariaHideApp={false}
             contentLabel="Minimal Modal Example"
             onRequestClose={() => {
@@ -57,7 +76,8 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                         <label className={classNames(styles.label)}>Name</label>
                         <br/>
                         <input {...register("name", {required: "Name is required"})}
-                               className={classNames(styles.input)}/>
+                               className={classNames(styles.input)}
+                        />
                         <p className={"text-sm text-red-600"}>{errors.name?.message}</p>
                     </div>
 
@@ -116,7 +136,9 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                         </button>
                         <button type="submit"
                                 className={"inline-flex items-center rounded-md p-2 text-white bg-emerald-900"}>
-                            Create New Category
+                            {
+                                modalState === "add" ? "Create" : "Update"
+                            }
                         </button>
                     </div>
                 </form>
@@ -126,4 +148,4 @@ const NewCategoryForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
     )
 }
 
-export default NewCategoryForm;
+export default CategoryForm;
