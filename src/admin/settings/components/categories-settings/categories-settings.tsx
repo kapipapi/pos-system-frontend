@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Category, NewCategory} from "../../../../models/category";
-import {authFetchGet, authFetchPost, authFetchUpdate} from "../../../../hooks/authFetch";
+import {authFetchGet, authFetchPost, authFetchPut} from "../../../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaEdit, FaPlus} from "react-icons/fa";
@@ -40,7 +40,7 @@ const CategoriesSettings = () => {
     }
 
     const onEditCategoryFormSubmit = (category: Category) => {
-        authFetchUpdate<Category[]>("admin/categories", token, category)
+        authFetchPut<Category[]>("admin/categories", token, category)
             .then((res) => {
                 setCategories(res)
             })

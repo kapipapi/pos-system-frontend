@@ -33,9 +33,9 @@ export async function authFetchPost<T>(endpoint: string, token: string | undefin
     return await res.json() as T;
 }
 
-export async function authFetchUpdate<T>(endpoint: string, token: string | undefined, payload: any): Promise<T> {
+export async function authFetchPut<T>(endpoint: string, token: string | undefined, payload: any): Promise<T> {
     const res = await fetch(MAIN_ENDPOINT + endpoint, {
-        method: 'UPDATE',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token ?? ''
