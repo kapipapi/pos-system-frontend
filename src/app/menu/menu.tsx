@@ -1,6 +1,5 @@
 import {useContext, useEffect, useState} from "react";
 import TileProduct from "./components/tile-product";
-import Order from "./order/order";
 import {TableOrderContext} from "../../contexts/table-order-context";
 import {useAuth} from "oidc-react";
 import {Product} from "../../models/product";

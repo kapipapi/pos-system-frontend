@@ -4,8 +4,6 @@ import {TableOrderContext} from "../../contexts/table-order-context";
 import {authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import TablesFullGrid from "./tables-grid";
-import {useNavigate} from "react-router";
-import Order from "../menu/order/order";
 
 type LevelButtonProps = {
     i: number;
