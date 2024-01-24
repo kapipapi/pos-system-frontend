@@ -1,10 +1,11 @@
 import React, {FC, useContext, useEffect, useState} from "react";
 import {Table} from "../../models/table";
-import {OrderContext} from "../../contexts/order-context";
+import {TableOrderContext} from "../../contexts/table-order-context";
 import {authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import TablesFullGrid from "./tables-grid";
 import {useNavigate} from "react-router";
+import Order from "../menu/order/order";
 
 type LevelButtonProps = {
     i: number;
@@ -20,12 +21,11 @@ export const TablesLevelButton: FC<LevelButtonProps> = ({i, active, setLevel}) =
 
 function Tables() {
     const auth = useAuth();
-    const navigate = useNavigate();
 
     const [tables, setTables] = useState<Table[]>([]);
     const [level, setLevel] = useState<number>(0);
 
-    const {setTable, setOrder} = useContext(OrderContext);
+    const {setTable, setOrder} = useContext(TableOrderContext);
 
     const fetchTables = () => {
         authFetchGet<Table[]>("tables_view/get_all_tables", auth.userData?.access_token)
@@ -37,7 +37,6 @@ function Tables() {
     const onTableClick = (table: Table) => {
         setTable(table);
         setOrder(null);
-        navigate("/app/menu");
     }
 
     return <div className={"flex flex-col w-full max-h-screen"}>

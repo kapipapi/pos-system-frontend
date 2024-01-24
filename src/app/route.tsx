@@ -2,11 +2,12 @@ import {UserContextProvider} from "../contexts/user-context";
 import AppLayout from "./layout";
 import Home from "./home/home";
 import AuthGuard from "./auth";
-import {OrderContextProvider} from "../contexts/order-context";
+import {TableOrderContextProvider} from "../contexts/table-order-context";
 import Menu from "./menu/menu";
 import Tables from "./tables/tables";
 import Orders from "./orders/orders";
 import {RouteObject} from "react-router-dom";
+import Order from "./menu/order/order";
 
 export let app_routes: RouteObject = {
     element: <UserContextProvider/>,
@@ -23,20 +24,25 @@ export let app_routes: RouteObject = {
                     element: <AuthGuard/>,
                     children: [
                         {
-                            element: <OrderContextProvider/>,
+                            element: <TableOrderContextProvider/>,
                             children: [
                                 {
-                                    path: "/app/menu",
-                                    element: <Menu/>,
-                                },
-                                {
-                                    path: "/app/tables",
-                                    element: <Tables/>,
-                                },
-                                {
-                                    path: "/app/orders",
-                                    element: <Orders/>,
-                                },
+                                    element: <Order/>,
+                                    children: [
+                                        {
+                                            path: "/app/menu",
+                                            element: <Menu/>,
+                                        },
+                                        {
+                                            path: "/app/tables",
+                                            element: <Tables/>,
+                                        },
+                                        {
+                                            path: "/app/orders",
+                                            element: <Orders/>,
+                                        },
+                                    ]
+                                }
                             ]
                         },
                     ]

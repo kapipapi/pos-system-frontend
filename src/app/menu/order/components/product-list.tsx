@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction, useContext, useState} from "react";
-import {OrderContext} from "../../../../contexts/order-context";
+import {TableOrderContext} from "../../../../contexts/table-order-context";
 import {isNil} from "lodash";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
@@ -11,7 +11,7 @@ const Item = ({product, openAction, onClick}: {
     openAction: boolean,
     onClick: Dispatch<SetStateAction<string | undefined>>
 }) => {
-    const {removeProductFromOrder} = useContext(OrderContext);
+    const {removeProductFromOrder} = useContext(TableOrderContext);
 
     return <div className={"relative flex flex-row w-full h-12 group"}
                 onMouseLeave={() => onClick(undefined)}>
@@ -37,7 +37,7 @@ const Item = ({product, openAction, onClick}: {
 }
 
 const ProductList = () => {
-    const {table, order} = useContext(OrderContext);
+    const {table, order} = useContext(TableOrderContext);
     const [activeItem, setActiveItem] = useState<string>();
 
     if (isNil(table) || isNil(order)) {

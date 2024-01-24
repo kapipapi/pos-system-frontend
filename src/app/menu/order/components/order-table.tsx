@@ -1,12 +1,12 @@
 import {useContext} from "react";
-import {OrderContext} from "../../../../contexts/order-context";
+import {TableOrderContext} from "../../../../contexts/table-order-context";
 import {useNavigate} from "react-router";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import {MdOutlineTableBar} from "react-icons/md";
 import {isNil} from "lodash";
 
 const OrderTable = () => {
-    const {table, setTable, order, setOrder} = useContext(OrderContext);
+    const {table, setTable, order, setOrder} = useContext(TableOrderContext);
     const navigate = useNavigate();
 
     if (isNil(table)) {

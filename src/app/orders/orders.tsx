@@ -5,7 +5,7 @@ import {authFetchDelete, authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import {isNil} from "lodash";
 import {OrderTile} from "./components/order-tile";
-import {OrderContext} from "../../contexts/order-context";
+import {TableOrderContext} from "../../contexts/table-order-context";
 import {Table} from "../../models/table";
 import {useNavigate} from "react-router";
 import EmployeeSelector from "./components/employee-selector";
@@ -20,7 +20,7 @@ function Orders() {
     const {usersList, currentUser} = useContext(UserContext);
     const [orders, setOrders] = useState<Order[] | null>(null);
 
-    const {setTable} = useContext(OrderContext);
+    const {setTable} = useContext(TableOrderContext);
 
     const [selectedUser, setSelectedUser] = useState<User | undefined>(currentUser);
 
@@ -61,7 +61,7 @@ function Orders() {
             <h1 className={"text-2xl mr-auto"}>Orders</h1>
             <EmployeeSelector users={usersList} selectedUser={selectedUser} onSelectUser={setSelectedUser}/>
         </div>
-        <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-4 items-start"}>
+        <div className={"grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4 items-start"}>
             {orders?.map((order) => <OrderTile key={order.id} order={order} onRemove={removeOrder}
                                                selectOrder={openOrderInMenu}/>)}
         </div>

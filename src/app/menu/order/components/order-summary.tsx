@@ -1,11 +1,11 @@
 import PaymentMethods from "./payment-methods";
 import {useContext} from "react";
-import {OrderContext} from "../../../../contexts/order-context";
+import {TableOrderContext} from "../../../../contexts/table-order-context";
 import {isNil} from "lodash";
 import {sumupOrder} from "../../../../models/product";
 
 const OrderSummary = () => {
-    const {table, order} = useContext(OrderContext);
+    const {table, order} = useContext(TableOrderContext);
 
     return <div className={"flex flex-col p-4 rounded-md bg-zinc-800 text-white"}>
         <div className={"flex flex-row"}>

@@ -5,6 +5,7 @@ import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
 import {NewUser} from "../../../../models/user";
 import {CirclePicker} from "react-color";
+import {colors} from "../../colors";
 
 type Props = {
     modalState: boolean;
@@ -74,6 +75,7 @@ const NewUserForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                                     <CirclePicker
                                         ref={field.ref}
                                         color={field.value}
+                                        colors={colors}
                                         onChangeComplete={val => field.onChange(val.hex)}
                                     />
                                 </div>)}

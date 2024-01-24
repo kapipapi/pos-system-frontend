@@ -1,9 +1,9 @@
 import {useContext} from "react";
-import {OrderContext} from "../../../../contexts/order-context";
+import {TableOrderContext} from "../../../../contexts/table-order-context";
 import {isNil} from "lodash";
 
 const OrderInfo = () => {
-    const {table, order} = useContext(OrderContext);
+    const {table, order} = useContext(TableOrderContext);
 
     if (isNil(table) || isNil(order)) {
         return null;

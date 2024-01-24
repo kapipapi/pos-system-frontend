@@ -40,6 +40,7 @@ const CategoriesSettings = () => {
     }
 
     const onEditCategoryFormSubmit = (category: Category) => {
+        console.log(category)
         authFetchPut<Category[]>("admin/categories", token, category)
             .then((res) => {
                 setCategories(res)

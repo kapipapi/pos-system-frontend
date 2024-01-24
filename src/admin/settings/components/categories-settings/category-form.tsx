@@ -9,6 +9,7 @@ import * as FaIcons from "react-icons/fa";
 import {DynamicIcon} from "./dynamic-icon";
 import {CirclePicker} from 'react-color';
 import {isNil} from "lodash";
+import {colors} from "../../colors";
 
 export type ModalState = "add" | Category | undefined;
 
@@ -20,13 +21,15 @@ type Props = {
 };
 const CategoryForm: FC<Props> = ({isOpen, modalState, closeModal, onSubmit}) => {
     let values = {
+        id: "",
         name: "",
         icon: "",
         color: "",
     };
 
-    if (modalState !== "add" && !isNil(modalState) && !isNil(modalState?.name) && !isNil(modalState?.icon) && !isNil(modalState?.color)) {
+    if (modalState !== "add" && !isNil(modalState) && !isNil(modalState?.id) && !isNil(modalState?.name) && !isNil(modalState?.icon) && !isNil(modalState?.color)) {
         values = {
+            id: modalState.id,
             name: modalState.name,
             icon: modalState.icon,
             color: modalState.color,
@@ -119,6 +122,7 @@ const CategoryForm: FC<Props> = ({isOpen, modalState, closeModal, onSubmit}) => 
                                     <CirclePicker
                                         ref={field.ref}
                                         color={field.value}
+                                        colors={colors}
                                         onChangeComplete={val => field.onChange(val.hex)}
                                     />
                                 </div>)}

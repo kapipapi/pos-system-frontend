@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import TileProduct from "./components/tile-product";
 import Order from "./order/order";
-import {OrderContext} from "../../contexts/order-context";
+import {TableOrderContext} from "../../contexts/table-order-context";
 import {useAuth} from "oidc-react";
 import {Product} from "../../models/product";
 import {authFetchGet} from "../../hooks/authFetch";
@@ -36,7 +36,7 @@ function Menu() {
     }
     useEffect(fetchCategories, [setCategories, token])
 
-    const {addProductToOrder} = useContext(OrderContext)
+    const {addProductToOrder} = useContext(TableOrderContext)
 
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
@@ -73,9 +73,6 @@ function Menu() {
                     </div>
                 </div>
             </div>
-
-            <Order/>
-
         </div>
     )
 }

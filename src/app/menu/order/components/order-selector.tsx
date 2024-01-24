@@ -1,11 +1,11 @@
 import {useContext} from "react";
-import {OrderContext} from "../../../../contexts/order-context";
+import {TableOrderContext} from "../../../../contexts/table-order-context";
 import {isNil} from "lodash";
 import {BsReceiptCutoff} from "react-icons/bs";
 import {sumupOrder} from "../../../../models/product";
 
 const OrderSelector = () => {
-    const {table, order, orders, setOrder, createOrder} = useContext(OrderContext);
+    const {table, order, orders, setOrder, createOrder} = useContext(TableOrderContext);
 
     if (isNil(table) || !isNil(order) || isNil(orders)) {
         return null;

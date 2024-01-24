@@ -53,9 +53,9 @@ const defaultOrderContext: OrderContextType = {
     }
 }
 
-export const OrderContext = createContext<OrderContextType>(defaultOrderContext);
+export const TableOrderContext = createContext<OrderContextType>(defaultOrderContext);
 
-export const OrderContextProvider = (): ReactElement => {
+export const TableOrderContextProvider = (): ReactElement => {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
@@ -126,7 +126,7 @@ export const OrderContextProvider = (): ReactElement => {
         }
     }, [order, fetchFullOrder, setOrders])
 
-    return <OrderContext.Provider value={{
+    return <TableOrderContext.Provider value={{
         // table API
         table,
         setTable,
@@ -141,5 +141,5 @@ export const OrderContextProvider = (): ReactElement => {
         fetchFullOrder
     }}>
         <Outlet/>
-    </OrderContext.Provider>
+    </TableOrderContext.Provider>
 }

@@ -9,7 +9,7 @@ function Home() {
     const {currentUser} = useContext(UserContext);
 
     if (!isNil(currentUser)) {
-        return <Navigate to="/app/menu"/>
+        return <Navigate to="/app/tables"/>
     }
 
     return (
