@@ -16,19 +16,37 @@ export let admin_routes: RouteObject = {
             path: "/admin",
         },
         {
-            element: <GenericSettings<Waiter> fetchEndpoint={"waiters"}/>,
+            element: <GenericSettings<Waiter> fetchEndpoint={"waiters"} default_values={{
+                _id: "",
+                name: "",
+            }}/>,
             path: "/admin/users",
         },
         {
-            element: <GenericSettings<Category> fetchEndpoint={"categories"}/>,
+            element: <GenericSettings<Category> fetchEndpoint={"categories"} default_values={{
+                _id: "",
+                name: "",
+                icon: "",
+                color: "",
+            }}/>,
             path: "/admin/categories",
         },
         {
-            element:  <GenericSettings<Product> fetchEndpoint={"products"}/>,
+            element: <GenericSettings<Product> fetchEndpoint={"products"} default_values={{
+                _id: "",
+                name: "",
+                price: 0,
+            }}/>,
             path: "/admin/products",
         },
         {
-            element: <GenericSettings<Table> fetchEndpoint={"tables"}/>,
+            element: <GenericSettings<Table> fetchEndpoint={"tables"} default_values={{
+                _id: "",
+                name: "",
+                x: 0,
+                y: 0,
+                level: 0,
+            }}/>,
             path: "/admin/tables",
         },
         {

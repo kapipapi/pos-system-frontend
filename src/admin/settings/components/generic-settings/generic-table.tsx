@@ -2,14 +2,14 @@ import {useEffect, useState} from "react";
 import {FaPlus} from "react-icons/fa";
 import {useAuth} from "oidc-react";
 import {authFetchGet} from "../../../../hooks/authFetch";
+import GenericForm from "./generic-form";
 
-type GenericSettingsProps = {
+type GenericSettingsProps<T> = {
     fetchEndpoint: string;
-    addEndpoint?: string;
-    deleteEndpoint?: string;
+    default_values: T;
 };
 
-const GenericSettings = <T extends object, >({fetchEndpoint}: GenericSettingsProps) => {
+const GenericSettings = <T extends object, >({fetchEndpoint, default_values}: GenericSettingsProps<T>) => {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
@@ -44,6 +44,7 @@ const GenericSettings = <T extends object, >({fetchEndpoint}: GenericSettingsPro
 
     return (
         <div className={"flex flex-col w-full p-2"}>
+            <GenericForm<T> onSubmit={console.log} default_values={default_values}/>
             <div className={"flex flex-row mb-2 items-center"}>
                 <div className={"space-x-2"}>
                     <button className={"inline-flex items-center border rounded-md p-1"}>
