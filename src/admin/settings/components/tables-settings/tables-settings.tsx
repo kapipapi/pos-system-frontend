@@ -46,7 +46,7 @@ const TablesSettings = () => {
                 tables={tables}
                 level={level}
                 onTableClick={(newTable) => {
-                    if (newTable.id !== "") {
+                    if (newTable._id !== "") {
                         return;
                     }
 

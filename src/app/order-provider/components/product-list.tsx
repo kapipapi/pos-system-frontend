@@ -1,35 +1,32 @@
 import {Dispatch, SetStateAction, useContext, useState} from "react";
-import {TableOrderContext} from "../../../../contexts/table-order-context";
-import {isNil} from "lodash";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
-import {ProductInOrder} from "../../../../models/product";
-import {BsReceiptCutoff} from "react-icons/bs";
+import {Product} from "../../../models/product";
+import {OrderContext} from "../order-provider";
+import {isNil} from "lodash";
 
-const Item = ({product, openAction, onClick}: {
-    product: ProductInOrder,
+const Item = ({product, openAction, onClick, removeProduct}: {
+    product: Product,
     openAction: boolean,
     onClick: Dispatch<SetStateAction<string | undefined>>
+    removeProduct: (productId: string) => void
 }) => {
-    const {removeProductFromOrder} = useContext(TableOrderContext);
-
     return <div className={"relative flex flex-row w-full h-12 group"}
                 onMouseLeave={() => onClick(undefined)}>
         <div
-            onClick={() => onClick(product.id)}
+            onClick={() => onClick(product._id)}
             className={classNames(
                 "z-10 flex flex-row w-full px-2 rounded-md cursor-pointer bg-zinc-800 text-bone items-center justify-center border-l-8",
                 openAction ? "mr-14" : ""
-            )}
-            style={{borderColor: product.category.color}}>
+            )}>
             <p className={"flex space-x-2 items-center"}>
                 <span className={"font-bold"}>{product.name}</span>
-                <span className={"text-zinc-400"}>x {product.quantity}</span>
+                <span className={"text-zinc-400"}>x </span>
             </p>
             <p className={"ml-auto"}>{product.price.toFixed(2)} zł</p>
         </div>
-        <button key={product.id}
-                onClick={() => removeProductFromOrder(product.id)}
+        <button key={product._id}
+                onClick={() => removeProduct(product._id)}
                 className={"z-0 absolute right-0 flex h-full aspect-square rounded-md bg-red-800 text-white items-center justify-center ml-2"}>
             <AiOutlineCloseCircle className={"text-xl"}/>
         </button>
@@ -37,25 +34,19 @@ const Item = ({product, openAction, onClick}: {
 }
 
 const ProductList = () => {
-    const {table, order} = useContext(TableOrderContext);
+    const {order} = useContext(OrderContext);
+
     const [activeItem, setActiveItem] = useState<string>();
 
-    if (isNil(table) || isNil(order)) {
-        return null;
-    }
-
-    if (order.products?.length < 1) {
-        return <div
-            className={"flex flex-col mb-2 w-full h-full justify-center items-center"}>
-            <BsReceiptCutoff className={"text-4xl mb-1 mx-auto text-black"}/>
-            <p className={"text-xl"}>EMPTY ORDER</p>
-        </div>
-    }
+    if (isNil(order)) return <div>No order selected</div>;
 
     return <div className={"flex flex-col w-full space-y-2 overflow-y-scroll no-scrollbar"}>
         {order.products?.map((product) => {
-            return <Item key={product.id} product={product} openAction={activeItem === product.id}
-                         onClick={setActiveItem}/>
+            return <Item key={product._id}
+                         product={product}
+                         openAction={activeItem === product._id}
+                         onClick={setActiveItem}
+                         removeProduct={(productId) => console.log(order._id, productId, "token")}/>
         })}
     </div>
 }

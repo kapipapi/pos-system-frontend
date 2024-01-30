@@ -75,7 +75,7 @@ const CategoriesSettings = () => {
                 <tbody>
                 {categories.map((category) => {
                     return (
-                        <tr className={"text-center [&>*]:border h-10"} key={category.id}>
+                        <tr className={"text-center [&>*]:border h-10"} key={category._id}>
                             <td>{category.name}</td>
                             <td><DynamicIcon name={category.icon} className={"text-2xl m-auto"}/></td>
                             <td style={{backgroundColor: category.color}}>{" "}</td>
@@ -87,7 +87,7 @@ const CategoriesSettings = () => {
                                     <FaEdit/>
                                 </button>
                                 <button
-                                    onClick={() => console.log(category.id)}
+                                    onClick={() => console.log(category._id)}
                                     className={"aspect-square border rounded-lg p-1"}
                                 >
                                     <FaTrashCan/>

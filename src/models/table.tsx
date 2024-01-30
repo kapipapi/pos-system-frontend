@@ -1,17 +1,7 @@
-import {Order} from "./order";
-
 export interface Table {
-    id: string,
+    _id: string,
     name: string,
+    x: number,
+    y: number,
     level: number,
-    position_x: number,
-    position_y: number,
-    size_w: number,
-    size_h: number,
-    orders: Order[],
-}
-
-export interface TableInOrder {
-    id: string,
-    name: string,
 }

@@ -12,7 +12,7 @@ function TileCategory({category, active, onClick}: Prop) {
     return <button
         className={classNames("flex flex-col aspect-tile p-4 text-zinc-800 rounded-md")}
         style={{backgroundColor: category.color}}
-        onClick={() => onClick(category.id)}>
+        onClick={() => onClick(category._id)}>
         <div className={classNames("self-start rounded-full p-3", {"bg-zinc-600": !active, "bg-zinc-800": active})}>
             <DynamicIcon name={category.icon} className={classNames("text-3xl text-white")}/>
         </div>

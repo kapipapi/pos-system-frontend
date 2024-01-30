@@ -80,37 +80,37 @@ const NewProductForm: FC<Props> = ({modalState, closeModal, onSubmit}) => {
                         <p className={"text-sm text-red-600"}>{errors.price?.message}</p>
                     </div>
 
-                    <div>
-                        <label className={classNames(styles.label)}>Tax</label>
-                        <br/>
-                        <input type={"number"} {...register("tax", {
-                            required: "Tax is required",
-                            valueAsNumber: true,
-                            validate: {
-                                positive: v => v > 0 || 'Tax must be positive',
-                            },
-                        })} className={classNames(styles.input)}/>
-                        <p className={"text-sm text-red-600"}>{errors.tax?.message}</p>
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className={classNames(styles.label)}>Tax</label>*/}
+                    {/*    <br/>*/}
+                    {/*    <input type={"number"} {...register("tax", {*/}
+                    {/*        required: "Tax is required",*/}
+                    {/*        valueAsNumber: true,*/}
+                    {/*        validate: {*/}
+                    {/*            positive: v => v > 0 || 'Tax must be positive',*/}
+                    {/*        },*/}
+                    {/*    })} className={classNames(styles.input)}/>*/}
+                    {/*    <p className={"text-sm text-red-600"}>{errors.tax?.message}</p>*/}
+                    {/*</div>*/}
 
-                    <div>
-                        <label className={classNames(styles.label)}>Category</label>
-                        <br/>
-                        <select {...register("category", {required: "Category is required"})} className={classNames(styles.input)}>
-                            {categories.map((category) => {
-                                return <option key={category.id} value={category.id}>{category.name}</option>
-                            })}
-                        </select>
-                        <p className={"text-sm text-red-600"}>{errors.category?.message}</p>
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className={classNames(styles.label)}>Category</label>*/}
+                    {/*    <br/>*/}
+                    {/*    <select {...register("category", {required: "Category is required"})} className={classNames(styles.input)}>*/}
+                    {/*        {categories.map((category) => {*/}
+                    {/*            return <option key={category.id} value={category.id}>{category.name}</option>*/}
+                    {/*        })}*/}
+                    {/*    </select>*/}
+                    {/*    <p className={"text-sm text-red-600"}>{errors.category?.message}</p>*/}
+                    {/*</div>*/}
 
-                    <div>
-                        <label className={classNames(styles.label)}>Description</label>
-                        <br/>
-                        <input {...register("description", {required: "Description is required"})}
-                               className={classNames(styles.input)}/>
-                        <p className={"text-sm text-red-600"}>{errors.description?.message}</p>
-                    </div>
+                    {/*<div>*/}
+                    {/*    <label className={classNames(styles.label)}>Description</label>*/}
+                    {/*    <br/>*/}
+                    {/*    <input {...register("description", {required: "Description is required"})}*/}
+                    {/*           className={classNames(styles.input)}/>*/}
+                    {/*    <p className={"text-sm text-red-600"}>{errors.description?.message}</p>*/}
+                    {/*</div>*/}
 
                     <div className={"flex justify-between w-full col-span-2 mt-5"}>
                         <button onClick={() => {

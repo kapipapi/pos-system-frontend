@@ -36,7 +36,7 @@ export default function EmployeeSelector({users, selectedUser, onSelectUser}: Pr
             users?.map((user, index) => {
                 return <button key={index} onClick={() => onSelectUser(user)}>
                     <Item symbol={user.name[0]} key={index}
-                          selected={selectedUser?.id === user.id}>{user.name}</Item>
+                          selected={selectedUser?._id === user._id}>{user.name}</Item>
                 </button>;
             })
         }

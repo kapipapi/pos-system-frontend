@@ -21,15 +21,15 @@ type Props = {
 };
 const CategoryForm: FC<Props> = ({isOpen, modalState, closeModal, onSubmit}) => {
     let values = {
-        id: "",
+        _id: "",
         name: "",
         icon: "",
         color: "",
     };
 
-    if (modalState !== "add" && !isNil(modalState) && !isNil(modalState?.id) && !isNil(modalState?.name) && !isNil(modalState?.icon) && !isNil(modalState?.color)) {
+    if (modalState !== "add" && !isNil(modalState) && !isNil(modalState?._id) && !isNil(modalState?.name) && !isNil(modalState?.icon) && !isNil(modalState?.color)) {
         values = {
-            id: modalState.id,
+            _id: modalState._id,
             name: modalState.name,
             icon: modalState.icon,
             color: modalState.color,

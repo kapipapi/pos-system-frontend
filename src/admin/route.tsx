@@ -1,10 +1,11 @@
 import {redirect, RouteObject} from "react-router-dom";
 import AdminPanel from "./admin-panel";
 import AdminLayout from "./layout";
-import CategoriesSettings from "./settings/components/categories-settings/categories-settings";
-import ProductsSettings from "./settings/components/products-settings/products-settings";
-import TablesSettings from "./settings/components/tables-settings/tables-settings";
-import UsersSettings from "./settings/components/users-settings/users-settings";
+import GenericSettings from "./settings/components/generic-settings/generic-table";
+import {Waiter} from "../models/waiter";
+import {Product} from "../models/product";
+import {Table} from "../models/table";
+import {Category} from "../models/category";
 
 export let admin_routes: RouteObject = {
     element: <AdminLayout/>,
@@ -15,19 +16,19 @@ export let admin_routes: RouteObject = {
             path: "/admin",
         },
         {
-            element: <UsersSettings/>,
+            element: <GenericSettings<Waiter> fetchEndpoint={"waiters"}/>,
             path: "/admin/users",
         },
         {
-            element: <CategoriesSettings/>,
+            element: <GenericSettings<Category> fetchEndpoint={"categories"}/>,
             path: "/admin/categories",
         },
         {
-            element: <ProductsSettings/>,
+            element:  <GenericSettings<Product> fetchEndpoint={"products"}/>,
             path: "/admin/products",
         },
         {
-            element: <TablesSettings/>,
+            element: <GenericSettings<Table> fetchEndpoint={"tables"}/>,
             path: "/admin/tables",
         },
         {

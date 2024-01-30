@@ -65,16 +65,16 @@ const ProductsSettings = () => {
                 <>
                     {
                         products.map((product) => {
-                            return <tr className={"text-center [&>*]:border h-14"} key={product.id}>
-                                <td className={"text-xs"}>{product.id}</td>
+                            return <tr className={"text-center [&>*]:border h-14"} key={product._id}>
+                                <td className={"text-xs"}>{product._id}</td>
                                 <td>{product.name}</td>
                                 <td>{product.price.toFixed(2)} zł</td>
-                                <td>{product.tax}%</td>
-                                <td>{product.category.name}</td>
-                                <td>{product.description}</td>
+                                {/*<td>{product.tax}%</td>*/}
+                                {/*<td>{product.category.name}</td>*/}
+                                {/*<td>{product.description}</td>*/}
                                 <td>
                                     <button
-                                        onClick={() => removeRow(product.id)}
+                                        onClick={() => removeRow(product._id)}
                                         className={"aspect-square border rounded-lg p-1"}
                                     >
                                         <FaTrashCan/>

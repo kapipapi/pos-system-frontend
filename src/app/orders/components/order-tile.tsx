@@ -1,9 +1,7 @@
-import {ProductInOrder, sumupOrder} from "../../../models/product";
 import {Order} from "../../../models/order";
-import {isNil} from "lodash";
-import {IoTrashOutline} from "react-icons/io5";
-import {FaRegPenToSquare} from "react-icons/fa6";
 import {FC} from "react";
+import {ProductInOrder} from "../../../models/product";
+import {FaRegPenToSquare} from "react-icons/fa6";
 
 const ProductRow = ({product}: { product: ProductInOrder }) => {
     return <tr className={"h-7"}>
@@ -15,16 +13,15 @@ const ProductRow = ({product}: { product: ProductInOrder }) => {
 
 type Props = {
     order: Order,
-    onRemove: (id: string) => void,
-    selectOrder: (tableId: string) => void
+    selectOrder: (orderId: string) => void
 }
 
-export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
+export const OrderTile: FC<Props> = ({order, selectOrder}) => {
 
     return <div className={"bg-nice-gray text-bone px-3 py-4 pt-2 rounded-md"}>
         <div className={"flex flex-row text-xl font-light"}>
-            <p className={""}>Table {order.table.name}</p>
-            <p className={"ml-auto"}>{order.creator.name}</p>
+            <p className={""}>{order.waiter.name}</p>
+            <p className={"ml-auto"}>{order.table.name}</p>
         </div>
 
         <hr className={"stroke-bone mx-1 mt-2 mb-1"}/>
@@ -38,7 +35,7 @@ export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
             </tr>
             </thead>
             <tbody>
-            {order.products?.map((product) => <ProductRow key={product.id} product={product}/>)}
+            {order.products?.map((product) => <ProductRow key={product._id} product={product}/>)}
             </tbody>
         </table>
 
@@ -46,18 +43,13 @@ export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
 
         <div className={"flex items-center mb-3"}>
             <span className={"text-sm font-light"}>Total</span>
-            <span className={"text-xl ml-auto"}>{sumupOrder(order.products).toFixed(2)} zł</span>
+            <span className={"text-xl ml-auto"}>{order.sum.toFixed(2)} zł</span>
         </div>
 
         <div className={"flex flex-row h-14 space-x-2 text-zinc-300"}>
             <button
                 className={"flex flex-col w-12 h-12 aspect-square border border-zinc-500 rounded-xl items-center justify-center"}
-                onClick={() => onRemove(order.id)}>
-                <IoTrashOutline className={"w-full text-2xl"}/>
-            </button>
-            <button
-                className={"flex flex-col w-12 h-12 aspect-square border border-zinc-500 rounded-xl items-center justify-center"}
-                onClick={() => selectOrder(order.table.id)}
+                onClick={() => selectOrder(order._id)}
             >
                 <FaRegPenToSquare className={"w-full text-xl"}/>
             </button>
@@ -65,6 +57,6 @@ export const OrderTile: FC<Props> = ({order, onRemove, selectOrder}) => {
                 <p className={"text-bone"}>Payment</p>
             </button>
         </div>
-        <p className={"text-xs font-extralight text-center"}>{order.id}</p>
+        <p className={"text-xs font-extralight text-center"}>{order._id}</p>
     </div>
 }

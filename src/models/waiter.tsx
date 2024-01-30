@@ -1,11 +1,9 @@
-export interface Waiter {
-    id: string,
+export interface NewWaiter {
     name: string,
-    color: string,
+    code: string,
 }
 
-export interface NewUser {
+export interface Waiter {
+    _id: string,
     name: string,
-    color: string,
-    code: string,
 }

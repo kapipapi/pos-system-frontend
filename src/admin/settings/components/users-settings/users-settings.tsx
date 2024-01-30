@@ -3,7 +3,7 @@ import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/au
 import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
-import {NewUser, Waiter} from "../../../../models/waiter";
+import {NewWaiter, Waiter} from "../../../../models/waiter";
 import NewUserForm from "./new-user-form";
 
 const UsersSettings = () => {
@@ -14,7 +14,7 @@ const UsersSettings = () => {
 
     const [users, setUsers] = useState<Waiter[]>([]);
     const fetchUsers = () => {
-        authFetchGet<Waiter[]>("admin/users", token)
+        authFetchGet<Waiter[]>("waiters", token)
             .then((res) => {
                 setUsers(res)
             })
@@ -23,8 +23,8 @@ const UsersSettings = () => {
     useEffect(fetchUsers, [setUsers, token])
 
 
-    const onNewUserFormSubmit = (newUser: NewUser) => {
-        authFetchPost<Waiter[]>("admin/users", token, newUser)
+    const onNewUserFormSubmit = (newWaiter: NewWaiter) => {
+        authFetchPost<Waiter[]>("waiters", token, newWaiter)
             .then((res) => {
                 setUsers(res)
             })
@@ -63,12 +63,12 @@ const UsersSettings = () => {
                 <tbody>
                 {users.map((user) => {
                     return (
-                        <tr className={"text-center [&>*]:border h-10"} key={user.id}>
+                        <tr className={"text-center [&>*]:border h-10"} key={user._id}>
                             <td>{user.name}</td>
-                            <td style={{backgroundColor: user.color}}>{" "}</td>
+                            {/*<td style={{backgroundColor: user.color}}>{" "}</td>*/}
                             <td>
                                 <button
-                                    onClick={() => removeRow(user.id)}
+                                    onClick={() => removeRow(user._id)}
                                     className={"aspect-square border rounded-lg p-1"}
                                 >
                                     <FaTrashCan/>

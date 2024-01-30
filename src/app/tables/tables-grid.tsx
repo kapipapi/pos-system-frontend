@@ -1,7 +1,7 @@
 import {Table} from "../../models/table";
 import React, {FC, ReactElement} from "react";
 import classNames from "classnames";
-import {isNil, repeat} from "lodash";
+import {isNil} from "lodash";
 
 type GridCellProps = {
     table?: Table;
@@ -32,14 +32,11 @@ const GridCell: FC<GridCellProps> = ({
                     let name = prompt("Podaj nazwę stolika:", `Stolik ${px} ${py}`);
 
                     onClick({
-                        id: "",
+                        _id: "",
                         name: isNil(name) ? `Stolik ${px} ${py}` : name,
-                        position_x: px,
-                        position_y: py,
-                        size_w: 1,
-                        size_h: 1,
+                        x: px,
+                        y: py,
                         level: pl,
-                        orders: [],
                     })
                 }
             }}
@@ -50,18 +47,7 @@ const GridCell: FC<GridCellProps> = ({
 
     return <div
         onClick={() => onClick(table)}
-        className={classNames(`flex flex-col w-full bg-zinc-800 text-white rounded-md col-span-${table.size_w} row-span-${table.size_h}`, {
-            "aspect-square": table.size_w === table.size_h,
-            "cursor-pointer": !isSettingsTable ?? false,
-        })}>
-        <div className={"flex flex-row flex-wrap gap-1 m-1"}>
-            {table.orders.map((order) => {
-                return <div
-                    className={"w-5 bg-bone rounded-full aspect-square text-sm text-zinc-800 text-center items-center"}>
-                    {order.creator.name[0]}
-                </div>
-            })}
-        </div>
+        className={"flex flex-col w-full bg-zinc-800 text-white rounded-md col-span-1 row-span-1 aspect-square"}>
         <p className={"mt-auto text-center"}>{table.name}</p>
     </div>
 }
@@ -90,9 +76,9 @@ const TablesFullGrid: FC<FullGridProps> = ({tables, level, onTableClick, options
     }
 
     for (const table of tables) {
-        const {position_x: px, position_y: py, size_w, size_h} = table;
-        if ((0 <= px && (px + size_w) <= grid_w) &&
-            (0 <= py && (py + size_h) <= grid_h) &&
+        const {x: px, y: py} = table;
+        if ((0 <= px && (px + 1) <= grid_w) &&
+            (0 <= py && (py + 1) <= grid_h) &&
             (table.level === level)) {
             grid[grid_w * py + px] =
                 <GridCell key={`table_${table.name}`} table={table} onClick={onTableClick} {...options}/>
