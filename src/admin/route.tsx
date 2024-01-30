@@ -2,10 +2,10 @@ import {redirect, RouteObject} from "react-router-dom";
 import AdminPanel from "./admin-panel";
 import AdminLayout from "./layout";
 import GenericSettings from "./settings/components/generic-settings/generic-table";
-import {Waiter} from "../models/waiter";
-import {Product} from "../models/product";
-import {Table} from "../models/table";
-import {Category} from "../models/category";
+import {NewWaiter, Waiter} from "../models/waiter";
+import {NewProduct, Product} from "../models/product";
+import {NewTable, Table} from "../models/table";
+import {Category, NewCategory} from "../models/category";
 
 export let admin_routes: RouteObject = {
     element: <AdminLayout/>,
@@ -16,15 +16,14 @@ export let admin_routes: RouteObject = {
             path: "/admin",
         },
         {
-            element: <GenericSettings<Waiter> fetchEndpoint={"waiters"} default_values={{
-                _id: "",
+            element: <GenericSettings<Waiter, NewWaiter> fetchEndpoint={"waiters"} default_values={{
                 name: "",
+                code: "",
             }}/>,
             path: "/admin/users",
         },
         {
-            element: <GenericSettings<Category> fetchEndpoint={"categories"} default_values={{
-                _id: "",
+            element: <GenericSettings<Category, NewCategory> fetchEndpoint={"categories"} default_values={{
                 name: "",
                 icon: "",
                 color: "",
@@ -32,16 +31,14 @@ export let admin_routes: RouteObject = {
             path: "/admin/categories",
         },
         {
-            element: <GenericSettings<Product> fetchEndpoint={"products"} default_values={{
-                _id: "",
+            element: <GenericSettings<Product, NewProduct> fetchEndpoint={"products"} default_values={{
                 name: "",
                 price: 0,
             }}/>,
             path: "/admin/products",
         },
         {
-            element: <GenericSettings<Table> fetchEndpoint={"tables"} default_values={{
-                _id: "",
+            element: <GenericSettings<Table, NewTable> fetchEndpoint={"tables"} default_values={{
                 name: "",
                 x: 0,
                 y: 0,

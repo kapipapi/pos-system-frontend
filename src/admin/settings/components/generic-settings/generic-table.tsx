@@ -1,15 +1,18 @@
 import {useEffect, useState} from "react";
 import {FaPlus} from "react-icons/fa";
 import {useAuth} from "oidc-react";
-import {authFetchGet} from "../../../../hooks/authFetch";
+import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import GenericForm from "./generic-form";
 
-type GenericSettingsProps<T> = {
+type GenericSettingsProps<T, K> = {
     fetchEndpoint: string;
-    default_values: T;
+    default_values: K;
 };
 
-const GenericSettings = <T extends object, >({fetchEndpoint, default_values}: GenericSettingsProps<T>) => {
+const GenericSettings = <T extends object, K extends object>({
+                                                                 fetchEndpoint,
+                                                                 default_values
+                                                             }: GenericSettingsProps<T, K>) => {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
@@ -18,10 +21,17 @@ const GenericSettings = <T extends object, >({fetchEndpoint, default_values}: Ge
     const fetchItems = () => {
         authFetchGet<T[]>(fetchEndpoint, token)
             .then((res) => {
-                console.log(res)
                 setItems(res);
             })
             .catch(e => setItems([] as T[]));
+    };
+
+    const createItem = (newItem: K) => {
+        authFetchPost(fetchEndpoint, token, newItem)
+            .then(() => {
+                fetchItems();
+            })
+            .catch(e => console.log(e));
     };
 
     useEffect(fetchItems, [fetchEndpoint, setItems, token]);
@@ -44,7 +54,7 @@ const GenericSettings = <T extends object, >({fetchEndpoint, default_values}: Ge
 
     return (
         <div className={"flex flex-col w-full p-2"}>
-            <GenericForm<T> onSubmit={console.log} default_values={default_values}/>
+            <GenericForm<K> onSubmit={createItem} default_values={default_values}/>
             <div className={"flex flex-row mb-2 items-center"}>
                 <div className={"space-x-2"}>
                     <button className={"inline-flex items-center border rounded-md p-1"}>
