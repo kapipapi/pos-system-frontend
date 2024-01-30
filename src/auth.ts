@@ -3,14 +3,14 @@ import {isNil} from "lodash";
 
 export const checkRole = (user: User | null | undefined) => {
     if (isNil(user)) {
-        console.log("User is null or undefined")
+        console.log("Waiter is null or undefined")
         return false;
     }
 
     let userClaims = user.profile;
 
     if (!userClaims.hasOwnProperty("roles")) {
-        console.log("User has no roles")
+        console.log("Waiter has no roles")
         return false
     }
 

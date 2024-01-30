@@ -1,30 +1,18 @@
-import {createContext, Dispatch, ReactElement, SetStateAction, useEffect, useState} from 'react'
+import {createContext, ReactElement, useEffect, useState} from 'react'
 import {Outlet} from "react-router-dom";
-import {User} from "../models/user";
-import {authFetchGet, authFetchPost} from "../hooks/authFetch";
+import {Waiter} from "../models/waiter";
+import {authFetchGet} from "../hooks/authFetch";
 import {useAuth} from "oidc-react";
-import {isNil} from "lodash";
 
 export type UserContextType = {
-    usersList: User[],
-    selectedUser?: string,
-    selectUser: Dispatch<SetStateAction<string | undefined>>;
-    isLoadingUsers: boolean,
-    currentUser: User | undefined,
+    usersList: Waiter[],
+    currentUser: Waiter | undefined,
     checkPinCode: (code: string) => Promise<boolean>,
     logout: () => void,
 }
 
-type CheckUserPinResult = {
-    authorized: boolean,
-}
-
 const defaultUserContext: UserContextType = {
     usersList: [],
-    selectedUser: undefined,
-    selectUser: () => {
-    },
-    isLoadingUsers: true,
     currentUser: undefined,
     checkPinCode: () => Promise.resolve(false),
     logout: () => {
@@ -36,16 +24,13 @@ export const UserContext = createContext<UserContextType>(defaultUserContext);
 export const UserContextProvider = (): ReactElement => {
     const auth = useAuth();
 
-    const [usersList, setUsersList] = useState<User[]>([]);
-    const [isLoadingUsers, setLoadingUsers] = useState(true);
-    const [selectedUser, setSelectedUser] = useState<string>();
-    const [currentUser, setCurrentUser] = useState<User | undefined>();
+    const [usersList, setUsersList] = useState<Waiter[]>([]);
+    const [currentUser, setCurrentWaiter] = useState<Waiter | undefined>();
 
     useEffect(() => {
-        authFetchGet<User[]>("user_context/list_users", auth.userData?.access_token)
+        authFetchGet<Waiter[]>("waiters", auth.userData?.access_token)
             .then((res) => {
                 setUsersList(res);
-                setLoadingUsers(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -53,26 +38,14 @@ export const UserContextProvider = (): ReactElement => {
     }, [auth]);
 
     const checkPinCode = async (code: string): Promise<boolean> => {
-        if (code.length !== 4 || isNil(selectedUser)) {
+        if (code.length !== 4) {
             return false;
         }
 
-        let user = usersList.find((value) => value.id === selectedUser);
-        if (user === undefined) {
-            return false;
-        }
-
-        return authFetchPost<CheckUserPinResult>("user_context/check_pin", auth.userData?.access_token, {
-            user_id: selectedUser,
-            code: code
-        })
-            .then((res) => {
-                if(res.authorized){
-                    setCurrentUser(user);
-                    setSelectedUser(undefined);
-                    return res.authorized;
-                }
-                return false;
+        return authFetchGet<Waiter>("waiters/" + code, auth.userData?.access_token)
+            .then((waiter) => {
+                setCurrentWaiter(waiter);
+                return true;
             })
             .catch(() => {
                 return false;
@@ -80,14 +53,11 @@ export const UserContextProvider = (): ReactElement => {
     }
 
     const logout = () => {
-        setCurrentUser(undefined);
+        setCurrentWaiter(undefined);
     };
 
     return <UserContext.Provider value={{
         usersList,
-        selectedUser,
-        selectUser: setSelectedUser,
-        isLoadingUsers,
         currentUser,
         checkPinCode,
         logout

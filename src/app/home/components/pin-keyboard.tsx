@@ -26,37 +26,35 @@ const PinKeyboardContext = createContext<PinKeyboardContextType>({
 });
 
 export default function PinKeyboard() {
-    const {selectedUser, checkPinCode} = useContext(UserContext);
+    const {checkPinCode} = useContext(UserContext);
 
     const [code, setCode] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
 
     const addCodeDigit = (d: number) => {
-        if (!isNil(selectedUser)) {
-            setCode(prevState => {
-                if (prevState.length === 0) {
-                    setError(false);
-                }
+        setCode(prevState => {
+            if (prevState.length === 0) {
+                setError(false);
+            }
 
-                if (d >= 0) {
-                    if (prevState.length < 4) {
-                        return prevState + d.toString();
-                    } else {
-                        return d.toString();
-                    }
+            if (d >= 0) {
+                if (prevState.length < 4) {
+                    return prevState + d.toString();
+                } else {
+                    return d.toString();
                 }
+            }
 
-                if (d === -1) {
-                    return prevState.slice(0, code.length - 1)
-                }
+            if (d === -1) {
+                return prevState.slice(0, code.length - 1)
+            }
 
-                return prevState
-            });
-        }
+            return prevState
+        });
     };
 
     useEffect(() => {
-        if (code.length === 4 && !isNil(selectedUser)) {
+        if (code.length === 4) {
             setCode("");
             checkPinCode(code).then((isValid) => {
                 if (!isValid) {
@@ -64,12 +62,12 @@ export default function PinKeyboard() {
                 }
             });
         }
-    }, [code, selectedUser, setError, checkPinCode])
+    }, [code, setError, checkPinCode])
 
     useEffect(() => {
         setCode("");
         setError(false);
-    }, [selectedUser, setCode]);
+    }, [setCode]);
 
     return <div
         className={"flex flex-col col-span-1 bg-zinc-800 m-3 rounded-xl items-center justify-center space-y-12"}>

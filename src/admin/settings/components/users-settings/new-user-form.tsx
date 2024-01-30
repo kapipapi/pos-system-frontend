@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import {Controller, useForm} from "react-hook-form";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
-import {NewUser} from "../../../../models/user";
+import {NewUser} from "../../../../models/waiter";
 import {CirclePicker} from "react-color";
 import {colors} from "../../colors";
 

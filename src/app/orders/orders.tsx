@@ -9,7 +9,7 @@ import {TableOrderContext} from "../../contexts/table-order-context";
 import {Table} from "../../models/table";
 import {useNavigate} from "react-router";
 import EmployeeSelector from "./components/employee-selector";
-import {User} from "../../models/user";
+import {Waiter} from "../../models/waiter";
 
 function Orders() {
     const auth = useAuth();
@@ -22,7 +22,7 @@ function Orders() {
 
     const {setTable} = useContext(TableOrderContext);
 
-    const [selectedUser, setSelectedUser] = useState<User | undefined>(currentUser);
+    const [selectedUser, setSelectedUser] = useState<Waiter | undefined>(currentUser);
 
     const openOrderInMenu = (tableId: string) => {
         authFetchGet<Table>(`orders_view/get_table/${tableId}`, auth.userData?.access_token)

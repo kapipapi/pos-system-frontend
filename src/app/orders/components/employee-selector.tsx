@@ -1,4 +1,4 @@
-import {User} from "../../../models/user";
+import {Waiter} from "../../../models/waiter";
 import {ReactElement} from "react";
 
 type ItemProps = {
@@ -19,9 +19,9 @@ function Item(p: ItemProps) {
 }
 
 type Props = {
-    users: User[],
-    selectedUser?: User,
-    onSelectUser: (user: User | undefined) => void,
+    users: Waiter[],
+    selectedUser?: Waiter,
+    onSelectUser: (user: Waiter | undefined) => void,
 }
 
 export default function EmployeeSelector({users, selectedUser, onSelectUser}: Props) {

@@ -3,7 +3,7 @@ import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/au
 import {useAuth} from "oidc-react";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaPlus} from "react-icons/fa";
-import {NewUser, User} from "../../../../models/user";
+import {NewUser, Waiter} from "../../../../models/waiter";
 import NewUserForm from "./new-user-form";
 
 const UsersSettings = () => {
@@ -12,9 +12,9 @@ const UsersSettings = () => {
 
     const [modalState, setModalState] = useState(false);
 
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<Waiter[]>([]);
     const fetchUsers = () => {
-        authFetchGet<User[]>("admin/users", token)
+        authFetchGet<Waiter[]>("admin/users", token)
             .then((res) => {
                 setUsers(res)
             })
@@ -24,7 +24,7 @@ const UsersSettings = () => {
 
 
     const onNewUserFormSubmit = (newUser: NewUser) => {
-        authFetchPost<User[]>("admin/users", token, newUser)
+        authFetchPost<Waiter[]>("admin/users", token, newUser)
             .then((res) => {
                 setUsers(res)
             })

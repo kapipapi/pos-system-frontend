@@ -24,19 +24,13 @@ type ListProps = {
 }
 
 export default function EmployeeList(p: ListProps) {
-    const {isLoadingUsers: isLoading, usersList: users, selectedUser, selectUser} = useContext(UserContext);
-
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
+    const {usersList: users} = useContext(UserContext);
 
     return <ul className={`${p.small ? "space-y-2" : "w-full space-y-5"}`}>
         {
             users?.map((value, index) => {
-                return <button className={"w-full"} key={index} onClick={() => selectUser(value.id)}>
-                    <Item small={p.small ?? false} symbol={value.name[0]} key={index}
-                          selected={selectedUser === value.id}>{value.name}</Item>
-                </button>;
+                return <Item small={p.small ?? false} symbol={value.name[0]} key={index}
+                             selected={false}>{value.name}</Item>
             })
         }
     </ul>

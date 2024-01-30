@@ -1,4 +1,4 @@
-export interface User {
+export interface Waiter {
     id: string,
     name: string,
     color: string,

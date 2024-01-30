@@ -1,11 +1,11 @@
 import {ProductInOrder} from "./product";
-import {User} from "./user";
+import {Waiter} from "./waiter";
 import {TableInOrder} from "./table";
 
 export interface Order {
     id: string,
     table: TableInOrder,
-    creator: User,
+    creator: Waiter,
     products: ProductInOrder[],
     info?: String,
 }
