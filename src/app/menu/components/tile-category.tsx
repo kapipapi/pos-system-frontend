@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {DynamicIcon} from "../../../admin/settings/components/categories-settings/dynamic-icon";
+import {DynamicIcon} from "../../../admin/settings/components/dynamic-icon";
 import {Category} from "../../../models/category";
 
 type Prop = {

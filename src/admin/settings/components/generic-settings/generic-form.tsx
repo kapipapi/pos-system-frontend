@@ -1,4 +1,5 @@
 import {Path, useForm} from "react-hook-form";
+import {upperFirst} from "lodash";
 
 type Props<T> = {
     default_values: T;
@@ -26,21 +27,23 @@ function createFields<T extends object>(default_values: T): FieldConfig<T>[] {
 }
 
 const GenericForm = <T extends object, >({onSubmit, default_values}: Props<T>) => {
-    const {register, handleSubmit, formState: {errors}} = useForm<T>();
+    const {register, handleSubmit} = useForm<T>();
     const fields = createFields<T>(default_values);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className={"border"}>
+        <form onSubmit={handleSubmit(onSubmit)} className={"grid grid-cols-3 w-full md:w-1/2 lg:w-1/3 mx-auto border p-3"}>
             {fields.map((field) => (
-                <div key={String(field.name)}>
-                    <label>{field.label}</label>
-                    <input {...register(field.name as unknown as Path<T>, {valueAsNumber: field.type === "number", ...field.validation})}
-                           type={field.type}/>
-                </div>
-            ))}
-            <button type="submit" className={"border"}>Submit</button>
+                    <>
+                        <label className={"text-center my-auto"}>{upperFirst(field.label)}</label>
+                        <input {...register(field.name as unknown as Path<T>, {valueAsNumber: field.type === "number", ...field.validation})}
+                               type={field.type} className={"border col-span-2 p-1 m-1 rounded-md"}/>
+                    </>
+                )
+            )}
+            <button type="submit" className={"col-span-3 w-1/2 mx-auto mt-5 p-2 bg-green-200 rounded-md"}>Submit</button>
         </form>
-    );
+    )
+        ;
 };
 
 export default GenericForm;

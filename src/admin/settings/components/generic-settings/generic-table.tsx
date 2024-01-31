@@ -4,7 +4,7 @@ import {useAuth} from "oidc-react";
 import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import GenericForm from "./generic-form";
 
-type GenericSettingsProps<T, K> = {
+type GenericSettingsProps<K> = {
     fetchEndpoint: string;
     default_values: K;
 };
@@ -12,7 +12,7 @@ type GenericSettingsProps<T, K> = {
 const GenericSettings = <T extends object, K extends object>({
                                                                  fetchEndpoint,
                                                                  default_values
-                                                             }: GenericSettingsProps<T, K>) => {
+                                                             }: GenericSettingsProps<K>) => {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
