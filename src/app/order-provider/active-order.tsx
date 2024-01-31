@@ -1,6 +1,6 @@
 import ProductList from "./components/product-list";
 import OrderSummary from "./components/order-summary";
-import {FC, useContext} from "react";
+import {useContext} from "react";
 import {OrderContext} from "./order-provider";
 import {isNil} from "lodash";
 import {CgClose} from "react-icons/cg";

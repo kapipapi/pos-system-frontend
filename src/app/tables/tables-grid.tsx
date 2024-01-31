@@ -5,7 +5,7 @@ import {isNil} from "lodash";
 
 type GridCellProps = {
     table?: Table;
-    onClick: (table: Table) => void;
+    onClick: (table_id: string) => void;
     isSettingsTable?: boolean;
     isSettingsAddActive?: boolean;
     position_x?: number;
@@ -31,13 +31,8 @@ const GridCell: FC<GridCellProps> = ({
 
                     let name = prompt("Podaj nazwę stolika:", `Stolik ${px} ${py}`);
 
-                    onClick({
-                        _id: "",
-                        name: isNil(name) ? `Stolik ${px} ${py}` : name,
-                        x: px,
-                        y: py,
-                        level: pl,
-                    })
+                    onClick("")
+                    console.error("TODO: add table", name, px, py, pl)
                 }
             }}
             className={classNames("w-full col-span-1 aspect-square border", {
@@ -46,8 +41,8 @@ const GridCell: FC<GridCellProps> = ({
     }
 
     return <div
-        onClick={() => onClick(table)}
-        className={"flex flex-col w-full bg-zinc-800 text-white rounded-md col-span-1 row-span-1 aspect-square"}>
+        onClick={() => onClick(table?._id ?? "")}
+        className={"flex flex-col w-full bg-zinc-800 text-white rounded-md col-span-1 row-span-1 aspect-square cursor-pointer"}>
         <p className={"mt-auto text-center"}>{table.name}</p>
     </div>
 }
@@ -55,7 +50,7 @@ const GridCell: FC<GridCellProps> = ({
 type FullGridProps = {
     tables: Table[];
     level: number;
-    onTableClick: (table: Table) => void;
+    onTableClick: (table_id: string) => void;
     options?: {
         isSettingsTable: boolean;
         isSettingsAddActive: boolean;
