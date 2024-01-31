@@ -1,12 +1,13 @@
-import {Dispatch, SetStateAction, useContext, useState} from "react";
+import {Dispatch, FC, SetStateAction, useContext, useState} from "react";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
-import {Product} from "../../../models/product";
+import {Product, ProductInOrder} from "../../../models/product";
 import {OrderContext} from "../order-provider";
 import {isNil} from "lodash";
+import {Order} from "../../../models/order";
 
 const Item = ({product, openAction, onClick, removeProduct}: {
-    product: Product,
+    product: ProductInOrder,
     openAction: boolean,
     onClick: Dispatch<SetStateAction<string | undefined>>
     removeProduct: (productId: string) => void
@@ -21,7 +22,7 @@ const Item = ({product, openAction, onClick, removeProduct}: {
             )}>
             <p className={"flex space-x-2 items-center"}>
                 <span className={"font-bold"}>{product.name}</span>
-                <span className={"text-zinc-400"}>x </span>
+                <span className={"text-zinc-400"}>x {product.quantity}</span>
             </p>
             <p className={"ml-auto"}>{product.price.toFixed(2)} zł</p>
         </div>
@@ -33,20 +34,21 @@ const Item = ({product, openAction, onClick, removeProduct}: {
     </div>
 }
 
-const ProductList = () => {
-    const {order} = useContext(OrderContext);
+type Props = {
+    products: ProductInOrder[],
+    removeProduct: (productId: string) => void
+}
 
+const ProductList: FC<Props> = ({products, removeProduct}) => {
     const [activeItem, setActiveItem] = useState<string>();
 
-    if (isNil(order)) return <div>No order selected</div>;
-
     return <div className={"flex flex-col w-full space-y-2 overflow-y-scroll no-scrollbar"}>
-        {order.products?.map((product) => {
+        {products.map((product) => {
             return <Item key={product._id}
                          product={product}
                          openAction={activeItem === product._id}
                          onClick={setActiveItem}
-                         removeProduct={(productId) => console.log(order._id, productId, "token")}/>
+                         removeProduct={removeProduct}/>
         })}
     </div>
 }

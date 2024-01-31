@@ -1,19 +1,20 @@
-import ProductList from "./components/product-list";
-import OrderSummary from "./components/order-summary";
 import {Outlet} from "react-router";
 import {Order} from "../../models/order";
-import {createContext, Dispatch, SetStateAction, useState} from "react";
+import {createContext, useState} from "react";
 import {authFetchGet} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
+import ActiveOrder from "./active-order";
 
 export type OrderContextType = {
     order?: Order,
     setOrder: (orderId: String) => void,
+    closeActiveOrder: () => void,
 }
 const defaultOrderContext: OrderContextType = {
     order: undefined,
     setOrder: () => {
     },
+    closeActiveOrder: () => {},
 }
 
 export const OrderContext = createContext<OrderContextType>(defaultOrderContext);
@@ -32,23 +33,18 @@ function OrderProvider() {
             .catch(e => console.error(e));
     }
 
+    const closeActiveOrder = () => {
+        setOrderState(undefined);
+    }
+
     return <OrderContext.Provider value={{
         order: orderState,
         setOrder,
+        closeActiveOrder,
     }}>
         <div className={"flex flex-row w-full max-h-screen"}>
             <Outlet/>
-            <div className={"flex flex-col w-96 lg:w-[36rem] m-2 overflow-hidden"}>
-                <button className={"flex w-full border"} onClick={() => setOrderState(undefined)}>
-                    close
-                </button>
-
-                <ProductList/>
-
-                <div className={"mt-auto"}>
-                    <OrderSummary/>
-                </div>
-            </div>
+            <ActiveOrder/>
         </div>
     </OrderContext.Provider>
 }
