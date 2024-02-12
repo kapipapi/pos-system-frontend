@@ -1,17 +1,17 @@
 import {Outlet} from "react-router";
 import {Order} from "../../models/order";
 import {createContext, useContext, useState} from "react";
-import {authFetchDelete, authFetchGet, authFetchPost} from "../../hooks/authFetch";
+import {authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import ActiveOrder from "./active-order";
 import {UserContext} from "../../contexts/user-context";
-import {isNil} from "lodash";
 
 export type OrderContextType = {
     order?: Order,
     setOrder: (orderId: String) => void,
     createOrder: (tableId: String) => void,
     closeActiveOrder: () => void,
+    addProductToOrder: (productId: String) => void,
 }
 const defaultOrderContext: OrderContextType = {
     order: undefined,
@@ -21,6 +21,8 @@ const defaultOrderContext: OrderContextType = {
     },
     closeActiveOrder: () => {
     },
+    addProductToOrder: () => {
+    }
 }
 
 export const OrderContext = createContext<OrderContextType>(defaultOrderContext);
@@ -57,7 +59,16 @@ function OrderProvider() {
                     console.log("Order empty - closed")
                 }
             })
+
         setOrderState(undefined);
+    }
+
+    const addProductToOrder = (productId: String) => {
+        authFetchPost<Order>(`orders/${orderState?._id}/add-product`, token, {
+            product_id: productId,
+        }).then(res => {
+            setOrderState(res);
+        })
     }
 
     return <OrderContext.Provider value={{
@@ -65,6 +76,7 @@ function OrderProvider() {
         setOrder,
         createOrder,
         closeActiveOrder,
+        addProductToOrder,
     }}>
         <div className={"flex flex-row w-full max-h-screen"}>
             <Outlet/>

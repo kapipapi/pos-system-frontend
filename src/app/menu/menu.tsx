@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import TileProduct from "./components/tile-product";
 import {useAuth} from "oidc-react";
 import {Product} from "../../models/product";
@@ -6,11 +6,15 @@ import {authFetchGet} from "../../hooks/authFetch";
 import {IoSearch} from "react-icons/io5";
 import {Category} from "../../models/category";
 import TileCategory from "./components/tile-category";
+import {OrderContext} from "../order-provider/order-provider";
+
 function Menu() {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
     const [products, setProducts] = useState<Product[]>([]);
+
+    const {addProductToOrder} = useContext(OrderContext);
 
     const fetchProducts = () => {
         authFetchGet<Product[]>("products", token)
@@ -23,15 +27,6 @@ function Menu() {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>();
-
-    // const fetchCategories = () => {
-    //     authFetchGet<Category[]>("menu_view/get_all_categories", token)
-    //         .then((res) => {
-    //             setCategories(res)
-    //         })
-    //         .catch(e => console.error(e));
-    // }
-    // useEffect(fetchCategories, [setCategories, token])
 
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
@@ -60,7 +55,7 @@ function Menu() {
                             .map((product) => {
                                 return <TileProduct key={product._id}
                                                     product={product}
-                                                    onClick={(id) => console.log("123", id, token)}
+                                                    onClick={(id) => addProductToOrder(id)}
                                 />
                             })}
                     </div>
