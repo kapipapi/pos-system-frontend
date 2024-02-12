@@ -7,6 +7,7 @@ import Tables from "./tables/tables";
 import Orders from "./orders/orders";
 import {RouteObject} from "react-router-dom";
 import OrderProvider from "./order-provider/order-provider";
+import Reservations from "./reservations/reservations";
 
 export let app_routes: RouteObject = {
     element: <UserContextProvider/>,
@@ -39,6 +40,10 @@ export let app_routes: RouteObject = {
                                 },
                             ]
                         },
+                        {
+                            element: <Reservations/>,
+                            path: "/app/reservations",
+                        }
                     ]
                 },
             ],

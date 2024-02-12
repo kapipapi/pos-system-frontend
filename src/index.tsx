@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {AuthProvider} from 'oidc-react';
 import {RouterProvider} from "react-router-dom";
 import {routes} from "./routes";
+import {AppAuth} from "./auth";
+import {AuthProvider} from "oidc-react";
 
 const oidcConfig = {
     authority: "http://localhost:8888/realms/pos-system",
@@ -20,7 +21,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <AuthProvider {...oidcConfig}>
-            <RouterProvider router={routes}/>
+            <AppAuth>
+                <RouterProvider router={routes}/>
+            </AppAuth>
         </AuthProvider>
     </React.StrictMode>
 );

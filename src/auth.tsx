@@ -1,5 +1,17 @@
-import {User} from "oidc-react";
+import {useAuth, User} from "oidc-react";
 import {isNil} from "lodash";
+import React, {FC} from "react";
+
+
+export const AppAuth: FC<{ children: React.JSX.Element }> = ({children}) => {
+    const auth = useAuth();
+
+    if (auth.isLoading) {
+        return <></>
+    }
+
+    return <>{children}</>
+}
 
 export const checkRole = (user: User | null | undefined) => {
     if (isNil(user)) {
