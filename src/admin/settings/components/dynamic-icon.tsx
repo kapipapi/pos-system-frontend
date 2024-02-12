@@ -1,5 +1,5 @@
 import {isNil} from "lodash";
-import * as FaIcons from "react-icons/fa";
+import * as FaIcons from "react-icons/pi";
 
 export const DynamicIcon = ({name, className}: { name?: string, className?: string }) => {
     if (isNil(name)) return (<>unknown</>);

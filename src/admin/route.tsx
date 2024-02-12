@@ -34,6 +34,7 @@ export let admin_routes: RouteObject = {
             element: <GenericSettings<Product, NewProduct> fetchEndpoint={"products"} default_values={{
                 name: "",
                 price: 0,
+                category_id: "",
             }}/>,
             path: "/admin/products",
         },

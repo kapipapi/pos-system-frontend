@@ -28,6 +28,15 @@ function Menu() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>();
 
+    const fetchCategories = () => {
+        authFetchGet<Category[]>("categories", token)
+            .then((res) => {
+                setCategories(res)
+            })
+            .catch(e => console.error(e));
+    }
+    useEffect(fetchCategories, [setCategories, token])
+
     return (
         <div className={"flex flex-row w-full max-h-screen"}>
             <div className={"flex flex-col w-full"}>
@@ -51,7 +60,7 @@ function Menu() {
                     <div
                         className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 w-full gap-2 overflow-y-scroll no-scrollbar snap-y"}>
                         {products
-                            // .filter(p => selectedCategory ? p.category.id === selectedCategory : true)
+                            .filter(p => selectedCategory ? p.category._id === selectedCategory : true)
                             .map((product) => {
                                 return <TileProduct key={product._id}
                                                     product={product}

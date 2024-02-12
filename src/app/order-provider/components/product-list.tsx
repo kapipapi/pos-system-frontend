@@ -1,10 +1,7 @@
-import {Dispatch, FC, SetStateAction, useContext, useState} from "react";
+import {Dispatch, FC, SetStateAction, useState} from "react";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import classNames from "classnames";
-import {Product, ProductInOrder} from "../../../models/product";
-import {OrderContext} from "../order-provider";
-import {isNil} from "lodash";
-import {Order} from "../../../models/order";
+import {ProductInOrder} from "../../../models/product";
 
 const Item = ({product, openAction, onClick, removeProduct}: {
     product: ProductInOrder,
@@ -16,6 +13,7 @@ const Item = ({product, openAction, onClick, removeProduct}: {
                 onMouseLeave={() => onClick(undefined)}>
         <div
             onClick={() => onClick(product._id)}
+            style={{borderColor: product.category.color}}
             className={classNames(
                 "z-10 flex flex-row w-full px-2 rounded-md cursor-pointer bg-zinc-800 text-bone items-center justify-center border-l-8",
                 openAction ? "mr-14" : ""

@@ -5,6 +5,7 @@ import {authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import ActiveOrder from "./active-order";
 import {UserContext} from "../../contexts/user-context";
+import {isNil} from "lodash";
 
 export type OrderContextType = {
     order?: Order,
@@ -56,6 +57,8 @@ function OrderProvider() {
     }
 
     const closeActiveOrder = () => {
+        if (isNil(orderState)) return;
+
         authFetchGet<Boolean>(`orders/${orderState?._id}/check-empty`, token)
             .then(res => {
                 if (res) {
@@ -67,6 +70,8 @@ function OrderProvider() {
     }
 
     const addProductToOrder = (productId: String) => {
+        if (isNil(orderState)) return;
+
         authFetchPost<Order>(`orders/${orderState?._id}/add-product`, token, {
             product_id: productId,
         }).then(res => {
@@ -75,6 +80,8 @@ function OrderProvider() {
     }
 
     const removeProductFromOrder = (productId: String) => {
+        if (isNil(orderState)) return;
+
         authFetchPost<Order>(`orders/${orderState?._id}/remove-product`, token, {
             product_id: productId,
         }).then(res => {
