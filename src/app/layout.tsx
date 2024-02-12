@@ -4,10 +4,10 @@ import {Outlet} from "react-router";
 function AppLayout() {
     return (
         <div className={`flex flex-row`}>
-            <div className={"flex w-80 min-h-screen"}>
+            <div className={"flex w-80 min-h-screen fixed"}>
                 <SideMenu/>
             </div>
-            <main className="flex w-full min-h-screen">
+            <main className="flex w-full min-h-screen ml-80">
                 <Outlet/>
             </main>
         </div>

@@ -1,12 +1,10 @@
-import {useAuth} from "oidc-react";
+import WeekView from "./components/WeekView";
 
 function Reservations() {
-    const auth = useAuth();
-    let token = auth.userData?.access_token;
-
     return (
-        <div className={"flex flex-col w-full max-h-screen"}>
-            Reservations
+        <div className={"flex flex-col w-full max-h-screen pr-12"}>
+            <button className={"w-48 bg-zinc-800 text-white p-2 m-2 rounded-md"}>Add Reservation</button>
+            <WeekView/>
         </div>
     )
 }

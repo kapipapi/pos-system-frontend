@@ -25,7 +25,6 @@ type Props = {
 }
 
 export default function EmployeeSelector({users, selectedUser, onSelectUser}: Props) {
-
     return <ul className={"flex flex-row space-x-3"}>
         <button key="all" onClick={() => onSelectUser(undefined)}>
             <Item symbol={"A"} selected={selectedUser === undefined}>

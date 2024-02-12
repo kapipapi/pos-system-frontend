@@ -1,7 +1,6 @@
 import {Table} from "../../models/table";
 import React, {FC, ReactElement} from "react";
 import classNames from "classnames";
-import {isNil} from "lodash";
 
 type GridCellProps = {
     table?: Table;

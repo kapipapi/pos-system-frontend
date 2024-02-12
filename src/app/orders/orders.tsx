@@ -14,12 +14,13 @@ function Orders() {
 
     const {setOrder} = useContext(OrderContext);
 
-    const {usersList, currentUser} = useContext(UserContext);
+    const {usersList, currentUser, fetchAllWaiters} = useContext(UserContext);
     const [selectedUser, setSelectedUser] = useState<Waiter | undefined>(currentUser);
 
     const [orders, setOrders] = useState<Order[] | null>(null);
 
     const fetchOrders = () => {
+        fetchAllWaiters();
         const endpoint = selectedUser?._id ? `orders/waiter/${selectedUser._id}` : "orders";
         authFetchGet<Order[]>(endpoint, token)
             .then((res) => {
@@ -27,7 +28,7 @@ function Orders() {
             })
             .catch(e => console.error(e));
     }
-    useEffect(fetchOrders, [selectedUser, setOrders, token])
+    useEffect(fetchOrders, [selectedUser, setOrders, token, fetchAllWaiters])
 
 
     return <div

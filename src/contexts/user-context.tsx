@@ -12,6 +12,7 @@ export type UserContextType = {
     currentUser: Waiter | undefined,
     checkPinCode: (code: string) => Promise<boolean>,
     logout: () => void,
+    fetchAllWaiters: () => void,
 }
 
 const defaultUserContext: UserContextType = {
@@ -20,6 +21,8 @@ const defaultUserContext: UserContextType = {
     checkPinCode: () => Promise.resolve(false),
     logout: () => {
     },
+    fetchAllWaiters: () => {
+    }
 }
 
 const WAITER_COOKIE_NAME = "waiter_code";
@@ -90,7 +93,8 @@ export const UserContextProvider = (): ReactElement => {
         usersList,
         currentUser,
         checkPinCode,
-        logout
+        logout,
+        fetchAllWaiters
     }}>
         <Outlet/>
     </UserContext.Provider>;

@@ -2,7 +2,6 @@ import {useAuth, User} from "oidc-react";
 import {isNil} from "lodash";
 import React, {FC} from "react";
 
-
 export const AppAuth: FC<{ children: React.JSX.Element }> = ({children}) => {
     const auth = useAuth();
 
