@@ -1,20 +1,26 @@
 import {Outlet} from "react-router";
 import {Order} from "../../models/order";
-import {createContext, useState} from "react";
-import {authFetchGet} from "../../hooks/authFetch";
+import {createContext, useContext, useState} from "react";
+import {authFetchDelete, authFetchGet, authFetchPost} from "../../hooks/authFetch";
 import {useAuth} from "oidc-react";
 import ActiveOrder from "./active-order";
+import {UserContext} from "../../contexts/user-context";
+import {isNil} from "lodash";
 
 export type OrderContextType = {
     order?: Order,
     setOrder: (orderId: String) => void,
+    createOrder: (tableId: String) => void,
     closeActiveOrder: () => void,
 }
 const defaultOrderContext: OrderContextType = {
     order: undefined,
     setOrder: () => {
     },
-    closeActiveOrder: () => {},
+    createOrder: () => {
+    },
+    closeActiveOrder: () => {
+    },
 }
 
 export const OrderContext = createContext<OrderContextType>(defaultOrderContext);
@@ -22,6 +28,8 @@ export const OrderContext = createContext<OrderContextType>(defaultOrderContext)
 function OrderProvider() {
     const auth = useAuth();
     let token = auth.userData?.access_token;
+
+    let {currentUser} = useContext(UserContext);
 
     let [orderState, setOrderState] = useState<Order>();
 
@@ -33,13 +41,29 @@ function OrderProvider() {
             .catch(e => console.error(e));
     }
 
+    const createOrder = (tableId: String) => {
+        authFetchPost<Order>('orders', token, {
+            waiter_id: currentUser?._id,
+            table_id: tableId,
+        }).then(res => {
+            setOrder(res._id);
+        })
+    }
+
     const closeActiveOrder = () => {
+        authFetchGet<Boolean>(`orders/${orderState?._id}/check-empty`, token)
+            .then(res => {
+                if (res) {
+                    console.log("Order empty - closed")
+                }
+            })
         setOrderState(undefined);
     }
 
     return <OrderContext.Provider value={{
         order: orderState,
         setOrder,
+        createOrder,
         closeActiveOrder,
     }}>
         <div className={"flex flex-row w-full max-h-screen"}>

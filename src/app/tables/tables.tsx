@@ -23,7 +23,7 @@ function Tables() {
     const auth = useAuth();
     let token = auth.userData?.access_token;
 
-    const {setOrder, closeActiveOrder} = useContext(OrderContext);
+    const {setOrder, createOrder, closeActiveOrder} = useContext(OrderContext);
 
     const [tables, setTables] = useState<Table[]>([]);
     const [level, setLevel] = useState<number>(0);
@@ -38,6 +38,9 @@ function Tables() {
     const fetchOrders = (table_id: String) => {
         authFetchGet<Order[]>(`orders/table/${table_id}`, token)
             .then((res) => {
+                if (res.length === 0) {
+                    createOrder(table_id);
+                }
                 if (res.length === 1) {
                     setOrder(res[0]._id);
                 }
