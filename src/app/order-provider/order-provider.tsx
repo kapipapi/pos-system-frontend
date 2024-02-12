@@ -12,6 +12,7 @@ export type OrderContextType = {
     createOrder: (tableId: String) => void,
     closeActiveOrder: () => void,
     addProductToOrder: (productId: String) => void,
+    removeProductFromOrder: (productId: String) => void,
 }
 const defaultOrderContext: OrderContextType = {
     order: undefined,
@@ -22,6 +23,8 @@ const defaultOrderContext: OrderContextType = {
     closeActiveOrder: () => {
     },
     addProductToOrder: () => {
+    },
+    removeProductFromOrder: () => {
     }
 }
 
@@ -71,12 +74,21 @@ function OrderProvider() {
         })
     }
 
+    const removeProductFromOrder = (productId: String) => {
+        authFetchPost<Order>(`orders/${orderState?._id}/remove-product`, token, {
+            product_id: productId,
+        }).then(res => {
+            setOrderState(res);
+        })
+    }
+
     return <OrderContext.Provider value={{
         order: orderState,
         setOrder,
         createOrder,
         closeActiveOrder,
         addProductToOrder,
+        removeProductFromOrder,
     }}>
         <div className={"flex flex-row w-full max-h-screen"}>
             <Outlet/>

@@ -6,7 +6,7 @@ import {isNil} from "lodash";
 import {CgClose} from "react-icons/cg";
 
 const ActiveOrder = () => {
-    const {order, closeActiveOrder} = useContext(OrderContext);
+    const {order, closeActiveOrder, removeProductFromOrder} = useContext(OrderContext);
 
     return <div className={"flex flex-col w-96 lg:w-[36rem] m-2"}>
         <div className={"flex flex-col w-full h-full"}>
@@ -26,7 +26,7 @@ const ActiveOrder = () => {
                         </div>
                     </button>
 
-                    <ProductList products={order.products} removeProduct={console.log}/>
+                    <ProductList products={order.products} removeProduct={id => removeProductFromOrder(id)}/>
                 </>
             }
         </div>
