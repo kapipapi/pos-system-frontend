@@ -6,22 +6,16 @@ function Reservations() {
     let events: CalendarEvent[] = [
         {
             start: moment([2024, 1, 13, 13, 0]),
-            title: "12 urodziny Kuby",
-            description: "10 osób",
+            title: "10 osób",
+            description: "553-019-123",
             location: "Duży stolik góra"
         },
         {
             start: moment([2024, 1, 13, 13, 0]),
-            title: "12 urodziny Kuby",
-            description: "10 osób",
+            title: "2 osoby",
+            description: "882-097-667",
             location: "Duży stolik góra"
         },
-        {
-            start: moment([2024, 1, 13, 13, 0]),
-            title: "12 urodziny Kuby",
-            description: "10 osób",
-            location: "Duży stolik góra"
-        }
     ]
 
     return (

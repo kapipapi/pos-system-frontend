@@ -17,7 +17,7 @@ const SubHeaderCell: FC<{ children: React.JSX.Element }> = ({children}) => {
 }
 
 const Cell: FC<{ children: React.JSX.Element }> = ({children}) => {
-    return <div className={"block h-20 border-t border-l overflow-hidden hover:overflow-visible z-10"}>{children}</div>
+    return <div className={"block h-20 border-t border-l overflow-hidden hover:overflow-visible"}>{children}</div>
 }
 
 const TimeColumn = () => {
@@ -42,9 +42,10 @@ const TimeColumn = () => {
 }
 
 const DayHourCellEvent: FC<{ event: CalendarEvent }> = ({event}) => {
-    return <div className={"w-full h-full bg-[#c2d2f4] p-1 rounded"}>
+    return <div className={"w-full h-full bg-[#c2d2f4] p-1 rounded z-20"}>
         <p className={"text-base leading-4"}>{event.title}</p>
         <p className={"text-xs leading-3"}>{event.description}</p>
+        <p className={"text-xs leading-3"}>{event.location}</p>
     </div>
 
 }
@@ -52,16 +53,18 @@ const DayHourCellEvent: FC<{ event: CalendarEvent }> = ({event}) => {
 const DayHourCell: FC<{ day: moment.Moment, eventsForHour: CalendarEvent[] }> = ({day, eventsForHour}) => {
     return <div
         className={classNames("text-xs h-full grid gap-0.5 p-0.5 items-center justify-center", eventsForHour.length > 1 ? "grid-cols-2" : "grid-cols-1")}>
-        {eventsForHour.map((event) => {
-            return <DayHourCellEvent key={event.start.toString()} event={event}/>
+        {eventsForHour.map((event, i) => {
+            return <DayHourCellEvent key={i} event={event}/>
         })}
     </div>
 }
 
 const DayColumn: FC<{ day: moment.Moment, eventsForDay: CalendarEvent[] }> = ({day, eventsForDay}) => {
+    let isToday = day.isSame(moment(), "day");
+
     return <div className={"col-span-1 grid grid-rows-14"}>
         <HeaderCell>
-            <div>{day.format("dd DD MMMM")}</div>
+            <div className={classNames("font-light", {"font-semibold": isToday})}>{day.format("dd DD MMMM")}</div>
         </HeaderCell>
         <SubHeaderCell>
             <div></div>

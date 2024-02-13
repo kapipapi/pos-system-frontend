@@ -27,11 +27,14 @@ function createFields<T extends object>(default_values: T): FieldConfig<T>[] {
 }
 
 const GenericForm = <T extends object, >({onSubmit, default_values}: Props<T>) => {
-    const {register, handleSubmit} = useForm<T>();
+    const {register, handleSubmit, reset} = useForm<T>();
     const fields = createFields<T>(default_values);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className={"grid grid-cols-3 w-full md:w-1/2 lg:w-1/3 mx-auto border p-3"}>
+        <form onSubmit={handleSubmit((e) => {
+            onSubmit(e)
+            reset()
+        })} className={"grid grid-cols-3 w-full md:w-1/2 lg:w-1/3 mx-auto border p-3"}>
             {fields.map((field) => (
                     <>
                         <label className={"text-center my-auto"}>{upperFirst(field.label)}</label>
@@ -40,7 +43,8 @@ const GenericForm = <T extends object, >({onSubmit, default_values}: Props<T>) =
                     </>
                 )
             )}
-            <button type="submit" className={"col-span-3 w-1/2 mx-auto mt-5 p-2 bg-green-200 rounded-md"}>Submit</button>
+            <button type="submit" className={"col-span-3 w-1/2 mx-auto mt-5 p-2 bg-green-200 rounded-md"}>Submit
+            </button>
         </form>
     )
         ;

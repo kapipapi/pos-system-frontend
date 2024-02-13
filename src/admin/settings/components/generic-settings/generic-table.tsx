@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {FaPlus} from "react-icons/fa";
 import {useAuth} from "oidc-react";
-import {authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
+import {authFetchDelete, authFetchGet, authFetchPost} from "../../../../hooks/authFetch";
 import GenericForm from "./generic-form";
 
 type GenericSettingsProps<K> = {
@@ -9,7 +9,11 @@ type GenericSettingsProps<K> = {
     default_values: K;
 };
 
-const GenericSettings = <T extends object, K extends object>({
+interface Item {
+    _id: string;
+}
+
+const GenericSettings = <T extends Item, K extends object>({
                                                                  fetchEndpoint,
                                                                  default_values
                                                              }: GenericSettingsProps<K>) => {
@@ -36,9 +40,17 @@ const GenericSettings = <T extends object, K extends object>({
 
     useEffect(fetchItems, [fetchEndpoint, setItems, token]);
 
+    const deleteItem = (item_id: string) => {
+        authFetchDelete(fetchEndpoint + "/" + item_id, token)
+            .then(() => {
+                fetchItems();
+            })
+            .catch(e => console.log(e));
+    };
+
     const headers = Object.keys(items[0] ?? {}).map((key) => (
         <th key={String(key)} className={"border"}>{String(key)}</th>
-    ));
+    )).concat([<th key={"actions"} className={"border"}>Actions</th>])
 
     const rows = items.map((item, index) => (
         <tr key={index}>
@@ -49,6 +61,16 @@ const GenericSettings = <T extends object, K extends object>({
                     </td>
                 ))
             }
+            <td className={"w-32"}>
+                <div className={"flex w-full justify-around"}>
+                    <button className={"inline-flex items-center border rounded-md p-1 hover:bg-blue-300"} onClick={()=>deleteItem(item._id)}>
+                        Edit
+                    </button>
+                    <button className={"inline-flex items-center border rounded-md p-1 hover:bg-red-300"} onClick={()=>deleteItem(item._id)}>
+                        Delete
+                    </button>
+                </div>
+            </td>
         </tr>
     ))
 
